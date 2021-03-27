@@ -1,0 +1,15 @@
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.csprojAssemblyReference.cache
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\MainWindow.g.cs
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\App.g.cs
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator_MarkupCompile.cache
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator_MarkupCompile.lref
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\bin\Debug\FlightSimulator.exe.config
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\bin\Debug\FlightSimulator.exe
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\bin\Debug\FlightSimulator.pdb
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\MainWindow.baml
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.g.resources
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.Properties.Resources.resources
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.csproj.GenerateResource.cache
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.csproj.CoreCompileInputs.cache
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.exe
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.pdb

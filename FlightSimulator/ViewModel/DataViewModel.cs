@@ -28,8 +28,62 @@ namespace FlightSimulator.ViewModel
 
         public string VM_FILE
         {
-            get;
-            set;
+            get
+            {
+                return this.dm.File;
+            }
+            set
+            {
+                this.dm.File = value;
+            }
+        }
+
+        public float VM_Alieron
+        {
+            get
+            {
+                return this.dm.Alieron;
+            }
+            set
+            {
+                this.dm.Alieron = value;
+            }
+        }
+
+        public float VM_Elevator
+        {
+            get
+            {
+                return this.dm.Elevator;
+            }
+            set
+            {
+                this.dm.Elevator = value;
+            }
+        }
+
+        public float VM_Rudder
+        {
+            get
+            {
+                return this.dm.Rudder;
+            }
+            set
+            {
+                this.dm.Rudder = value;
+            }
+        }
+
+        public float VM_Throttle
+        {
+            get
+            {
+                return this.dm.Throttle;
+            }
+            set
+            {
+                this.dm.Throttle = value;
+            }
         }
 
         // Notify handler

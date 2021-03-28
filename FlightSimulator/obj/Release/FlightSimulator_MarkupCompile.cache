@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Release\
 FlightSimulator
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\App.xaml
 3-1677924230
 
-13602042372
+121444401739
 151397803362
 MainWindow.xaml;View\JoyStick.xaml;View\TimeController.xaml;
 

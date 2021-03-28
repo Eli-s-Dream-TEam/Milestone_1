@@ -11,6 +11,8 @@ namespace FlightSimulator.Model
     class DataModel : INotifyPropertyChanged
     {
       private Boolean stop = false;
+      private int timestamp = 0;
+      private int maximumLength = 1000;
       private string ip = "127.0.0.1";
       private int in_port = 5006;
       private int out_port = 5004;
@@ -115,6 +117,31 @@ namespace FlightSimulator.Model
             }
         }
 
+        public int Timestamp
+        {
+            get { return this.timestamp; }
+            set
+            {
+                if (this.timestamp != value)
+                {
+                    this.timestamp = value;
+                    NotifyPropertyChanged("Timestamp");
+                }
+            }
+        }
+
+        public int MaximumLength
+        {
+            get { return this.maximumLength; }
+            set
+            {
+                if (this.maximumLength != value)
+                {
+                    this.maximumLength = value;
+                    NotifyPropertyChanged("MaximumLength");
+                }
+            }
+        }
 
 
 
@@ -127,7 +154,6 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
-            Console.WriteLine("Alieron: {0}, Elevator: {1}, Rudder: {2}, Throttle: {3}", parsedLine[0], parsedLine[1], parsedLine[2], parsedLine[6]);
             this.Alieron = float.Parse(parsedLine[0]);
             this.Elevator = float.Parse(parsedLine[1]);
             this.Rudder = float.Parse(parsedLine[2]);
@@ -142,21 +168,22 @@ namespace FlightSimulator.Model
             {
                 out_socket.disconnect();
                 out_socket.connect();
+                this.Timestamp = 0;
                 new Thread(delegate ()
                 {
                     string[] lines = System.IO.File.ReadAllLines(this.file);
-                    int i = 0;
-                    while (!stop || i < lines.Length)
+                    this.MaximumLength = lines.Length;
+                    while (!stop || timestamp < lines.Length)
                     {
-                        this.parseLine(lines[i]);
-                        out_socket.send(lines[i] + "\n");
+                        this.parseLine(lines[this.Timestamp]);
+                        out_socket.send(lines[this.Timestamp] + "\n");
 
                         /**
                          * recieving data?
                          *  string data = out_socket.recieve();
                          *  Console.WriteLine("{0}", data);
                         **/
-                        i++;
+                        this.Timestamp++;
 
                         Thread.Sleep(100);
                     }

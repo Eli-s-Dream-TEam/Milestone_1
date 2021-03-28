@@ -16,3 +16,23 @@ C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimu
 C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\View\JoyStick.g.cs
 C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\View\JoyStick.baml
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\bin\Debug\FlightSimulator.exe.config
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\bin\Debug\FlightSimulator.exe
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\bin\Debug\FlightSimulator.pdb
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.csprojAssemblyReference.cache
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\MainWindow.g.cs
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\View\JoyStick.g.cs
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\View\TimeController.g.cs
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\App.g.cs
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator_MarkupCompile.cache
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator_MarkupCompile.lref
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\MainWindow.baml
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\View\JoyStick.baml
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\View\TimeController.baml
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.g.resources
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.Properties.Resources.resources
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.csproj.GenerateResource.cache
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.csproj.CoreCompileInputs.cache
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.exe
+C:\Users\grano\Desktop\school\2021\סמסטר ב'\תכנות מתקדם 2\Milestones\MileStone_1\FlightSimulator\obj\Debug\FlightSimulator.pdb

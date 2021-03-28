@@ -8,7 +8,7 @@ using FlightSimulator.Model;
 
 namespace FlightSimulator.ViewModel
 {
-    class TimeControllerViewModel
+    class TimeControllerViewModel : INotifyPropertyChanged
     {
         private DataModel model;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -17,10 +17,6 @@ namespace FlightSimulator.ViewModel
             this.model = model;
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName == "Timestamp")
-                {
-                    Console.WriteLine("timestamp: {0}", model.Timestamp);
-                }
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
         }
@@ -37,19 +33,14 @@ namespace FlightSimulator.ViewModel
 
         public int VM_Timestamp
         {
-            get {
-                return model.Timestamp;
-            }
-            set
-            {
-                model.Timestamp = value;
-                NotifyPropertyChanged("VM_Timestamp");
-            }
+            get { return model.Timestamp; }
+            set { model.Timestamp = value; }
         }
 
         public int VM_MaximumLength
         {
             get { return model.MaximumLength; }
+            set { model.MaximumLength = value; }
         }
 
     }

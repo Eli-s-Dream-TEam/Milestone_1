@@ -8,12 +8,10 @@ using FlightSimulator.Model;
 
 namespace FlightSimulator.ViewModel
 {
-    
     class DataViewModel : INotifyPropertyChanged
     {
         private DataModel dm;
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         public DataViewModel(DataModel dataModel)
         {
@@ -25,7 +23,6 @@ namespace FlightSimulator.ViewModel
         }
 
         // Properties
-
         public string VM_FILE
         {
             get
@@ -38,53 +35,7 @@ namespace FlightSimulator.ViewModel
             }
         }
 
-        public float VM_Alieron
-        {
-            get
-            {
-                return this.dm.Alieron;
-            }
-            set
-            {
-                this.dm.Alieron = value;
-            }
-        }
-
-        public float VM_Elevator
-        {
-            get
-            {
-                return this.dm.Elevator;
-            }
-            set
-            {
-                this.dm.Elevator = value;
-            }
-        }
-
-        public float VM_Rudder
-        {
-            get
-            {
-                return this.dm.Rudder;
-            }
-            set
-            {
-                this.dm.Rudder = value;
-            }
-        }
-
-        public float VM_Throttle
-        {
-            get
-            {
-                return this.dm.Throttle;
-            }
-            set
-            {
-                this.dm.Throttle = value;
-            }
-        }
+       
 
         // Notify handler
         public void NotifyPropertyChanged(string propName)

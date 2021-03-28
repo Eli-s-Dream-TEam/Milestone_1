@@ -26,7 +26,7 @@ namespace FlightSimulator
         public MainWindow()
         {
             InitializeComponent();
-            DataModel dm = new DataModel();
+            DataModel dm = DataModel.Instance;
             this.vm = new DataViewModel(dm);
             DataContext = vm;
         }

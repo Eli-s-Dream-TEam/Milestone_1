@@ -8,13 +8,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="79*"/>
-            <ColumnDefinition Width="89*"/>
-            <ColumnDefinition Width="597*"/>
-            <ColumnDefinition Width="27*"/>
-        </Grid.ColumnDefinitions>
-        <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Margin="-3,348,592.75,2" Grid.ColumnSpan="3">
+
+        <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Margin="-3,348,0,2" Grid.ColumnSpan="2">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -24,10 +19,16 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <view:JoyStick />
-        <TextBox x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="10,127,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="10,154,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="10,180,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.529,-4.281" Grid.ColumnSpan="2"/>
+        <view:JoyStick Margin="290,120,288,184" RenderTransformOrigin="4.396,0.573" >
+            <view:JoyStick.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </view:JoyStick.RenderTransform>
+        </view:JoyStick>
+
     </Grid>
 </Window>

@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace FlightSimulator.Model
 {
@@ -23,12 +22,30 @@ namespace FlightSimulator.Model
       private SocketModel in_socket;
       private SocketModel out_socket;
       public event PropertyChangedEventHandler PropertyChanged;
+      private static DataModel instance = null;
 
-        public DataModel()
+        /**
+         * Implementing Singleton design pattern so we can reference the same DataModel 
+         * Object across our views.
+         **/
+        public static DataModel Instance
         {
-            this.in_socket = new SocketModel(ip, in_port);
-            this.out_socket = new SocketModel(ip, out_port);
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new DataModel();
+                }
+
+                return instance;
+            }
         }
+
+      private DataModel()
+      {
+        this.in_socket = new SocketModel(ip, in_port);
+        this.out_socket = new SocketModel(ip, out_port);
+      }
 
    
         // File Property

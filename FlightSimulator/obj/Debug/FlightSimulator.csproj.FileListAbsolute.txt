@@ -13,3 +13,6 @@ C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimu
 C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.csproj.CoreCompileInputs.cache
 C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.exe
 C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\FlightSimulator.pdb
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\View\JoyStick.g.cs
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\avivx\source\repos\FlightSimulator\FlightSimulator\obj\Debug\View\JoyStick.baml

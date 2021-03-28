@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,6 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\DataViewModel.cs" />
+    <Compile Include="ViewModel\JoyStickViewModel.cs" />
     <Compile Include="View\JoyStick.xaml.cs">
       <DependentUpon>JoyStick.xaml</DependentUpon>
     </Compile>

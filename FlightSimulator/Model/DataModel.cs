@@ -169,22 +169,19 @@ namespace FlightSimulator.Model
                 out_socket.disconnect();
                 out_socket.connect();
                 this.Timestamp = 0;
+                string[] lines = System.IO.File.ReadAllLines(this.file);
+                this.MaximumLength = lines.Length;
+                NotifyPropertyChanged("MaximumLength");
                 new Thread(delegate ()
                 {
-                    string[] lines = System.IO.File.ReadAllLines(this.file);
-                    this.MaximumLength = lines.Length;
-                    while (!stop || timestamp < lines.Length)
+                    while (!stop)
                     {
-                        this.parseLine(lines[this.Timestamp]);
-                        out_socket.send(lines[this.Timestamp] + "\n");
-
-                        /**
-                         * recieving data?
-                         *  string data = out_socket.recieve();
-                         *  Console.WriteLine("{0}", data);
-                        **/
-                        this.Timestamp++;
-
+                        if (timestamp < this.MaximumLength)
+                        {
+                            this.parseLine(lines[this.Timestamp]);
+                            out_socket.send(lines[this.Timestamp] + "\n");
+                            this.Timestamp++;
+                        }
                         Thread.Sleep(100);
                     }
                 }).Start();

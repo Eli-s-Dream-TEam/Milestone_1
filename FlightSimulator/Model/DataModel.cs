@@ -154,7 +154,6 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
-            // Console.WriteLine(float.Parse(parsedLine[0]));
             this.Alieron = float.Parse(parsedLine[0]);
             this.Elevator = float.Parse(parsedLine[1]);
             this.Rudder = float.Parse(parsedLine[2]);

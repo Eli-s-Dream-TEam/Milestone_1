@@ -19,6 +19,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
+        <view:TimeController Margin="0,192,-2,153" />
         <view:JoyStick Margin="290,120,288,184" RenderTransformOrigin="4.396,0.573" >
             <view:JoyStick.RenderTransform>
                 <TransformGroup>

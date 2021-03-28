@@ -30,5 +30,10 @@ namespace FlightSimulator.View
             this.jvm = new JoyStickViewModel(dm);
             this.DataContext = jvm;
         }
+
+        private void ScrollBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
 }

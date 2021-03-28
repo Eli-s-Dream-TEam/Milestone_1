@@ -154,6 +154,7 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
+            // Console.WriteLine(float.Parse(parsedLine[0]));
             this.Alieron = float.Parse(parsedLine[0]);
             this.Elevator = float.Parse(parsedLine[1]);
             this.Rudder = float.Parse(parsedLine[2]);
@@ -178,6 +179,7 @@ namespace FlightSimulator.Model
                     {
                         if (timestamp < this.MaximumLength)
                         {
+                          
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");
                             this.Timestamp++;

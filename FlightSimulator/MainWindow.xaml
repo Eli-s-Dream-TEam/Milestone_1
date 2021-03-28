@@ -1,14 +1,20 @@
-﻿
-<Window x:Class="FlightSimulator.MainWindow"
+﻿<Window x:Class="FlightSimulator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightSimulator"
+        xmlns:view="clr-namespace:FlightSimulator.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Margin="-3,348,620,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="79*"/>
+            <ColumnDefinition Width="89*"/>
+            <ColumnDefinition Width="597*"/>
+            <ColumnDefinition Width="27*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Margin="-3,348,592.75,2" Grid.ColumnSpan="3">
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -18,9 +24,10 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <TextBox x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="10,127,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="10,154,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="10,180,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.529,-4.281"/>
+        <view:JoyStick />
+        <TextBox x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="10,127,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="10,154,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="10,180,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.529,-4.281" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

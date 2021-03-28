@@ -1,4 +1,4 @@
-/FlightSimulator/bin/
-/FlightSimulator/obj/
+/FlightSimulator/bin
+/FlightSimulator/obj
 /.vs
 .vs/

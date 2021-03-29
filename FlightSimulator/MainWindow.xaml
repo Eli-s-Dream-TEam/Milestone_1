@@ -8,7 +8,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" MinWidth="800" MaxWidth="800" MinHeight="450" MaxHeight="450">
     <Grid>
-        <StackPanel Margin="0,317,0,0" HorizontalAlignment="Center"  Orientation="Vertical" Width="792" Background="DimGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="49*"/>
+            <ColumnDefinition Width="39*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="0,317,0,0" HorizontalAlignment="Center"  Orientation="Vertical" Width="792" Background="DimGray" Grid.ColumnSpan="2">
             <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="762" Height="47" Margin="10,0" >
                 <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Background="Azure" FontWeight="Bold" Height="37" Padding="5" Width="113">
                     <Button.Resources>
@@ -39,7 +43,7 @@
             </view:TimeController>
         </StackPanel>
 
-        <view:JoyStick Margin="1,-4,577,308" RenderTransformOrigin="4.396,0.573" >
+        <view:JoyStick Margin="1,-4,225.792,308" RenderTransformOrigin="4.396,0.573" >
             <view:JoyStick.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>

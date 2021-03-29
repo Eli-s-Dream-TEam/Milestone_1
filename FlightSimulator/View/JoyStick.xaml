@@ -9,7 +9,15 @@
     
       d:DesignHeight="300" d:DesignWidth="350">
 
-    <Canvas>
+    <Canvas RenderTransformOrigin="0.5,0.5" Margin="0,19,1,0">
+        <Canvas.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="-0.168"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Canvas.RenderTransform>
         <TextBlock x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="266,211,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
         <TextBlock x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="51,23,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
         <TextBlock x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="263,119,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5">
@@ -22,7 +30,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="197,43,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033"/>
+        <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="136" Canvas.Top="13"/>
         <Ellipse Fill="Gray" HorizontalAlignment="Left" Height="138" Margin="96,68,0,0" Stroke="Black" VerticalAlignment="Top" Width="143" RenderTransformOrigin="1.694,0.496"/>
         <Ellipse Fill="Black" HorizontalAlignment="Left" Height="61" Stroke="Black" VerticalAlignment="Top" Width="61" Margin="136,106,0,0" RenderTransformOrigin="3.303,0.763"/>
         <Ellipse Fill="LightGray" HorizontalAlignment="Left" Height="31" Margin="151,121,0,0" Stroke="Black" VerticalAlignment="Top" Width="31" RenderTransformOrigin="-14.44,0.842"/>

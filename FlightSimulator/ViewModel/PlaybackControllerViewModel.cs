@@ -31,6 +31,47 @@ namespace FlightSimulator.ViewModel
             }
         }
 
+        // Methods
+        public void ResetVideo()
+        {
+            this.model.Timestamp = 0;
+            this.model.Pause = true;
+        }
+
+        public void ResumeVideo()
+        {
+            if (this.model.Pause == true)
+            {
+                this.model.Pause = false;
+            }
+        }
+
+        public void PauseVideo()
+        {
+            if (this.model.Pause == false)
+            {
+                this.model.Pause = true;
+            }
+        }
+
+        public void FinishVideo()
+        {
+            this.model.Timestamp = this.model.MaximumLength - 1;
+            this.model.Pause = true;
+        }
+
+        public void ReduceSpeed()
+        {
+            this.model.PlaybackMultiplier = Math.Max(0.25, this.model.PlaybackMultiplier - 0.25);
+        }
+
+        public void IncreaseSpeed()
+        {
+            this.model.PlaybackMultiplier = Math.Min(2, this.model.PlaybackMultiplier + 0.25);
+        }
+
+
+        // Properties
         public int VM_Timestamp
         { // Setting timestamp to 0 resets the video
             get { return model.Timestamp; }

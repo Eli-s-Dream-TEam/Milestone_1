@@ -30,7 +30,5 @@ namespace FlightSimulator.View
             this.vm = new TimeControllerViewModel(dm);
             DataContext = vm;
         }
-
-
     }
 }

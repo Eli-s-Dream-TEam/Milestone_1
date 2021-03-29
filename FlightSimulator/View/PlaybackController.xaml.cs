@@ -30,5 +30,40 @@ namespace FlightSimulator.View
             this.vm = new PlaybackControllerViewModel(dm);
             DataContext = vm;
         }
+
+        private void HandleSkipStart(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.ResetVideo();
+        }
+
+        private void HandleReduceSpeed(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.ReduceSpeed();
+        }
+
+        private void HandleResume(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.ResumeVideo();
+        }
+
+        private void HandlePause(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.PauseVideo();
+        }
+
+        private void HandleStop(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.ResetVideo();
+        }
+
+        private void HandleIncreaseSpeed(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.IncreaseSpeed();
+        }
+
+        private void HandleSkipEnd(object sender, MouseButtonEventArgs e)
+        {
+            this.vm.FinishVideo();
+        }
     }
 }

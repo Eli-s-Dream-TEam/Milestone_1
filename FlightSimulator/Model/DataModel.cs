@@ -53,7 +53,7 @@ namespace FlightSimulator.Model
       }
 
    
-        // File Property
+        // Properties
         public string File {
            get { return this.file; }
            set
@@ -187,6 +187,8 @@ namespace FlightSimulator.Model
 
 
 
+        //Methods
+
         // parse the line from the csv, update needed properties
         public void parseLine(string line)
         {
@@ -225,7 +227,7 @@ namespace FlightSimulator.Model
                             this.Timestamp++;
                         }
 
-                        Thread.Sleep((int) (PlaybackSpeed * PlaybackMultiplier));
+                        Thread.Sleep((int) (PlaybackSpeed / PlaybackMultiplier));
                     }
                 }).Start();
             } 

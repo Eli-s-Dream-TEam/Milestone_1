@@ -6,21 +6,40 @@
         xmlns:local="clr-namespace:FlightSimulator"
         xmlns:view="clr-namespace:FlightSimulator.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" MinWidth="800" MaxWidth="800" MinHeight="450" MaxHeight="450">
     <Grid>
+        <StackPanel Margin="0,317,0,0" HorizontalAlignment="Center"  Orientation="Vertical" Width="792" Background="DimGray">
+            <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="762" Height="47" Margin="10,0" >
+                <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Background="Azure" FontWeight="Bold" Height="37" Padding="5" Width="113">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0.529"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="1.934"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <view:PlaybackController Width="649"  />
+            </StackPanel>
+            <view:TimeController  RenderTransformOrigin="0.5,0.5" Height="62" Width="Auto">
+                <view:TimeController.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="0.088"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="0.613"/>
+                    </TransformGroup>
+                </view:TimeController.RenderTransform>
+            </view:TimeController>
+        </StackPanel>
 
-        <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Margin="-3,348,0,2" Grid.ColumnSpan="2">
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0.529"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="1.934"/>
-                </TransformGroup>
-            </Button.RenderTransform>
-        </Button>
-        <view:TimeController Margin="0,192,-2,153" />
-        <view:JoyStick Margin="290,120,288,184" RenderTransformOrigin="4.396,0.573" >
+        <view:JoyStick Margin="1,-4,577,308" RenderTransformOrigin="4.396,0.573" >
             <view:JoyStick.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="-1"/>

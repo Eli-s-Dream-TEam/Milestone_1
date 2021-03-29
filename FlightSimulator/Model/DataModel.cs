@@ -11,6 +11,9 @@ namespace FlightSimulator.Model
     class DataModel : INotifyPropertyChanged
     {
       private Boolean stop = false;
+      private Boolean pause = false;
+      private double playbackMultiplier = 1.0;
+      private int playbackSpeed = 100;
       private int timestamp = 0;
       private int maximumLength = 1000;
       private string ip = "127.0.0.1";
@@ -50,7 +53,7 @@ namespace FlightSimulator.Model
       }
 
    
-        // File Property
+        // Properties
         public string File {
            get { return this.file; }
            set
@@ -143,7 +146,48 @@ namespace FlightSimulator.Model
             }
         }
 
+        public Boolean Pause
+        {
+            get { return this.pause; }
+            set
+            {
+                if (this.pause != value)
+                {
+                    this.pause = value;
+                    NotifyPropertyChanged("Pause");
+                }
+            }
+        }
 
+        public double PlaybackMultiplier
+        {
+            get { return this.playbackMultiplier; }
+            set
+            {
+                if (this.playbackMultiplier != value)
+                {
+                    this.playbackMultiplier = value;
+                    NotifyPropertyChanged("PlaybackMultiplier");
+                }
+            }
+        }
+
+        public int PlaybackSpeed
+        {
+            get { return this.playbackSpeed; }
+            set
+            {
+                if (this.playbackSpeed != value)
+                {
+                    this.playbackSpeed = value;
+                    NotifyPropertyChanged("PlaybackSpeed");
+                }
+            }
+        }
+
+
+
+        //Methods
 
         // parse the line from the csv, update needed properties
         public void parseLine(string line)
@@ -176,14 +220,15 @@ namespace FlightSimulator.Model
                 {
                     while (!stop)
                     {
-                        if (timestamp < this.MaximumLength)
+                        if (timestamp < this.MaximumLength && !pause)
                         {
                           
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");
                             this.Timestamp++;
                         }
-                        Thread.Sleep(100);
+
+                        Thread.Sleep((int) (PlaybackSpeed / PlaybackMultiplier));
                     }
                 }).Start();
             } 

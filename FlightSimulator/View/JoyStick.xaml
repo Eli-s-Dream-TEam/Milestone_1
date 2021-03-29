@@ -48,8 +48,8 @@
             </Path.RenderTransform>
         </Path>
         <Path Width="10" Height="18" Stretch="Fill" Stroke="Black" Fill="Black" Data="F1 M 287.328,237.333L 319.344,255.818L 319.344,218.849L 287.328,237.333 Z " Canvas.Left="102" Canvas.Top="129"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="151,43,0,0" TextWrapping="Wrap" Text="Alieron" VerticalAlignment="Top" Width="54"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="231,124,0,0" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="48" RenderTransformOrigin="0.5,0.5">
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Alieron" VerticalAlignment="Top" Width="41" Canvas.Left="151" Canvas.Top="43"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.5" Canvas.Left="233" Canvas.Top="122">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

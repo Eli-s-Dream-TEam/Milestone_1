@@ -1,4 +1,4 @@
-﻿<Grid x:Class="FlightSimulator.View.JoyStick"
+﻿<UserControl x:Class="FlightSimulator.View.JoyStick"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,18 +7,49 @@
       Background="White"
       mc:Ignorable="d" 
     
-      d:DesignHeight="450" d:DesignWidth="800">
+      d:DesignHeight="300" d:DesignWidth="350">
 
-    <Grid>
-        <TextBox x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" RenderTransformOrigin="1.051,2.548"/>
-        <TextBox x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2" RenderTransformOrigin="0.913,2.033"/>
-        <Ellipse Fill="Gray" HorizontalAlignment="Left" Height="138" Margin="484,74,0,0" Stroke="Black" VerticalAlignment="Top" Width="143" RenderTransformOrigin="1.694,0.496"/>
-        <Ellipse Fill="Black" HorizontalAlignment="Left" Height="61" Stroke="Black" VerticalAlignment="Top" Width="61" Margin="525,114,0,0" RenderTransformOrigin="3.303,0.763"/>
-        <Ellipse Fill="LightGray" HorizontalAlignment="Left" Height="31" Margin="539,127,0,0" Stroke="Black" VerticalAlignment="Top" Width="31"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="532,45,0,0" TextWrapping="Wrap" Text="Alieron" VerticalAlignment="Top" Width="54"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="639,132,0,0" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="48" RenderTransformOrigin="0.5,0.5">
+    <Canvas>
+        <TextBlock x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="266,211,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
+        <TextBlock x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="51,23,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
+        <TextBlock x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="263,119,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="89.243"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="197,43,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033"/>
+        <Ellipse Fill="Gray" HorizontalAlignment="Left" Height="138" Margin="96,68,0,0" Stroke="Black" VerticalAlignment="Top" Width="143" RenderTransformOrigin="1.694,0.496"/>
+        <Ellipse Fill="Black" HorizontalAlignment="Left" Height="61" Stroke="Black" VerticalAlignment="Top" Width="61" Margin="136,106,0,0" RenderTransformOrigin="3.303,0.763"/>
+        <Ellipse Fill="LightGray" HorizontalAlignment="Left" Height="31" Margin="151,121,0,0" Stroke="Black" VerticalAlignment="Top" Width="31" RenderTransformOrigin="-14.44,0.842"/>
+        <Path Width="10" Height="18" Stretch="Fill" Stroke="Black" Fill="Black" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " RenderTransformOrigin="1.006,0.613" Canvas.Left="158" Canvas.Top="67.572">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-89.126"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Width="10" Height="18" Stretch="Fill" Stroke="Black" Fill="Black" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="218.642" Canvas.Top="129" RenderTransformOrigin="1.719,1.15"/>
+        <Path Width="10" Height="18" Stretch="Fill" Stroke="Black" Fill="Black" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="136.554" Canvas.Top="182.679" RenderTransformOrigin="1.719,1.15">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90.65"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Width="10" Height="18" Stretch="Fill" Stroke="Black" Fill="Black" Data="F1 M 287.328,237.333L 319.344,255.818L 319.344,218.849L 287.328,237.333 Z " Canvas.Left="102" Canvas.Top="129"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Alieron" VerticalAlignment="Top" Width="41" Canvas.Left="151" Canvas.Top="43"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.5" Canvas.Left="233" Canvas.Top="122">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -28,8 +59,8 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="532,263,0,0" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.65,0.942"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="388,144,0,0" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5">
+        <TextBlock HorizontalAlignment="Left" Height="17" Margin="151,239,0,0" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.65,0.942"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" Margin="20,120,0,0" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -39,18 +70,19 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <Rectangle Fill="LightBlue" HorizontalAlignment="Left" Height="28" Margin="474,230,0,0" Stroke="Black" VerticalAlignment="Top" Width="162" RenderTransformOrigin="0.62,0.586"/>
-        <Rectangle Fill="LightBlue" HorizontalAlignment="Left" Height="28" Margin="346,148,0,0" Stroke="Black" VerticalAlignment="Top" Width="162" RenderTransformOrigin="0.62,0.586">
-            <Rectangle.RenderTransform>
+
+        <Slider Value="{Binding VM_Rudder}" Minimum="-1" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="165" Margin="96,211,0,0"/>
+        <Slider Value="{Binding VM_Throttle}" Minimum="0" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Margin="0,122,0,0" RenderTransformOrigin="0.5,0.5">
+            <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="89.656"/>
+                    <RotateTransform Angle="-449.175"/>
                     <TranslateTransform/>
                 </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="28" Margin="539,230,0,0" Stroke="Black" VerticalAlignment="Top" Width="31"/>
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="28" Margin="435,130,0,0" Stroke="Black" VerticalAlignment="Top" Width="28" RenderTransformOrigin="3.628,1.124"/>
-    </Grid>
-</Grid>
+            </Slider.RenderTransform>
+        </Slider>
+
+
+    </Canvas>
+</UserControl>

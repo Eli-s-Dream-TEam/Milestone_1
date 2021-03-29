@@ -222,6 +222,7 @@ namespace FlightSimulator.Model
                     {
                         if (timestamp < this.MaximumLength && !pause)
                         {
+                          
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");
                             this.Timestamp++;

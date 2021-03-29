@@ -9,7 +9,7 @@
     
       d:DesignHeight="300" d:DesignWidth="350">
 
-    <Grid>
+    <Canvas>
         <TextBlock x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="266,211,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
         <TextBlock x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="51,23,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
         <TextBlock x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="263,119,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5">
@@ -24,9 +24,9 @@
         </TextBlock>
         <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" Margin="197,43,0,0" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033"/>
         <Ellipse Fill="Gray" HorizontalAlignment="Left" Height="138" Margin="96,68,0,0" Stroke="Black" VerticalAlignment="Top" Width="143" RenderTransformOrigin="1.694,0.496"/>
-        <Ellipse Fill="Black" HorizontalAlignment="Left" Height="61" Stroke="Black" VerticalAlignment="Top" Width="61" Margin="136,110,0,0" RenderTransformOrigin="3.303,0.763"/>
-        <Ellipse Fill="LightGray" HorizontalAlignment="Left" Height="31" Margin="149,125,0,0" Stroke="Black" VerticalAlignment="Top" Width="31" RenderTransformOrigin="-14.44,0.842"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="143,44,0,0" TextWrapping="Wrap" Text="Alieron" VerticalAlignment="Top" Width="54"/>
+        <Ellipse Fill="Black" HorizontalAlignment="Left" Height="61" Stroke="Black" VerticalAlignment="Top" Width="61" Margin="136,106,0,0" RenderTransformOrigin="3.303,0.763"/>
+        <Ellipse Fill="LightGray" HorizontalAlignment="Left" Height="31" Margin="151,121,0,0" Stroke="Black" VerticalAlignment="Top" Width="31" RenderTransformOrigin="-14.44,0.842"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" Margin="151,43,0,0" TextWrapping="Wrap" Text="Alieron" VerticalAlignment="Top" Width="54"/>
         <TextBlock HorizontalAlignment="Left" Height="17" Margin="231,124,0,0" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="48" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -37,7 +37,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="136,261,0,0" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.65,0.942"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" Margin="151,239,0,0" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.65,0.942"/>
         <TextBlock HorizontalAlignment="Left" Height="17" Margin="20,120,0,0" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>
@@ -62,6 +62,5 @@
         </Slider>
         
 
-
-    </Grid>
+    </Canvas>
 </UserControl>

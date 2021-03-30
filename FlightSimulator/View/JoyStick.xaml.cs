@@ -23,6 +23,7 @@ namespace FlightSimulator.View
     public partial class JoyStick
     {
         private JoyStickViewModel jvm;
+        
         public JoyStick()
         {
             InitializeComponent();

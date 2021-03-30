@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
     
       d:DesignHeight="300" d:DesignWidth="350">
-
+    
     <Canvas RenderTransformOrigin="0.5,0.5" Margin="0,19,1,0">
         <Canvas.RenderTransform>
             <TransformGroup>
@@ -32,8 +32,12 @@
         </TextBlock>
         <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="136" Canvas.Top="13"/>
         <Ellipse Fill="Gray" HorizontalAlignment="Left" Height="138" Margin="96,68,0,0" Stroke="Black" VerticalAlignment="Top" Width="143" RenderTransformOrigin="1.694,0.496"/>
-        <Ellipse Fill="Black" HorizontalAlignment="Left" Height="61" Stroke="Black" VerticalAlignment="Top" Width="61" Margin="136,106,0,0" RenderTransformOrigin="3.303,0.763"/>
-        <Ellipse Fill="LightGray" HorizontalAlignment="Left" Height="31" Margin="151,121,0,0" Stroke="Black" VerticalAlignment="Top" Width="31" RenderTransformOrigin="-14.44,0.842"/>
+        
+        <Canvas Height="61" Width="61" Canvas.Top="108" Canvas.Left="139">
+            <Ellipse Fill="Black" Height="61"  Width="61" />
+            <Ellipse Fill="LightGray" Height="31"  Width="31" Canvas.Top="{Binding VM_Top}" Canvas.Left="{Binding VM_Left}"/>
+        </Canvas>
+        
         <Path Width="10" Height="18" Stretch="Fill" Stroke="Black" Fill="Black" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " RenderTransformOrigin="1.006,0.613" Canvas.Left="158" Canvas.Top="67.572">
             <Path.RenderTransform>
                 <TransformGroup>

@@ -10,6 +10,8 @@ namespace FlightSimulator.ViewModel
 {
     class JoyStickViewModel : INotifyPropertyChanged
     {
+        private int default_top = 15;
+        private int default_left = 15;
         private DataModel dm;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,6 +20,16 @@ namespace FlightSimulator.ViewModel
             this.dm = dm;
             dm.PropertyChanged += delegate  (Object sender, PropertyChangedEventArgs e)
             {
+                if(e.PropertyName == "Alieron")
+                {
+                    NotifyPropertyChanged("VM_Left");
+                }
+
+                if (e.PropertyName == "Elevator")
+                {
+                    NotifyPropertyChanged("VM_Top");
+                }
+
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
         }
@@ -31,6 +43,28 @@ namespace FlightSimulator.ViewModel
             set
             {
                 this.dm.Alieron = value;
+
+            }
+        }
+
+        public int VM_Top
+        {
+            get
+            {
+               Console.WriteLine(VM_Elevator * 15);
+               return (int)(VM_Elevator * 40) + 15;
+            }
+
+           
+        }
+
+
+
+        public int VM_Left
+        {
+            get
+            {
+                return (int)(VM_Alieron * 40) + 15;
             }
         }
 
@@ -45,6 +79,8 @@ namespace FlightSimulator.ViewModel
                 this.dm.Elevator = value;
             }
         }
+
+        
 
         public float VM_Rudder
         {

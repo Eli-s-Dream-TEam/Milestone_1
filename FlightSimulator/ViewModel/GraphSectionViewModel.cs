@@ -8,5 +8,6 @@ namespace FlightSimulator.ViewModel
 {
     class GraphSectionViewModel
     {
+
     }
 }

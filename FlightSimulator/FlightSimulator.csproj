@@ -87,6 +87,13 @@
     <Compile Include="Controls\Graph.xaml.cs">
       <DependentUpon>Graph.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OneSeriesGraph.xaml.cs">
+      <DependentUpon>OneSeriesGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TwoSeriesGraph.xaml.cs">
+      <DependentUpon>TwoSeriesGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\GraphSectionViewModel.cs" />
     <Compile Include="ViewModel\PlaybackControllerViewModel.cs" />
     <Compile Include="ViewModel\TimeControllerViewModel.cs" />
     <Compile Include="ViewModel\DataViewModel.cs" />
@@ -104,6 +111,14 @@
       <DependentUpon>TimeController.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Graph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OneSeriesGraph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TwoSeriesGraph.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

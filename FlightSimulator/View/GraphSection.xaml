@@ -23,9 +23,11 @@
         </Grid.ColumnDefinitions>
 
         <ListBox Grid.RowSpan="4" BorderBrush="Black" BorderThickness="1"/>
-        <controls:Graph Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1"/>
-        <controls:Graph Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1"/>
-        <controls:Graph Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" BorderThickness="1"/>
+
+        <controls:OneSeriesGraph Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1"/>
+        <controls:OneSeriesGraph Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1"/>
+        <controls:TwoSeriesGraph Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" BorderThickness="1"/>
+        
     </Grid>
     
     

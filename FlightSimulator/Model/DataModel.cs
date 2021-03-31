@@ -7,6 +7,7 @@ using System.Text;
 using System.ComponentModel;
 using LiveCharts;
 using FlightSimulator.Helper;
+using LiveCharts.Wpf;
 
 namespace FlightSimulator.Model
 {
@@ -37,7 +38,14 @@ namespace FlightSimulator.Model
 
         private List<string> flightParamters;
 
-     
+        private string researchedParamater;
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //for testing purposes.
+        private DataParser dp = new DataParser("C:\\Users\\Yaron\\Desktop\\ADV_PROG\\AdvProg2Project\\reg_flight.csv");
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
 
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
@@ -276,15 +284,24 @@ namespace FlightSimulator.Model
         {
             try
             {
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                DataParser dp = new DataParser();
-                this.FlightParamaters = dp.getFeatures();
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                
 
                 out_socket.disconnect();
                 out_socket.connect();
                 this.Timestamp = 0;
+                
+                //reading the csv file.
                 string[] lines = System.IO.File.ReadAllLines(this.file);
+
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                //keep the FlightPar.. property, chnage the extracting data part.
+                //extracting flight paramaters from csv file.
+                this.FlightParamaters = dp.getFeatures();
+                //the deafult paramter is the first one.
+                this.researchedParamater = this.flightParamters[0];
+                generateGraphs();
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
                 this.MaximumLength = lines.Length;
                 NotifyPropertyChanged("MaximumLength");
                 new Thread(delegate ()
@@ -293,7 +310,7 @@ namespace FlightSimulator.Model
                     {
                         if (timestamp < this.MaximumLength && !pause)
                         {
-
+                            updateGraphs();
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");
                             this.Timestamp++;
@@ -308,6 +325,34 @@ namespace FlightSimulator.Model
                 Console.Write("Error while starting connection");
             }
 
+        }
+
+        private void generateGraphs()
+        {
+            this.FeatUpdatingGraphSeries = new SeriesCollection 
+            { 
+                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent }
+            };
+
+            this.MostCorrGraphSeries = new SeriesCollection 
+            { 
+                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent}
+            };
+
+            this.RegLineGraphSeries = new SeriesCollection
+            {
+                //two lines in the graph, one updating, one showing the regression line.
+                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent},
+                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent}
+            };
+        }
+
+        private void updateGraphs()
+        {
+            string corFeat = dp.getFeatMostCorrFeature(this.researchedParamater);
+            this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(this.researchedParamater, this.timestamp));
+            this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+            //this.regLineGraphSeries[0].Values.Add(dp.getDataInTime(this.researchedParamater, this.timestamp));
         }
 
 

@@ -8,9 +8,9 @@ namespace FlightSimulator.Helper
 {
     public interface ICSVDataParser
     {
-        int getDataInTime(string feat, int timeStamp);
+        float getDataInTime(string feat, int timeStamp);
 
-        int[] getFeatureData(string feat);
+        float[] getFeatureData(string feat);
 
         string getFeatMostCorrFeature(string feat);
 

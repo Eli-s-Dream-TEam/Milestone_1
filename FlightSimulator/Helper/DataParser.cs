@@ -1,25 +1,31 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace FlightSimulator.Helper
 {
     class DataParser : ICSVDataParser
     {
 
-        private int[] alieron = new int[1000];
-        private int[] elevator = new int[1000];
-        private int[] rudder = new int[1000];
-        private int[] throttle = new int[1000];
+        private float[] alieron;
+        private float[] elevator;
+        private float[] rudder;
+        private float[] throttle;
+        private string filePath;
+        private string[] data;
 
-        public DataParser()
+        public DataParser(string filePath)
         {
-            generateData();
+            this.data = System.IO.File.ReadAllLines(filePath);
+            this.filePath = filePath;
+            extractData();
         }
 
-        public int getDataInTime(string feat, int timeStamp)
+        public float getDataInTime(string feat, int timeStamp)
         {
             switch(feat)
             {
@@ -44,7 +50,7 @@ namespace FlightSimulator.Helper
             }
         }
 
-        public int[] getFeatureData(string feat)
+        public float[] getFeatureData(string feat)
         {
             switch (feat)
             {
@@ -61,15 +67,26 @@ namespace FlightSimulator.Helper
             return new List<string> { "alieron", "elevator", "rudder", "throttle" };
         }
 
-        private void generateData()
+        private void extractData()
         {
-            Random r = new Random();
-            for (int i = 0; i < 1000; i++)
+            TextFieldParser parser = new TextFieldParser(this.filePath);
+            parser.SetDelimiters(",");
+            string[] row;
+            int numOfTimeStamps = this.data.Length;
+
+            
+            this.alieron = new float[numOfTimeStamps];
+            this.elevator = new float[numOfTimeStamps];
+            this.rudder = new float[numOfTimeStamps];
+            this.throttle = new float[numOfTimeStamps];
+
+            for (int i = 0; i < numOfTimeStamps; i++)
             {
-                alieron[i] = r.Next(10);
-                elevator[i] = r.Next(10);
-                rudder[i] = r.Next(10);
-                throttle[i] = r.Next(10);
+                row = parser.ReadFields();
+                this.alieron[i] = float.Parse(row[0]);
+                this.elevator[i] = float.Parse(row[1]);
+                this.rudder[i] = float.Parse(row[2]);
+                this.throttle[i] = float.Parse(row[3]);
             }
         }
 

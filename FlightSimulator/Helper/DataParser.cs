@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using LiveCharts;
+using LiveCharts.Defaults;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,5 +92,21 @@ namespace FlightSimulator.Helper
             }
         }
 
+        public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat)
+        {
+
+            int numOfTimeStamps = this.data.Length;
+            int start = this.data.Length - 30;
+
+            float[] resFeat = getFeatureData(reaserchedFeat);
+            float[] corFeat = getFeatureData(correlataedFeat);
+            var cv = new ChartValues<ScatterPoint>();
+
+            for (int i = start; i < numOfTimeStamps; i++)
+            {
+                cv.Add(new ScatterPoint(resFeat[i], corFeat[i]));
+            }
+            return cv;
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using LiveCharts;
 using FlightSimulator.Helper;
 using LiveCharts.Wpf;
+using LiveCharts.Defaults;
 
 namespace FlightSimulator.Model
 {
@@ -42,7 +43,7 @@ namespace FlightSimulator.Model
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //for testing purposes.
-        private DataParser dp = new DataParser("C:\\Users\\Yaron\\Desktop\\ADV_PROG\\AdvProg2Project\\reg_flight.csv");
+        private DataParser dp = new DataParser("C:\\Users\\Yaron\\Desktop\\ADV_PROG\\AdvProg2Project\\reg_flight2.csv");
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
@@ -329,22 +330,40 @@ namespace FlightSimulator.Model
 
         private void generateGraphs()
         {
+            //initiating a blank updating graph for the reaserched flight paramater.
             this.FeatUpdatingGraphSeries = new SeriesCollection 
             { 
                 new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent }
             };
 
+            //initiating a blank updating graph for the most correletad feature flight paramter.
             this.MostCorrGraphSeries = new SeriesCollection 
             { 
                 new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent}
             };
 
+            //extracting all data about regression line and displaying the graph as a whole.
+            //first LineSeries is the regression line.
+            //the second LineSeries is the all the points of the last 30 seconds.
+            //var cv = new ChartValues<float>();
+            //cv.AddRange(dp.getRegressionLine(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater));
+
+            var cv2 = new ChartValues<ScatterPoint>();
+            cv2.AddRange(dp.getLast30SecRegLinePoints(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater)));
+
             this.RegLineGraphSeries = new SeriesCollection
             {
-                //two lines in the graph, one updating, one showing the regression line.
-                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent},
-                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent}
+                ////two lines in the graph, one updating, one showing the regression line.
+                new LineSeries {
+                    Values = new ChartValues<float> { 5,4,3},
+                    PointGeometry = null,
+                    Fill = System.Windows.Media.Brushes.Transparent},
+            
+
+                new ScatterSeries { Values = cv2, PointGeometry = DefaultGeometries.Circle }
+                
             };
+
         }
 
         private void updateGraphs()

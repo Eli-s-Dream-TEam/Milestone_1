@@ -43,7 +43,7 @@ namespace FlightSimulator.Model
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //for testing purposes.
-        private DataParser dp = new DataParser("C:\\Users\\Yaron\\Desktop\\ADV_PROG\\AdvProg2Project\\reg_flight2.csv");
+        private DataParser dp;
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
@@ -294,8 +294,10 @@ namespace FlightSimulator.Model
                 //reading the csv file.
                 string[] lines = System.IO.File.ReadAllLines(this.file);
 
+
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                //keep the FlightPar.. property, chnage the extracting data part.
+                this.dp = new DataParser(this.file);
+                //keep the FlightPar. property, chnage the extracting data part.
                 //extracting flight paramaters from csv file.
                 this.FlightParamaters = dp.getFeatures();
                 //the deafult paramter is the first one.
@@ -345,21 +347,19 @@ namespace FlightSimulator.Model
             //extracting all data about regression line and displaying the graph as a whole.
             //first LineSeries is the regression line.
             //the second LineSeries is the all the points of the last 30 seconds.
-            //var cv = new ChartValues<float>();
-            //cv.AddRange(dp.getRegressionLine(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater));
 
             var cv2 = new ChartValues<ScatterPoint>();
             cv2.AddRange(dp.getLast30SecRegLinePoints(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater)));
 
             this.RegLineGraphSeries = new SeriesCollection
             {
-                ////two lines in the graph, one updating, one showing the regression line.
+                //regression line.
                 new LineSeries {
                     Values = new ChartValues<float> { 5,4,3},
                     PointGeometry = null,
                     Fill = System.Windows.Media.Brushes.Transparent},
             
-
+                //last 30 values.
                 new ScatterSeries { Values = cv2, PointGeometry = DefaultGeometries.Circle }
                 
             };

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FlightSimulator.Model;
+using FlightSimulator.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,15 @@ namespace FlightSimulator.View
     /// </summary>
     public partial class GraphSection : UserControl
     {
+        private GraphSectionViewModel vm;
         public GraphSection()
         {
             InitializeComponent();
+            DataModel dm = DataModel.Instance;
+            this.vm = new GraphSectionViewModel(dm);
+            DataContext = vm;
         }
+
+
     }
 }

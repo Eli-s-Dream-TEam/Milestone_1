@@ -5,29 +5,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 using System.ComponentModel;
+using LiveCharts;
 
 namespace FlightSimulator.Model
 {
     class DataModel : INotifyPropertyChanged
     {
-      private Boolean stop = false;
-      private Boolean pause = false;
-      private double playbackMultiplier = 1.0;
-      private int playbackSpeed = 100;
-      private int timestamp = 0;
-      private int maximumLength = 1000;
-      private string ip = "127.0.0.1";
-      private int in_port = 5006;
-      private int out_port = 5004;
-      private string file;
-      private float alieron;
-      private float elevator;
-      private float rudder;
-      private float throttle;
-      private SocketModel in_socket;
-      private SocketModel out_socket;
-      public event PropertyChangedEventHandler PropertyChanged;
-      private static DataModel instance = null;
+        private Boolean stop = false;
+        private Boolean pause = false;
+        private double playbackMultiplier = 1.0;
+        private int playbackSpeed = 100;
+        private int timestamp = 0;
+        private int maximumLength = 1000;
+        private string ip = "127.0.0.1";
+        private int in_port = 5006;
+        private int out_port = 5004;
+        private string file;
+        private float alieron;
+        private float elevator;
+        private float rudder;
+        private float throttle;
+        private SocketModel in_socket;
+        private SocketModel out_socket;
+        public event PropertyChangedEventHandler PropertyChanged;
+        private static DataModel instance = null;
+
+        private SeriesCollection featUpdatingGraphSeries;
+        private SeriesCollection mostCorrGraphSeries;
+        private SeriesCollection regLineGraphSeries;
+
+     
 
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
@@ -185,11 +192,53 @@ namespace FlightSimulator.Model
             }
         }
 
+        public SeriesCollection FeatUpdatingGraphSeries
+        {
+            get { return this.featUpdatingGraphSeries; }
+            set 
+            { 
+                if(this.featUpdatingGraphSeries!=value)
+                {
+                    this.featUpdatingGraphSeries = value;
+                    NotifyPropertyChanged("FeatUpdatingGraphSeries");
+
+                }
+            }
+        }
+
+        public SeriesCollection MostCorrGraphSeries
+        {
+            get { return this.mostCorrGraphSeries; }
+            set
+            {
+                if (this.mostCorrGraphSeries != value)
+                {
+                    this.mostCorrGraphSeries = value;
+                    NotifyPropertyChanged("MostCorrGraphSeries");
+
+                }
+            }
+        }
+
+        public SeriesCollection RegLineGraphSeries
+        {
+            get { return this.regLineGraphSeries; }
+            set
+            {
+                if (this.regLineGraphSeries != value)
+                {
+                    this.regLineGraphSeries = value;
+                    NotifyPropertyChanged("RegLineGraphSeries");
+
+                }
+            }
+        }
+       
 
 
         //Methods
 
-        // parse the line from the csv, update needed properties
+            // parse the line from the csv, update needed properties
         public void parseLine(string line)
         {
             if (line == null)

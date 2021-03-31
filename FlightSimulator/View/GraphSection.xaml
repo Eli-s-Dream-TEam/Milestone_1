@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:FlightSimulator.Controls"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:FlightSimulator.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
@@ -23,10 +23,10 @@
         </Grid.ColumnDefinitions>
 
         <ListBox Grid.RowSpan="4" BorderBrush="Black" BorderThickness="1"/>
-
-        <controls:OneSeriesGraph Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1"/>
-        <controls:OneSeriesGraph Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1"/>
-        <controls:TwoSeriesGraph Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" BorderThickness="1"/>
+        <lvc:CartesianChart x:Name="mostCorrGraph" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1" Series ="{Binding VM_MostCorrGraphSeries}"/>
+        <lvc:CartesianChart x:Name="featUpdatingGraph" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1" Series ="{Binding VM_FeatUpdatingGraphSeries}"/>
+        <lvc:CartesianChart x:Name="regLineGraph" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" BorderThickness="1" Series ="{Binding VM_RegLineGraphSeries}"/>
+        
         
     </Grid>
     

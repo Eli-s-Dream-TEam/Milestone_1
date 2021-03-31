@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace FlightSimulator.View
 {
     /// <summary>
-    /// Interaction logic for GraphsView.xaml
+    /// Interaction logic for GraphSection.xaml
     /// </summary>
-    public partial class GraphsView : UserControl
+    public partial class GraphSection : UserControl
     {
-        public GraphsView()
+        public GraphSection()
         {
             InitializeComponent();
         }

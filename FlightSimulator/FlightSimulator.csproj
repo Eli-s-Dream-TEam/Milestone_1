@@ -93,6 +93,8 @@
     <Compile Include="Controls\TwoSeriesGraph.xaml.cs">
       <DependentUpon>TwoSeriesGraph.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DataParser.cs" />
+    <Compile Include="Helper\ICSVDataParser.cs" />
     <Compile Include="ViewModel\GraphSectionViewModel.cs" />
     <Compile Include="ViewModel\PlaybackControllerViewModel.cs" />
     <Compile Include="ViewModel\TimeControllerViewModel.cs" />

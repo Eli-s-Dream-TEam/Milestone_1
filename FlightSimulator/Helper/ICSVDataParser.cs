@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace FlightSimulator.Helper
 {
-    class ICSVDataParser
+    public interface ICSVDataParser
     {
+        int getDataInTime(string feat, int timeStamp);
+
+        int[] getFeatureData(string feat);
+
+        string getFeatMostCorrFeature(string feat);
+
+        List<string> getFeatures();
     }
 }

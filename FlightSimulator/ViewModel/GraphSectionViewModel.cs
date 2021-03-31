@@ -46,6 +46,12 @@ namespace FlightSimulator.ViewModel
             set { model.RegLineGraphSeries = value; }
         }
 
+        public List<string> VM_FlightParamaters
+        { 
+            get { return model.FlightParamaters; } 
+            set { model.FlightParamaters = value; } 
+        }
+
         //methods
         public int VM_Timestamp
         {

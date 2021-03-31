@@ -22,7 +22,15 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.RowSpan="4" BorderBrush="Black" BorderThickness="1"/>
+
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="4">
+            <TextBox DockPanel.Dock="Top" Text="hello"/>
+            <ListBox Grid.RowSpan="4" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding VM_FlightParamaters}" DockPanel.Dock="Top"/>
+        </DockPanel>
+        
+
+
+
         <lvc:CartesianChart x:Name="mostCorrGraph" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1" Series ="{Binding VM_MostCorrGraphSeries}"/>
         <lvc:CartesianChart x:Name="featUpdatingGraph" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="1" Series ="{Binding VM_FeatUpdatingGraphSeries}"/>
         <lvc:CartesianChart x:Name="regLineGraph" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" BorderThickness="1" Series ="{Binding VM_RegLineGraphSeries}"/>

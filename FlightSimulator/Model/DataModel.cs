@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.ComponentModel;
 using LiveCharts;
+using FlightSimulator.Helper;
 
 namespace FlightSimulator.Model
 {
@@ -33,6 +34,8 @@ namespace FlightSimulator.Model
         private SeriesCollection featUpdatingGraphSeries;
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
+
+        private List<string> flightParamters;
 
      
 
@@ -233,12 +236,26 @@ namespace FlightSimulator.Model
                 }
             }
         }
-       
+
+        public List<string> FlightParamaters
+        {
+            get { return this.flightParamters; }
+            set
+            {
+                if (this.flightParamters!= value)
+                {
+                    this.flightParamters= value;
+                    NotifyPropertyChanged("FlightParamaters");
+
+                }
+            }
+        }
+
 
 
         //Methods
 
-            // parse the line from the csv, update needed properties
+        // parse the line from the csv, update needed properties
         public void parseLine(string line)
         {
             if (line == null)
@@ -259,6 +276,11 @@ namespace FlightSimulator.Model
         {
             try
             {
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                DataParser dp = new DataParser();
+                this.FlightParamaters = dp.getFeatures();
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
                 out_socket.disconnect();
                 out_socket.connect();
                 this.Timestamp = 0;
@@ -271,21 +293,21 @@ namespace FlightSimulator.Model
                     {
                         if (timestamp < this.MaximumLength && !pause)
                         {
-                          
+
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");
                             this.Timestamp++;
                         }
 
-                        Thread.Sleep((int) (PlaybackSpeed / PlaybackMultiplier));
+                        Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                     }
                 }).Start();
-            } 
+            }
             catch (Exception e)
             {
                 Console.Write("Error while starting connection");
             }
-            
+
         }
 
 

@@ -37,6 +37,7 @@ namespace FlightSimulator.ViewModel
             get { return model.FeatUpdatingGraphSeries; }
             set { model.FeatUpdatingGraphSeries = value; } 
         }
+
         public SeriesCollection VM_MostCorrGraphSeries {
             get { return model.MostCorrGraphSeries; }
             set { model.MostCorrGraphSeries = value; }
@@ -52,11 +53,17 @@ namespace FlightSimulator.ViewModel
             set { model.FlightParamaters = value; } 
         }
 
-        //methods
         public int VM_Timestamp
         {
             get { return model.Timestamp; }
             set { model.Timestamp = value; }
+        }
+
+
+        //methods
+        internal void changeResearchedParam(string newResearchedParam)
+        {
+            this.model.ResearchedParamater = newResearchedParam;
         }
 
     }

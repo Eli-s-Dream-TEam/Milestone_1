@@ -31,6 +31,12 @@ namespace FlightSimulator.View
             DataContext = vm;
         }
 
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string newResearchedParam = e.AddedItems[0].ToString();
+            this.vm.changeResearchedParam(newResearchedParam);
+        }
 
+     
     }
 }

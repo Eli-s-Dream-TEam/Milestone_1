@@ -64,6 +64,14 @@ namespace FlightSimulator.Helper
             }
         }
 
+        public float[] getFeatureDataInRange(string name, int endingTimeStamp)
+        {
+            float[] paramData = getFeatureData(name);
+            Array.Resize(ref paramData, endingTimeStamp);
+            return paramData;
+
+        }
+
         public List<string> getFeatures()
         {
             return new List<string> { "alieron", "elevator", "rudder", "throttle" };
@@ -100,6 +108,8 @@ namespace FlightSimulator.Helper
 
             float[] resFeat = getFeatureData(reaserchedFeat);
             float[] corFeat = getFeatureData(correlataedFeat);
+
+
             var cv = new ChartValues<ScatterPoint>();
 
             for (int i = start; i < numOfTimeStamps; i++)
@@ -108,5 +118,6 @@ namespace FlightSimulator.Helper
             }
             return cv;
         }
+
     }
 }

@@ -12,6 +12,7 @@
             <Setter Property="DataTooltip" Value="{x:Null}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="DisableAnimations" Value="True"/>
+            <Setter Property="LegendLocation" Value="Top"/>
         </Style>
 
     </Application.Resources>

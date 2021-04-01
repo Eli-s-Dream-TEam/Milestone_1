@@ -9,6 +9,7 @@ using LiveCharts;
 using FlightSimulator.Helper;
 using LiveCharts.Wpf;
 using LiveCharts.Defaults;
+using LiveCharts.Helpers;
 
 namespace FlightSimulator.Model
 {
@@ -19,6 +20,7 @@ namespace FlightSimulator.Model
         private double playbackMultiplier = 1.0;
         private int playbackSpeed = 100;
         private int timestamp = 0;
+        private int prevTimeStamp = 0;
         private int maximumLength = 1000;
         private string ip = "127.0.0.1";
         private int in_port = 5006;
@@ -39,7 +41,10 @@ namespace FlightSimulator.Model
 
         private List<string> flightParamters;
 
-        private string researchedParamater;
+        public string researchedParamater;
+        public bool isDiffFlightParam = false;
+        static bool isGraphsResetted = false;
+
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //for testing purposes.
@@ -260,7 +265,18 @@ namespace FlightSimulator.Model
             }
         }
 
-
+        public string ResearchedParamater
+        {
+            get { return this.researchedParamater; }
+            set
+            {
+                this.researchedParamater = value;
+                //generating the new researched paramater graphs.
+                generateGraphs();
+                updateGraphs();
+                NotifyPropertyChanged("ResearchedParamater");
+            }
+        }
 
         //Methods
 
@@ -285,8 +301,6 @@ namespace FlightSimulator.Model
         {
             try
             {
-                
-
                 out_socket.disconnect();
                 out_socket.connect();
                 this.Timestamp = 0;
@@ -311,9 +325,9 @@ namespace FlightSimulator.Model
                 {
                     while (!stop)
                     {
+                        updateGraphs();
                         if (timestamp < this.MaximumLength && !pause)
                         {
-                            updateGraphs();
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");
                             this.Timestamp++;
@@ -332,46 +346,95 @@ namespace FlightSimulator.Model
 
         private void generateGraphs()
         {
-            //initiating a blank updating graph for the reaserched flight paramater.
-            this.FeatUpdatingGraphSeries = new SeriesCollection 
-            { 
-                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent }
-            };
-
-            //initiating a blank updating graph for the most correletad feature flight paramter.
-            this.MostCorrGraphSeries = new SeriesCollection 
-            { 
-                new LineSeries { Values = new ChartValues<float> { }, PointGeometry = null, Fill = System.Windows.Media.Brushes.Transparent}
-            };
-
-            //extracting all data about regression line and displaying the graph as a whole.
-            //first LineSeries is the regression line.
-            //the second LineSeries is the all the points of the last 30 seconds.
-
-            var cv2 = new ChartValues<ScatterPoint>();
-            cv2.AddRange(dp.getLast30SecRegLinePoints(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater)));
-
-            this.RegLineGraphSeries = new SeriesCollection
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
-                //regression line.
-                new LineSeries {
-                    Values = new ChartValues<float> { 5,4,3},
-                    PointGeometry = null,
-                    Fill = System.Windows.Media.Brushes.Transparent},
+                //initiating a blank updating graph for the reaserched flight paramater.
+                this.FeatUpdatingGraphSeries = new SeriesCollection
+                {
+                    new LineSeries {
+                        Values = new ChartValues<float> { },
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent,
+                        Title = this.researchedParamater }
+                };
+
+                //initiating a blank updating graph for the most correletad feature flight paramter.
+                this.MostCorrGraphSeries = new SeriesCollection
+                {
+                    new LineSeries {
+                        Values = new ChartValues<float> { },
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent,
+                        Title=dp.getFeatMostCorrFeature(this.researchedParamater)}
+                };
+
+                //extracting all data about regression line and displaying the graph as a whole.
+                //first LineSeries is the regression line.
+                //the second LineSeries is the all the points of the last 30 seconds.
+
+                var regLineValues = new ChartValues<ScatterPoint>();
+                regLineValues.AddRange(dp.getLast30SecRegLinePoints(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater)));
+
+                this.RegLineGraphSeries = new SeriesCollection
+                {
+                    //regression line.
+                    new LineSeries {
+                        Title = "Regression Line",
+                        //some values for testing. change this.
+                        Values = new ChartValues<float> { 5,4,3},
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent},
             
-                //last 30 values.
-                new ScatterSeries { Values = cv2, PointGeometry = DefaultGeometries.Circle }
-                
-            };
+                    //last 30 values.
+                    new ScatterSeries {
+                        Values = regLineValues,
+                        PointGeometry = DefaultGeometries.Circle,
+                        Title="Last Thirty Seconds Values" }
+
+                };
+            });
 
         }
 
         private void updateGraphs()
         {
-            string corFeat = dp.getFeatMostCorrFeature(this.researchedParamater);
-            this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(this.researchedParamater, this.timestamp));
-            this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
-            //this.regLineGraphSeries[0].Values.Add(dp.getDataInTime(this.researchedParamater, this.timestamp));
+            //check for pause, if paused than no updated needed.
+            if(!this.pause)
+            {
+                //check for time skip in the playback controller.
+                if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
+                {
+                    string corFeat = dp.getFeatMostCorrFeature(this.researchedParamater);
+                    this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(this.researchedParamater, this.timestamp));
+                    this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+                }
+                else
+                {
+                    //getting the data until the current time stamp.
+                    var resParam = dp.getFeatureDataInRange(this.researchedParamater, this.timestamp);
+                    var corParam = dp.getFeatureDataInRange(dp.getFeatMostCorrFeature(this.researchedParamater), this.timestamp);
+
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
+                        this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
+                    });
+                }
+                //updating the prevtime variable to hold the last timestamp.
+                this.prevTimeStamp = this.timestamp;
+            } 
+            //check for reset button situation.
+            else if (timestamp == 0 && pause && !isGraphsResetted)
+            {
+                //resetting the graphs.
+                generateGraphs();
+                isGraphsResetted = true;
+
+            }
+
+            
+
+
         }
 
 

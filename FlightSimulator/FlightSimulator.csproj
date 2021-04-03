@@ -91,15 +91,16 @@
     <Compile Include="ViewModel\DirectionViewModel.cs" />
     <Compile Include="ViewModel\GaugeViewModel.cs" />
     <Compile Include="ViewModel\GraphSectionViewModel.cs" />
+    <Compile Include="ViewModel\PlaneControlsViewModel.cs" />
     <Compile Include="ViewModel\PlaybackControllerViewModel.cs" />
     <Compile Include="ViewModel\TimeControllerViewModel.cs" />
     <Compile Include="ViewModel\DataViewModel.cs" />
     <Compile Include="ViewModel\JoyStickViewModel.cs" />
+    <Compile Include="View\AltitudeView.xaml.cs">
+      <DependentUpon>AltitudeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DirectionView.xaml.cs">
       <DependentUpon>DirectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\GaugeView.xaml.cs">
-      <DependentUpon>GaugeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GraphSection.xaml.cs">
       <DependentUpon>GraphSection.xaml</DependentUpon>
@@ -107,8 +108,14 @@
     <Compile Include="View\JoyStick.xaml.cs">
       <DependentUpon>JoyStick.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PlaneControlsView.xaml.cs">
+      <DependentUpon>PlaneControlsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PlaybackController.xaml.cs">
       <DependentUpon>PlaybackController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SpeedView.xaml.cs">
+      <DependentUpon>SpeedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TimeController.xaml.cs">
       <DependentUpon>TimeController.xaml</DependentUpon>
@@ -137,11 +144,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\DirectionView.xaml">
+    <Page Include="View\AltitudeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GaugeView.xaml">
+    <Page Include="View\DirectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -153,7 +160,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\PlaneControlsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PlaybackController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SpeedView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

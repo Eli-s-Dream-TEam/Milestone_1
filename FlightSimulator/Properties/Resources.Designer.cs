@@ -8,9 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-namespace FlightSimulator.Properties
-{
+namespace FlightSimulator.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -18,52 +19,86 @@ namespace FlightSimulator.Properties
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FlightSimulator.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///
+        ///&lt;PropertyList&gt;
+        /// &lt;comment&gt;
+        ///  &lt;![CDATA[
+        ///    Usage:
+        ///  
+        ///    Recording: --generic=file,out,10,flight.out,playback_small
+        ///    Playback:  --generic=file,in,10,flight.out,playback_small --fdm=null
+        ///  ]]&gt;
+        /// &lt;/comment&gt;
+        ///
+        /// &lt;generic&gt;
+        ///
+        ///  &lt;output&gt;
+        ///   &lt;line_separator&gt;newline&lt;/line_separator&gt;
+        ///   &lt;var_separator&gt;,&lt;/var_separator&gt;
+        ///
+        ///
+        ///   &lt;!-- Flight Controls --&gt;
+        ///   &lt;chunk&gt;
+        ///    &lt;name&gt;aileron&lt;/name&gt;
+        ///    &lt;type&gt;float&lt;/type&gt;
+        ///    &lt;format&gt;%f&lt;/format&gt;
+        ///    &lt;node&gt;/controls/flight/aileron[0]&lt;/nod [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string playback_small {
+            get {
+                return ResourceManager.GetString("playback_small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string XMLFile {
+            get {
+                return ResourceManager.GetString("XMLFile", resourceCulture);
             }
         }
     }

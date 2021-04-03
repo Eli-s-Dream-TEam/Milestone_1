@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="Helper\DataParser.cs" />
     <Compile Include="Helper\ICSVDataParser.cs" />
+    <Compile Include="Helper\XMLParser.cs" />
     <Compile Include="ViewModel\GraphSectionViewModel.cs" />
     <Compile Include="ViewModel\PlaybackControllerViewModel.cs" />
     <Compile Include="ViewModel\TimeControllerViewModel.cs" />
@@ -174,7 +175,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="public\playback_small.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="public\lower-speed-icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

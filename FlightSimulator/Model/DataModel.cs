@@ -15,6 +15,7 @@ namespace FlightSimulator.Model
 {
     class DataModel : INotifyPropertyChanged
     {
+        private List<string> attributeList;
         private Boolean stop = false;
         private Boolean pause = false;
         private double playbackMultiplier = 1.0;
@@ -74,6 +75,8 @@ namespace FlightSimulator.Model
       {
         this.in_socket = new SocketModel(ip, in_port);
         this.out_socket = new SocketModel(ip, out_port);
+        this.attributeList = XMLParser.DeserializeFromXML();
+        
       }
 
    
@@ -289,12 +292,15 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
-            this.Alieron = float.Parse(parsedLine[0]);
-            this.Elevator = float.Parse(parsedLine[1]);
-            this.Rudder = float.Parse(parsedLine[2]);
-            this.Throttle = float.Parse(parsedLine[6]);
+            this.Alieron = float.Parse(parsedLine[getPropertyIndex("aileron")]);
+            this.Elevator = float.Parse(parsedLine[getPropertyIndex("elevator")]);
+            this.Rudder = float.Parse(parsedLine[getPropertyIndex("rudder")]);
+            this.Throttle = float.Parse(parsedLine[getPropertyIndex("throttle")]);
+        }
 
-
+        public int getPropertyIndex(string property)
+        {
+            return attributeList.FindIndex(a => a.Equals(property));
         }
 
         public void start()

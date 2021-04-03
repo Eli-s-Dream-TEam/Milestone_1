@@ -18,7 +18,7 @@
                 <TranslateTransform/>
             </TransformGroup>
         </Canvas.RenderTransform>
-        <TextBlock x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="266,211,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
+        <TextBlock x:Name="t1" HorizontalAlignment="Left" Height="25" Margin="266,211,0,0" TextWrapping="Wrap" Text="{Binding VM_Rudder}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
         <TextBlock x:Name="t2" HorizontalAlignment="Left" Height="25" Margin="51,23,0,0" TextWrapping="Wrap" Text="{Binding VM_Throttle}" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644"/>
         <TextBlock x:Name="t3" HorizontalAlignment="Left" Height="25" Margin="263,119,0,0" TextWrapping="Wrap" Text="{Binding VM_Elevator}" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
@@ -30,7 +30,7 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="{Binding VM_Alieron}" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="136" Canvas.Top="13"/>
+        <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="{Binding VM_Alieron}" TextAlignment="Center" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="136" Canvas.Top="13"/>
         <Ellipse HorizontalAlignment="Left" Height="138" Margin="96,68,0,0"  VerticalAlignment="Top" Width="143">
             <Ellipse.Fill>
                 <RadialGradientBrush>

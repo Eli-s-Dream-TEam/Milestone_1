@@ -87,11 +87,20 @@
     </Compile>
     <Compile Include="Helper\DataParser.cs" />
     <Compile Include="Helper\ICSVDataParser.cs" />
+    <Compile Include="Helper\XMLParser.cs" />
+    <Compile Include="ViewModel\DirectionViewModel.cs" />
+    <Compile Include="ViewModel\GaugeViewModel.cs" />
     <Compile Include="ViewModel\GraphSectionViewModel.cs" />
     <Compile Include="ViewModel\PlaybackControllerViewModel.cs" />
     <Compile Include="ViewModel\TimeControllerViewModel.cs" />
     <Compile Include="ViewModel\DataViewModel.cs" />
     <Compile Include="ViewModel\JoyStickViewModel.cs" />
+    <Compile Include="View\DirectionView.xaml.cs">
+      <DependentUpon>DirectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GaugeView.xaml.cs">
+      <DependentUpon>GaugeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GraphSection.xaml.cs">
       <DependentUpon>GraphSection.xaml</DependentUpon>
     </Compile>
@@ -128,6 +137,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\DirectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GaugeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GraphSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,7 +191,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="public\playback_small.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="public\lower-speed-icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

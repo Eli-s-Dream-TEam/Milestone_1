@@ -51,7 +51,6 @@ namespace FlightSimulator.ViewModel
         {
             get
             {
-               Console.WriteLine(VM_Elevator * 15);
                return (int)(VM_Elevator * 40) + 15;
             }
 

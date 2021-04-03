@@ -9,7 +9,7 @@
     
       d:DesignHeight="300" d:DesignWidth="350">
     
-    <Canvas RenderTransformOrigin="0.5,0.5" Margin="0,19,1,0">
+    <Canvas RenderTransformOrigin="0.5,0.5" >
         <Canvas.RenderTransform>
             <TransformGroup>
                 <ScaleTransform/>

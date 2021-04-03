@@ -15,6 +15,7 @@ namespace FlightSimulator.Model
 {
     class DataModel : INotifyPropertyChanged
     {
+        private List<string> attributeList;
         private Boolean stop = false;
         private Boolean pause = false;
         private double playbackMultiplier = 1.0;
@@ -30,6 +31,12 @@ namespace FlightSimulator.Model
         private float elevator;
         private float rudder;
         private float throttle;
+        private float altitude;
+        private float speed;
+        private float direction;
+        private float roll;
+        private float yaw;
+        private float pitch;
         private SocketModel in_socket;
         private SocketModel out_socket;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -74,6 +81,8 @@ namespace FlightSimulator.Model
       {
         this.in_socket = new SocketModel(ip, in_port);
         this.out_socket = new SocketModel(ip, out_port);
+        this.attributeList = XMLParser.DeserializeFromXML();
+        
       }
 
    
@@ -140,6 +149,81 @@ namespace FlightSimulator.Model
                 {
                     this.throttle = value;
                     NotifyPropertyChanged("Throttle");
+                }
+            }
+        }
+
+        public float Altitude
+        {
+            get { return this.altitude; }
+            set
+            {
+                if (this.altitude != value)
+                {
+                    this.altitude = value;
+                    NotifyPropertyChanged("Altitude");
+                }
+            }
+        }
+
+        public float Speed
+        {
+            get { return this.speed; }
+            set
+            {
+                if (this.speed != value)
+                {
+                    this.speed = value;
+                    NotifyPropertyChanged("Speed");
+                }
+            }
+        }
+
+        public float Direction
+        {
+            get { return this.direction; }
+            set
+            {
+                if (this.direction != value)
+                {
+                    this.direction = value;
+                    NotifyPropertyChanged("Direction");
+                }
+            }
+        }
+        public float Roll
+        {
+            get { return this.roll ; }
+            set
+            {
+                if (this.roll != value)
+                {
+                    this.roll = value;
+                    NotifyPropertyChanged("Roll");
+                }
+            }
+        }
+        public float Yaw
+        {
+            get { return this.yaw; }
+            set
+            {
+                if (this.yaw != value)
+                {
+                    this.yaw = value;
+                    NotifyPropertyChanged("Yaw");
+                }
+            }
+        }
+        public float Pitch
+        {
+            get { return this.pitch; }
+            set
+            {
+                if (this.pitch != value)
+                {
+                    this.pitch = value;
+                    NotifyPropertyChanged("Pitch");
                 }
             }
         }
@@ -289,12 +373,21 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
-            this.Alieron = float.Parse(parsedLine[0]);
-            this.Elevator = float.Parse(parsedLine[1]);
-            this.Rudder = float.Parse(parsedLine[2]);
-            this.Throttle = float.Parse(parsedLine[6]);
+            this.Alieron = float.Parse(parsedLine[getPropertyIndex("aileron")]);
+            this.Elevator = float.Parse(parsedLine[getPropertyIndex("elevator")]);
+            this.Rudder = float.Parse(parsedLine[getPropertyIndex("rudder")]);
+            this.Throttle = float.Parse(parsedLine[getPropertyIndex("throttle")]);
+            this.Altitude = float.Parse(parsedLine[getPropertyIndex("altimeter_indicated-altitude-ft")]);
+            this.Speed = float.Parse(parsedLine[getPropertyIndex("airspeed-indicator_indicated-speed-kt")]);
+            this.Direction = float.Parse(parsedLine[getPropertyIndex("heading-deg")]);
+            this.Roll = float.Parse(parsedLine[getPropertyIndex("attitude-indicator_indicated-roll-deg")]);
+            this.Pitch = float.Parse(parsedLine[getPropertyIndex("attitude-indicator_indicated-pitch-deg")]);
+            this.Yaw = float.Parse(parsedLine[getPropertyIndex("side-slip-deg")]);
+        }
 
-
+        public int getPropertyIndex(string property)
+        {
+            return attributeList.FindIndex(a => a.Equals(property));
         }
 
         public void start()

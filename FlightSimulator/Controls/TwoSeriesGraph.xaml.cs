@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +15,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlightSimulator.View
+namespace FlightSimulator.Controls
 {
     /// <summary>
-    /// Interaction logic for GraphsView.xaml
+    /// Interaction logic for TwoSeriesGraph.xaml
     /// </summary>
-    public partial class GraphsView : UserControl
+    public partial class TwoSeriesGraph : UserControl
     {
-        public GraphsView()
+        public TwoSeriesGraph()
         {
             InitializeComponent();
         }
+
+    
     }
 }

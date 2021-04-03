@@ -5,15 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightSimulator"
         xmlns:view="clr-namespace:FlightSimulator.View"
+        xmlns:controls ="clr-namespace:FlightSimulator.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" MinWidth="800" MaxWidth="800" MinHeight="450" MaxHeight="450">
+        Title="MainWindow" Height="800" Width="1400" MinWidth="1400" MaxWidth="1400" MinHeight="800" MaxHeight="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="197*"/>
-            <ColumnDefinition Width="244*"/>
-            <ColumnDefinition Width="351*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="0,317,0,0" HorizontalAlignment="Center"  Orientation="Vertical" Width="792" Background="DimGray" Grid.ColumnSpan="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Background="DimGray" Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Width="1400">
             <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="762" Height="47" Margin="10,0" >
                 <Button x:Name="startButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Background="Azure" FontWeight="Bold" Height="37" Padding="5" Width="113">
                     <Button.Resources>
@@ -32,7 +41,7 @@
                 </Button>
                 <view:PlaybackController Width="649"  />
             </StackPanel>
-            <view:TimeController  RenderTransformOrigin="0.5,0.5" Height="62" Width="Auto">
+            <view:TimeController  RenderTransformOrigin="0.5,0.5" Height="62" Width="1300">
                 <view:TimeController.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -44,13 +53,22 @@
             </view:TimeController>
         </StackPanel>
 
-        <view:JoyStick Margin="450,-20,226,30" RenderTransformOrigin="4.396,0.573" Grid.ColumnSpan="2" >
-            <view:JoyStick.RenderTransform>
-                <TransformGroup>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </view:JoyStick.RenderTransform>
-        </view:JoyStick>
-
+        <view:GraphSection Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" />
+        <view:JoyStick  Grid.Column="3" />
+        <view:DirectionView Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        
+        <Grid Grid.Row="1" Grid.Column="3">
+            <view:PlaneControlsView />
+        </Grid>
+        
+        <Grid Grid.Row="1" Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <view:AltitudeView />
+            <view:SpeedView Grid.Row="1"/>
+        </Grid>
     </Grid>
 </Window>
+    

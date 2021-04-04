@@ -38,8 +38,8 @@
         </Ellipse.Fill>
     </Ellipse>
 
-    <Canvas Height="61" Width="61" Canvas.Top="108" Canvas.Left="136">
-        <Ellipse Height="61"  Width="61">
+    <Canvas Height="60" Width="60" Canvas.Top="108" Canvas.Left="136">
+        <Ellipse Height="60"  Width="60">
             <Ellipse.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF0E0E0E" Offset="1" />
@@ -48,7 +48,7 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
-        <Ellipse Height="31"  Width="31" Canvas.Top="{Binding VM_Top}" Canvas.Left="{Binding VM_Left}">
+        <Ellipse Height="30" Width="30" Canvas.Top="{Binding VM_Top}" Canvas.Left="{Binding VM_Left}" >
             <Ellipse.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#9A909090" Offset="1" />

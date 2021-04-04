@@ -419,7 +419,7 @@ namespace FlightSimulator.Model
                     while (!stop)
                     {
                         updateGraphs();
-                        if (timestamp < (this.MaximumLength - 1) && !pause)
+                        if (timestamp < this.MaximumLength && !pause)
                         {
                             this.parseLine(lines[this.Timestamp]);
                             out_socket.send(lines[this.Timestamp] + "\n");

@@ -52,7 +52,7 @@ namespace FlightSimulator.ViewModel
         {
             get
             {
-               return (int)(VM_Elevator * 10) + this.default_top;
+               return (int)(VM_Elevator * 11) + this.default_top;
             }
 
            
@@ -61,13 +61,10 @@ namespace FlightSimulator.ViewModel
 
         public int VM_Left
         {   
-            set
-            {
-                
-            }
+           
             get
             {
-                return (int)(VM_Alieron * 10) + this.default_left;
+                return (int)(VM_Alieron * 11) + this.default_left;
             }
         }
 

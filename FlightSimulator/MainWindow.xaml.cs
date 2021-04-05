@@ -35,5 +35,10 @@ namespace FlightSimulator
         {
             this.vm.getFile();
         }
+
+        public void StartButtonHandler(object sender, RoutedEventArgs e)
+        {
+            this.vm.start();
+        }
     }
 }

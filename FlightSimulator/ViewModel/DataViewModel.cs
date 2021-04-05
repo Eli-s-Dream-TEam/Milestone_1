@@ -60,5 +60,13 @@ namespace FlightSimulator.ViewModel
                 this.dm.File = filename;
             }
         }
+
+        public void start()
+        {
+            if (dm.File != null)
+            {
+                this.dm.Stop = false;
+            }
+        }
     }
 }

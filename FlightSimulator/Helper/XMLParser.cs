@@ -24,6 +24,7 @@ namespace FlightSimulator.Helper
                 // Open document 
                 filename = dlg.FileName;
             }
+
             else
             {
                 return null;

@@ -5,19 +5,17 @@ using FlightSimulator.Model;
 namespace FlightSimulator.View
 {
     /// <summary>
-    /// Interaction logic for GaugeView.xaml
+    /// Interaction logic for AltitudeView.xaml
     /// </summary>
-    public partial class GaugeView : UserControl
+    public partial class AltitudeView : UserControl
     {
         private GaugeViewModel gvm;
-
-        public GaugeView()
+        public AltitudeView()
         {
             InitializeComponent();
             DataModel dm = DataModel.Instance;
             this.gvm = new GaugeViewModel(dm);
             this.DataContext = gvm;
         }
-
     }
 }

@@ -55,14 +55,19 @@
 
         <view:GraphSection Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" />
         <view:JoyStick  Grid.Column="3" />
-        <view:DirectionView Grid.Column="3" Grid.Row="1" />
+        <view:DirectionView Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        
+        <Grid Grid.Row="1" Grid.Column="3">
+            <view:PlaneControlsView />
+        </Grid>
         
         <Grid Grid.Row="1" Grid.Column="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <view:GaugeView Grid.Column="4" Grid.Row="1"/>
+            <view:AltitudeView />
+            <view:SpeedView Grid.Row="1"/>
         </Grid>
     </Grid>
 </Window>

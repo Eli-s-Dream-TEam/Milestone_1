@@ -17,23 +17,9 @@
                 <TranslateTransform/>
             </TransformGroup>
         </Canvas.RenderTransform>
-        <TextBlock x:Name="t1" HorizontalAlignment="Left" Height="28" FontWeight="Bold" TextWrapping="Wrap" Text="{Binding VM_Rudder}" TextAlignment="Center" VerticalAlignment="Top" Width="60" RenderTransformOrigin="1.684,-0.644" Canvas.Left="241" Canvas.Top="208"/>
-        <TextBlock x:Name="t2" HorizontalAlignment="Left" Height="25" FontWeight="Bold" TextWrapping="Wrap" Text="{Binding VM_Throttle}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="39" Canvas.Top="38"/>
-        <TextBlock x:Name="t3" HorizontalAlignment="Left" Height="25" FontWeight="Bold" TextWrapping="Wrap" Text="{Binding VM_Elevator}" TextAlignment="Center" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5" Canvas.Left="257" Canvas.Top="119">
-            <TextBlock.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="89.243"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </TextBlock.RenderTransform>
-        </TextBlock>
-        <TextBlock x:Name="t4" HorizontalAlignment="Left" Height="25" FontWeight="Bold" TextWrapping="Wrap" Text="{Binding VM_Alieron}" TextAlignment="Center" VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="136" Canvas.Top="13"/>
 
-        <Canvas Height="140" Width="140"  Margin="96,68,0,0">
-
-            <Ellipse HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="140">
+        <Canvas Height="140" Width="140" Canvas.Left="96" Canvas.Top="65">
+            <Ellipse HorizontalAlignment="Left" Height="140"  VerticalAlignment="Top" Width="140">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="#FF2C2A2A" Offset="1" />
@@ -65,7 +51,7 @@
 
             </Canvas>
 
-            <Path Width="10" Height="18" Stretch="Fill"  Fill="#FF575757" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="61.001" Canvas.Top="20">
+            <Path Width="10" Height="18" Stretch="Fill"  Fill="#FF575757" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " RenderTransformOrigin="1.006,0.613" Canvas.Left="62.251" Canvas.Top="1.757">
                 <Path.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -75,8 +61,8 @@
                     </TransformGroup>
                 </Path.RenderTransform>
             </Path>
-            <Path Width="10" Height="18" Stretch="Fill" Fill="#FF575757" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="120" Canvas.Top="65" RenderTransformOrigin="1.719,1.15"/>
-            <Path Width="10" Height="18" Stretch="Fill"  Fill="#FF575757" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="78.669" Canvas.Top="120">
+            <Path Width="10" Height="18" Stretch="Fill" Fill="#FF575757" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="120" Canvas.Top="59.749" RenderTransformOrigin="1.719,1.15"/>
+            <Path Width="10" Height="18" Stretch="Fill"  Fill="#FF575757" Data="F1 M 319.344,237.333L 287.328,218.849L 287.328,255.818L 319.344,237.333 Z " Canvas.Left="41" Canvas.Top="113.997" RenderTransformOrigin="1.719,1.15">
                 <Path.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -86,36 +72,51 @@
                     </TransformGroup>
                 </Path.RenderTransform>
             </Path>
-            <Path Width="10" Height="18" Stretch="Fill"  Fill="#FF575757" Data="F1 M 287.328,237.333L 319.344,255.818L 319.344,218.849L 287.328,237.333 Z " Canvas.Left="10" Canvas.Top="65"/>
+            <Path Width="10" Height="18" Stretch="Fill"  Fill="#FF575757" Data="F1 M 287.328,237.333L 319.344,255.818L 319.344,218.849L 287.328,237.333 Z " Canvas.Left="10" Canvas.Top="61.751" RenderTransformOrigin="0.351,0.405"/>
         </Canvas>
-        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Aileron" VerticalAlignment="Top" Width="46" Canvas.Left="148" Canvas.Top="43" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.5,0.5" Canvas.Left="230" Canvas.Top="126" FontWeight="Bold">
+
+        <TextBlock x:Name="RudderValue" HorizontalAlignment="Left" Height="29" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Rudder}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="246" Canvas.Top="206"/>
+        <TextBlock x:Name="ThrottleValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Throttle}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="45" Canvas.Top="35"/>
+        <TextBlock x:Name="ElevatorValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Elevator}" TextAlignment="Center" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5" Canvas.Left="255" Canvas.Top="118">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="89.243"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBlock x:Name="AileronValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Alieron}" TextAlignment="Center"  VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="141" Canvas.Top="13"/>
+
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Aileron" VerticalAlignment="Top" Width="46" Canvas.Left="151" Canvas.Top="43" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.555,0.502" Canvas.Left="230" Canvas.Top="125" FontWeight="Bold">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform Angle="89.114"/>
-                    <TranslateTransform/>
+                    <TranslateTransform X="-2.741" Y="2.716"/>
                 </TransformGroup>
 
             </TextBlock.RenderTransform>
 
 
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.65,0.942" FontWeight="Bold" Canvas.Left="148" Canvas.Top="236"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5" FontWeight="Bold" Canvas.Left="19" Canvas.Top="126">
+        <TextBlock HorizontalAlignment="Left" Height="17" Margin="151,239,0,0" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.65,0.942" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5" FontWeight="Bold" Canvas.Left="23" Canvas.Top="127">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="90.178"/>
+                    <RotateTransform Angle="89.349"/>
                     <TranslateTransform/>
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
 
-        <Slider Value="{Binding VM_Rudder}" Minimum="-1" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Canvas.Left="96" Canvas.Top="213"/>
-        <Slider Value="{Binding VM_Throttle}" Minimum="0" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" RenderTransformOrigin="0.5,0.5" Canvas.Top="132" Canvas.Left="-1">
+        <Slider Value="{Binding VM_Rudder}" Minimum="-1" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Canvas.Left="96" Canvas.Top="211"/>
+        <Slider Value="{Binding VM_Throttle}" Minimum="0" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="5" Canvas.Top="126">
             <Slider.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

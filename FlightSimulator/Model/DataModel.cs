@@ -16,7 +16,7 @@ namespace FlightSimulator.Model
     class DataModel : INotifyPropertyChanged
     {
         private List<string> attributeList;
-        private Boolean stop = false;
+        private Boolean stop = true;
         private Boolean pause = false;
         private double playbackMultiplier = 1.0;
         private int playbackSpeed = 100;
@@ -94,11 +94,31 @@ namespace FlightSimulator.Model
                 if (this.file != value)
                 {
                     this.file = value;
-                    this.start();
+                    this.connect();
                     NotifyPropertyChanged("File");
                 }
             }
         }
+
+        public bool Stop
+        {
+            set
+            {
+                if (stop)
+                {
+                    this.stop = value;
+                    NotifyPropertyChanged("Stop");
+                    start();
+                }
+              
+            }
+
+            get
+            {
+                return this.stop;
+            }
+        }
+
 
         public float Alieron
         {
@@ -390,53 +410,63 @@ namespace FlightSimulator.Model
             return attributeList.FindIndex(a => a.Equals(property));
         }
 
-        public void start()
+
+        public void connect()
         {
             try
             {
                 out_socket.disconnect();
                 out_socket.connect();
                 this.Timestamp = 0;
-                
-                //reading the csv file.
-                string[] lines = System.IO.File.ReadAllLines(this.file);
-
-
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                this.dp = new DataParser(this.file);
-                //keep the FlightPar. property, chnage the extracting data part.
-                //extracting flight paramaters from csv file.
-                this.FlightParamaters = dp.getFeatures();
-                //the deafult paramter is the first one.
-                this.researchedParamater = this.flightParamters[0];
-                generateGraphs();
-                //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-                this.MaximumLength = lines.Length;
-                NotifyPropertyChanged("MaximumLength");
-                new Thread(delegate ()
-                {
-                    while (!stop)
-                    {
-                        updateGraphs();
-                        if (timestamp < this.MaximumLength && !pause)
-                        {
-                            this.parseLine(lines[this.Timestamp]);
-                            out_socket.send(lines[this.Timestamp] + "\n");
-                            this.Timestamp++;
-                        }
-
-                        Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
-                    }
-                }).Start();
             }
+
             catch (Exception e)
             {
                 Console.Write("Error while starting connection");
             }
-
         }
 
+        public void start()
+        {
+            //reading the csv file.
+            string[] lines = System.IO.File.ReadAllLines(this.file);
+
+
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            this.dp = new DataParser(this.file);
+            //keep the FlightPar. property, chnage the extracting data part.
+            //extracting flight paramaters from csv file.
+            this.FlightParamaters = dp.getFeatures();
+            //the deafult paramter is the first one.
+            this.researchedParamater = this.flightParamters[0];
+            generateGraphs();
+            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+            this.MaximumLength = lines.Length;
+            NotifyPropertyChanged("MaximumLength");
+            new Thread(delegate ()
+            {
+                while (!stop)
+                {
+                    updateGraphs();
+                    if (timestamp < this.MaximumLength && !pause)
+                    {
+                        this.parseLine(lines[this.Timestamp]);
+                        out_socket.send(lines[this.Timestamp] + "\n");
+                        this.Timestamp++;
+                    }
+
+
+                    Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
+                }
+            }).Start();
+        }
+        
+      
+
+       
+
+        
         private void generateGraphs()
         {
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
@@ -489,6 +519,7 @@ namespace FlightSimulator.Model
 
         }
 
+        
         private void updateGraphs()
         {
             //check for pause, if paused than no updated needed.

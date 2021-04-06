@@ -45,6 +45,9 @@
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="regDll">
+      <HintPath>..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210404\solution4\solution\regDll.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />

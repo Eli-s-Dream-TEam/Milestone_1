@@ -12,6 +12,7 @@ namespace FlightSimulator.ViewModel
     {
         private int default_top = 15;
         private int default_left = 15;
+   
         private DataModel dm;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,19 +52,19 @@ namespace FlightSimulator.ViewModel
         {
             get
             {
-               return (int)(VM_Elevator * 40) + 15;
+               return (int)(VM_Elevator * 11) + this.default_top;
             }
 
            
         }
 
 
-
         public int VM_Left
-        {
+        {   
+           
             get
             {
-                return (int)(VM_Alieron * 40) + 15;
+                return (int)(VM_Alieron * 11) + this.default_left;
             }
         }
 

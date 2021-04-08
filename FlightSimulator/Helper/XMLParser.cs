@@ -40,10 +40,15 @@ namespace FlightSimulator.Helper
                 elementList.Add(name);
             };
 
-            //find a better solution than this.
-            
-
             return elementList;
         }
+
+        //getting the sampling rate in Hz from the playback file.
+        //public static int getSamplingRate(string file)
+        //{
+            
+
+
+        //}
     }
 }

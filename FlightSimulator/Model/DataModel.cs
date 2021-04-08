@@ -19,7 +19,9 @@ namespace FlightSimulator.Model
         private Boolean stop = true;
         private Boolean pause = false;
         private double playbackMultiplier = 1.0;
-        private int playbackSpeed = 100;
+        private static int samplingPerSeconds = 10;
+        //converting to miliseconds.
+        private int playbackSpeed = samplingPerSeconds * 10;
         private int timestamp = 0;
         private int prevTimeStamp = 0;
         private int maximumLength = 1000;
@@ -52,15 +54,8 @@ namespace FlightSimulator.Model
         public string researchedParamater;
         public bool isDiffFlightParam = false;
         
-
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //for testing purposes.
         private DataParser dp;
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
+        
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
          * Object across our views.
@@ -432,8 +427,6 @@ namespace FlightSimulator.Model
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(this.file);
 
-            
-
             //extracting flight paramaters from csv file.
             this.FlightParamaters = this.attributeList;
             this.dp = new DataParser(this.file, this.flightParamters);
@@ -456,7 +449,7 @@ namespace FlightSimulator.Model
                         this.Timestamp++;
                     }
 
-
+                    
                     Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                 }
             }).Start();

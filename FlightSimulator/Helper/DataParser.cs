@@ -17,13 +17,15 @@ namespace FlightSimulator.Helper
         private float[] elevator;
         private float[] rudder;
         private float[] throttle;
-        private string filePath;
-        private string[] data;
+        private string csvFilePath;
+        private string[] csvRows;
+        private List<string> flightParamaters;
 
-        public DataParser(string filePath)
+        public DataParser(string filePath, List<string> flightParamaters)
         {
-            this.data = System.IO.File.ReadAllLines(filePath);
-            this.filePath = filePath;
+            this.csvRows = System.IO.File.ReadAllLines(filePath);
+            this.csvFilePath = filePath;
+            this.flightParamaters = flightParamaters;
             extractData();
         }
 
@@ -79,10 +81,10 @@ namespace FlightSimulator.Helper
 
         private void extractData()
         {
-            TextFieldParser parser = new TextFieldParser(this.filePath);
+            TextFieldParser parser = new TextFieldParser(this.csvFilePath);
             parser.SetDelimiters(",");
             string[] row;
-            int numOfTimeStamps = this.data.Length;
+            int numOfTimeStamps = this.csvRows.Length;
 
             
             this.alieron = new float[numOfTimeStamps];
@@ -103,8 +105,8 @@ namespace FlightSimulator.Helper
         public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat)
         {
 
-            int numOfTimeStamps = this.data.Length;
-            int start = this.data.Length - 30;
+            int numOfTimeStamps = this.csvRows.Length;
+            int start = this.csvRows.Length - 30;
 
             float[] resFeat = getFeatureData(reaserchedFeat);
             float[] corFeat = getFeatureData(correlataedFeat);

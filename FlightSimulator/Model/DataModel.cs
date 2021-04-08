@@ -45,12 +45,13 @@ namespace FlightSimulator.Model
         private SeriesCollection featUpdatingGraphSeries;
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
+        static bool isGraphsResetted = false;
 
         private List<string> flightParamters;
 
         public string researchedParamater;
         public bool isDiffFlightParam = false;
-        static bool isGraphsResetted = false;
+        
 
 
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -431,16 +432,15 @@ namespace FlightSimulator.Model
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(this.file);
 
+            
 
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            this.dp = new DataParser(this.file);
-            //keep the FlightPar. property, chnage the extracting data part.
             //extracting flight paramaters from csv file.
-            this.FlightParamaters = dp.getFeatures();
+            this.FlightParamaters = this.attributeList;
+            this.dp = new DataParser(this.file, this.flightParamters);
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            
 
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
@@ -461,35 +461,34 @@ namespace FlightSimulator.Model
                 }
             }).Start();
         }
-        
-      
 
-       
 
-        
+
+
+
+
+        //create an empty line graph for the given paramter.
+        private SeriesCollection generateOneParamaterLineGraph(string paramater)
+        {
+            return new SeriesCollection
+                {
+                    new LineSeries {
+                        Values = new ChartValues<float> { },
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent,
+                        Title = paramater }
+                };
+        }
+
         private void generateGraphs()
         {
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 //initiating a blank updating graph for the reaserched flight paramater.
-                this.FeatUpdatingGraphSeries = new SeriesCollection
-                {
-                    new LineSeries {
-                        Values = new ChartValues<float> { },
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent,
-                        Title = this.researchedParamater }
-                };
+                this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(this.researchedParamater);
 
                 //initiating a blank updating graph for the most correletad feature flight paramter.
-                this.MostCorrGraphSeries = new SeriesCollection
-                {
-                    new LineSeries {
-                        Values = new ChartValues<float> { },
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent,
-                        Title=dp.getFeatMostCorrFeature(this.researchedParamater)}
-                };
+                this.MostCorrGraphSeries = generateOneParamaterLineGraph(dp.getFeatMostCorrFeature(this.researchedParamater));
 
                 //extracting all data about regression line and displaying the graph as a whole.
                 //first LineSeries is the regression line.
@@ -519,7 +518,7 @@ namespace FlightSimulator.Model
 
         }
 
-        
+
         private void updateGraphs()
         {
             //check for pause, if paused than no updated needed.

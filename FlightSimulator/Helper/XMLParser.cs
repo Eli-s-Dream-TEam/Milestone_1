@@ -33,12 +33,15 @@ namespace FlightSimulator.Helper
             List<string> elementList = new List<string>();
             var xml = XDocument.Load(filename);
 
-            var query = from c in xml.Root.Descendants("chunk") select c.Element("name").Value;
+            var query = from c in xml.Root.Descendants("output").Descendants("chunk") select c.Element("name").Value;
 
             foreach (string name in query)
             {
                 elementList.Add(name);
             };
+
+            //find a better solution than this.
+            
 
             return elementList;
         }

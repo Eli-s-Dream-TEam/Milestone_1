@@ -11,24 +11,7 @@ namespace FlightSimulator.Helper
     {
         public static List<string> DeserializeFromXML()
         {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.DefaultExt = "xml";
-            dlg.Filter = "XML Files | *.xml";
-            dlg.Title = "Please provide the xml properties for your CSV file";
-            string filename;
-
-            Nullable<bool> result = dlg.ShowDialog();
-
-            if (result == true)
-            {
-                // Open document 
-                filename = dlg.FileName;
-            }
-
-            else
-            {
-                return null;
-            }
+            string filename = @"public/playback_small.xml";
 
             List<string> elementList = new List<string>();
             var xml = XDocument.Load(filename);

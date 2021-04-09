@@ -27,11 +27,11 @@ namespace FlightSimulator.ViewModel
         {
             get
             {
-                return this.dm.File;
+                return this.dm.TrainFile;
             }
             set
             {
-                this.dm.File = value;
+                this.dm.TrainFile = value;
             }
         }
 
@@ -46,7 +46,7 @@ namespace FlightSimulator.ViewModel
             }
         }
 
-        public void getFile()
+        public void getFile(string file)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".csv";
@@ -55,15 +55,23 @@ namespace FlightSimulator.ViewModel
 
             if (result == true)
             {
+              
                 // Open document 
                 string filename = dlg.FileName;
-                this.dm.File = filename;
+                if (file == "train")
+                {
+                    this.dm.TrainFile = filename;
+                }
+                else
+                {
+                    this.dm.TestFile = filename;
+                }
             }
         }
 
         public void start()
         {
-            if (dm.File != null)
+            if (dm.TrainFile != null || dm.TestFile != null)
             {
                 this.dm.Stop = false;
             }

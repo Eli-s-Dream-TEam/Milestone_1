@@ -32,8 +32,16 @@ namespace FlightSimulator
         }
 
         public void UploadButtonHandler(object sender, RoutedEventArgs e)
-        {
-            this.vm.getFile();
+        {   
+            if(sender.Equals(UploadTrainButton))
+            {
+                this.vm.getFile("train");
+            }
+            else
+            {
+                this.vm.getFile("test");
+            }
+            
         }
 
         public void StartButtonHandler(object sender, RoutedEventArgs e)

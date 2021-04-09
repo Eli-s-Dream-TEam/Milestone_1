@@ -18,15 +18,17 @@ namespace FlightSimulator.Model
         private List<string> attributeList;
         private Boolean stop = true;
         private Boolean pause = false;
+        private bool isTrain = true;
         private double playbackMultiplier = 1.0;
         private int playbackSpeed = 100;
-        private int timestamp = 0;
+        private int timestamp = -1;
         private int prevTimeStamp = 0;
         private int maximumLength = 1000;
         private string ip = "127.0.0.1";
         private int in_port = 5006;
         private int out_port = 5004;
-        private string file;
+        private string trainFile;
+        private string testFile;
         private float alieron;
         private float elevator;
         private float rudder;
@@ -87,15 +89,35 @@ namespace FlightSimulator.Model
 
    
         // Properties
-        public string File {
-           get { return this.file; }
+        public string TrainFile {
+           get { return this.trainFile; }
            set
             {
-                if (this.file != value)
+                isTrain = true;
+                this.trainFile = value;
+                    this.stop = true;
+                  
+                if (Timestamp == -1)
                 {
-                    this.file = value;
                     this.connect();
-                    NotifyPropertyChanged("File");
+                }
+                NotifyPropertyChanged("TrainFile");
+                
+            }
+        }
+
+        public string TestFile
+        {
+            get { return this.testFile; }
+            set
+            {
+                if (this.testFile != value)
+                {
+                    isTrain = false;
+                    this.testFile = value;
+                    this.stop = true;
+                 
+                    NotifyPropertyChanged("TestFile");
                 }
             }
         }
@@ -104,11 +126,16 @@ namespace FlightSimulator.Model
         {
             set
             {
-                if (stop)
+                if (Stop != value)
                 {
+                    string file = trainFile;
+                    if(testFile != null)
+                    {
+                        file = testFile;
+                    }
                     this.stop = value;
                     NotifyPropertyChanged("Stop");
-                    start();
+                    start(file);
                 }
               
             }
@@ -426,14 +453,18 @@ namespace FlightSimulator.Model
             }
         }
 
-        public void start()
+        public void start(string file)
         {
+
+            Console.WriteLine(file);
+
+            this.Timestamp = 0;
             //reading the csv file.
-            string[] lines = System.IO.File.ReadAllLines(this.file);
+            string[] lines = System.IO.File.ReadAllLines(file);
 
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            this.dp = new DataParser(this.file);
+            this.dp = new DataParser(this.trainFile);
             //keep the FlightPar. property, chnage the extracting data part.
             //extracting flight paramaters from csv file.
             this.FlightParamaters = dp.getFeatures();

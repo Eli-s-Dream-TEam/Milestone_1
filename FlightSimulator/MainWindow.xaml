@@ -23,11 +23,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Background="DimGray" Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Width="1400">
-
-            <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="762" Height="47" Margin="10,0" >
-                
-
-                <Button x:Name="uploadButton" Content="Upload File" Click="UploadButtonHandler" RenderTransformOrigin="0.5,0.5" Background="Azure" FontWeight="Bold" Height="37" Padding="5" Width="113" Margin="0,5">
+            <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="876" Height="47" Margin="319,0,205,0" >
+                <Button x:Name="UploadTrainButton" Content="Upload Train File" Click="UploadButtonHandler" Background="Azure" FontWeight="Bold" Padding="5" Width="114" Margin="0,6,22,3">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
@@ -42,10 +39,31 @@
                         </TransformGroup>
                     </Button.RenderTransform>
                 </Button>
-
-                <view:PlaybackController Width="649"  />
+                <Button x:Name="UploadTestButton" Content="Upload Test File" Click="UploadButtonHandler" Background="Azure" FontWeight="Bold" Padding="5" Width="114" Margin="-5,6,22,3">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0.529"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="1.934"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
+                <view:PlaybackController Width="496" Margin="0,0,0,3"  />
+                <Button x:Name="startButton" Content="Start" Click="StartButtonHandler" HorizontalAlignment="Left" VerticalAlignment="Top" Height="38" Width="74" FontWeight="Bold"   Background="Azure" RenderTransformOrigin="0.851,0.548" Margin="2,6,22,3" >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
-            <view:TimeController  RenderTransformOrigin="0.5,0.5" Height="62" Width="1300">
+            <view:TimeController  RenderTransformOrigin="0.5,0.5" Height="20" Width="1300" Margin="50,0">
                 <view:TimeController.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -55,9 +73,11 @@
                     </TransformGroup>
                 </view:TimeController.RenderTransform>
             </view:TimeController>
+
+
         </StackPanel>
-        <Button x:Name="startButton" Content="Start" Click="StartButtonHandler" HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="74" Grid.Column="3" Margin="206,5,0,0" Grid.Row="2" FontWeight="Bold"   Background="Azure" />
-        
+      
+
 
         <view:GraphSection Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" />
         <view:JoyStick  Grid.Column="3" />
@@ -75,6 +95,7 @@
             <view:AltitudeView />
             <view:SpeedView Grid.Row="1"/>
         </Grid>
+
 
     </Grid>
 </Window>

@@ -45,7 +45,6 @@ namespace FlightSimulator.Helper
 
 	class Calculation
     {
-
 		public static float avg(float[] x, int size)
         {
 			float sum = 0;
@@ -126,5 +125,17 @@ namespace FlightSimulator.Helper
 			}
 			return max;
 		}
+
+		public static Point[] toPoints(float[] x, float[] y)
+		{
+			Point[] ps = new Point[x.Length];
+			for (int i = 0; i < x.Length; i++)
+			{
+				ps[i] = new Point(x[i], y[i]);
+			}
+			return ps;
+		}
+
+		
 	}
 }

@@ -149,28 +149,42 @@ namespace FlightSimulator.Helper
             return numOfAppearnce;
         }
 
-        public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat)
+        public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat, int startingTimeStamp)
         {
-
-            int numOfTimeStamps = this.csvRows.Length;
-            int start = this.csvRows.Length - 30;
+            if(startingTimeStamp == 0)
+            {
+                return new ChartValues<ScatterPoint>() { };
+            }
+            int timeStampIn30Seconds = calc30SecondsNumberOfTimeStamp();
+            int endingTimeStamp;
+            if(startingTimeStamp + timeStampIn30Seconds > this.csvRows.Length)
+            {
+                endingTimeStamp = this.csvRows.Length;
+            } else
+            {
+                endingTimeStamp = startingTimeStamp + timeStampIn30Seconds;
+            }
 
             float[] resFeat = getFeatureData(reaserchedFeat);
             float[] corFeat = getFeatureData(correlataedFeat);
 
 
-            var cv = new ChartValues<ScatterPoint>();
+            var values = new ChartValues<ScatterPoint>();
 
-            for (int i = start; i < numOfTimeStamps; i++)
+            for (int i = startingTimeStamp; i < endingTimeStamp; i++)
             {
-                cv.Add(new ScatterPoint(resFeat[i], corFeat[i]));
+                values.Add(new ScatterPoint(resFeat[i], corFeat[i]));
             }
-            return cv;
+            return values;
+        }
+
+        private int calc30SecondsNumberOfTimeStamp()
+        {
+            return 50;
         }
 
         private void calcCorrFeatures()
         {
-            //vector<string> atts = ts.gettAttributes();
             int len = this.csvRows.Length;
 
             for (int i = 0; i < this.flightParamatersNames.Count; i++)
@@ -194,5 +208,19 @@ namespace FlightSimulator.Helper
             }
         }
 
+        public ChartValues<ObservablePoint> getRegLineValues(string feat, string corFeat,int timeStamp)
+        {
+            //X value of reg line.
+            float[] featData = getFeatureData(feat);
+            //converting to points and getting the reg line function.
+            Point[] points = Calculation.toPoints(getFeatureData(feat), getFeatureData(corFeat));
+            Line l = Calculation.linear_reg(points, points.Length);
+
+            //returning the edges of the reg line. (min and max)
+            return new ChartValues<ObservablePoint> {
+                new ObservablePoint(featData.Min(),l.f(featData.Min())),
+                new ObservablePoint(featData.Max(),l.f(featData.Max()))
+                };
+        }
     }
 }

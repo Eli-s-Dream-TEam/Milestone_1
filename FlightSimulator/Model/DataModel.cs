@@ -513,6 +513,11 @@ namespace FlightSimulator.Model
 
         private void updateGraphs(bool isParamaterHaveChanged = false)
         {
+            if(this.timestamp == this.maximumLength)
+            {
+                return;
+            }
+
             string feat = this.researchedParamater;
             string corFeat = dp.getFeatMostCorrFeature(feat);
             //check for pause, if paused than no updated needed.

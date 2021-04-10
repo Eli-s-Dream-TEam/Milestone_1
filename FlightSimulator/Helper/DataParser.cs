@@ -14,50 +14,64 @@ namespace FlightSimulator.Helper
     class FlightParamater
     {
         private string name;
-        private string displayName;
         private float[] data;
         private string corrFeature;
 
         public FlightParamater(string name, float[] data)
         {
             this.name = name;
-            this.displayName = name;
-            this.data = data;
-        }
-
-        public FlightParamater(string name, string displayString, float[] data)
-        {
-            this.name = name;
-            this.displayName = displayString;
             this.data = data;
         }
 
         public string getName() { return this.name; }
-        public string getDisplayName() { return this.displayName; }
         public float[] getData() { return data; }
         public string getCorrFeature() { return this.corrFeature; }
         public void setCorrFeature(string name) { this.corrFeature = name; }
-
 
     }
 
     class DataParser : ICSVDataParser
     {
-        
 
-        private string csvFilePath;
-        private string[] csvRows;
         private List<string> flightParamatersNames;
-        private List<FlightParamater> data;
+        private string trainFilePath;
+        private string testFilePath;
+        private string[] trainFileCsvRows;
+        private string[] testFileCsvRows;
+        private List<FlightParamater> trainData;
+        private List<FlightParamater> testData;
 
-        public DataParser(string filePath, List<string> flightParamaters)
+
+        public DataParser()
         {
-            this.csvRows = System.IO.File.ReadAllLines(filePath);
-            this.csvFilePath = filePath;
+
+        }
+
+        public void learnFlight(string trainFile, List<string> flightParamaters)
+        {
+            this.trainFilePath = trainFile;
+            this.trainFileCsvRows = System.IO.File.ReadAllLines(trainFile);
             this.flightParamatersNames = flightParamaters;
-            this.data = new List<FlightParamater>();
-            extractData();
+            this.trainData = new List<FlightParamater>();
+            extractData(trainFileCsvRows,trainFilePath,ref trainData);
             calcCorrFeatures();
+        }
+
+        public void extractDataFromTestFlight(string testFile)
+        {
+            this.testFilePath = testFile;
+            this.testFileCsvRows = System.IO.File.ReadAllLines(testFile);
+            this.testData = new List<FlightParamater>();
+            extractData(testFileCsvRows,testFilePath,ref testData);
+        }
+
+        //updating the test flight data to have the correletaed paramaters of each paramater.
+        public void integrateCorFeatures()
+        {
+            for (int i = 0; i < this.testData.Count; i++)
+            {
+                testData[i].setCorrFeature(trainData[i].getCorrFeature());
+            }
         }
 
         public float getDataInTime(string feat, int timeStamp)
@@ -69,13 +83,13 @@ namespace FlightSimulator.Helper
         public string getFeatMostCorrFeature(string feat)
         {
             int index = this.flightParamatersNames.FindIndex(a => a.Equals(feat));
-            return this.data[index].getCorrFeature();
+            return this.trainData[index].getCorrFeature();
         }
 
         public float[] getFeatureData(string feat)
         {
             int index = this.flightParamatersNames.FindIndex(a => a.Equals(feat));
-            return this.data[index].getData();
+            return this.trainData[index].getData();
         }
 
         public float[] getFeatureDataInRange(string name, int endingTimeStamp)
@@ -90,18 +104,17 @@ namespace FlightSimulator.Helper
             return this.flightParamatersNames;
         }
 
-
-        private void extractData()
+        private void extractData(string[] csvRows, string filePath, ref List<FlightParamater> list)
         {
             TextFieldParser parser;
-            int numOfTimeStamps = this.csvRows.Length;
+            int numOfTimeStamps = csvRows.Length;
             int appearnces;
             int paramIndex;
 
             //creating the Flight Paramater data list.
             foreach (string name in this.flightParamatersNames)
             {
-                parser = new TextFieldParser(this.csvFilePath);
+                parser = new TextFieldParser(filePath);
                 parser.SetDelimiters(",");
 
                 string[] row;
@@ -109,7 +122,7 @@ namespace FlightSimulator.Helper
 
                 
                 //dealing with multiple name paramaters.
-                appearnces = getNumberOfAppearnces(name);
+                appearnces = getNumberOfAppearnces(name, list);
 
                 paramIndex = this.flightParamatersNames.FindIndex(a => a.Equals(name));
                 //updating the index to get the correct one. (multiple paramter case).
@@ -128,20 +141,19 @@ namespace FlightSimulator.Helper
                     fp = new FlightParamater(name, paramData);
                 } else
                 {
-                    fp = new FlightParamater(name, name + (appearnces + 1).ToString(), paramData);
+                    fp = new FlightParamater(name + (appearnces + 1).ToString(),paramData);
                 }
                 
-                this.data.Add(fp);
+                list.Add(fp); 
             }
+        }
 
-    }
-
-        private int getNumberOfAppearnces(string name)
+        private int getNumberOfAppearnces(string name, List<FlightParamater> data)
         {
             int numOfAppearnce = 0;
-            foreach (var param in data)
+            foreach (var flightParam in data)
             {
-                if(name == param.getName())
+                if(name == flightParam.getName())
                 {
                     numOfAppearnce++;
                 }
@@ -185,26 +197,25 @@ namespace FlightSimulator.Helper
 
         private void calcCorrFeatures()
         {
-            int len = this.csvRows.Length;
+            int len = this.trainFileCsvRows.Length;
 
-            for (int i = 0; i < this.flightParamatersNames.Count; i++)
+            for (int i = 0; i < this.trainData.Count; i++)
             {
-                string f1 = this.flightParamatersNames[i];
+                string f1 = this.trainData[i].getName();
                 float max = 0;
                 int jmax = 0;
                 float p = 0;
-                for (int j = i + 1; j < this.flightParamatersNames.Count; j++)
+                for (int j = i + 1; j < this.trainData.Count; j++)
                 {
-                    p = Math.Abs(Calculation.pearson(getFeatureData(f1), getFeatureData(flightParamatersNames[j]), len));
+                    p = Math.Abs(Calculation.pearson(getFeatureData(f1), getFeatureData(this.trainData[j].getName()), len));
                     if (p > max)
                     {
                         max = p;
                         jmax = j;
                     }
                 }
-                string f2 = this.flightParamatersNames[jmax];
-                this.data[i].setCorrFeature(f2);
-
+                string f2 = this.trainData[jmax].getName();
+                this.trainData[i].setCorrFeature(f2);
             }
         }
 

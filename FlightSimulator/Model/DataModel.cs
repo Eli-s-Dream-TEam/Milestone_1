@@ -50,11 +50,8 @@ namespace FlightSimulator.Model
         private bool isGraphsResetted = false;
 
         private List<string> flightParamters;
-
         public string researchedParamater;
-
-        
-        private DataParser dp;
+        private DataParser dp = new DataParser();
         
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
@@ -78,7 +75,6 @@ namespace FlightSimulator.Model
         this.in_socket = new SocketModel(ip, in_port);
         this.out_socket = new SocketModel(ip, out_port);
         this.attributeList = XMLParser.DeserializeFromXML();
-        
       }
 
    
@@ -89,14 +85,14 @@ namespace FlightSimulator.Model
             {
                 isTrain = true;
                 this.trainFile = value;
-                    this.stop = true;
+                this.stop = true;
                   
                 if (Timestamp == -1)
                 {
                     this.connect();
+                    this.dp.learnFlight(this.trainFile, this.attributeList);
                 }
                 NotifyPropertyChanged("TrainFile");
-                
             }
         }
 
@@ -110,7 +106,8 @@ namespace FlightSimulator.Model
                     isTrain = false;
                     this.testFile = value;
                     this.stop = true;
-                 
+
+                    this.dp.extractDataFromTestFlight(this.testFile);
                     NotifyPropertyChanged("TestFile");
                 }
             }
@@ -449,10 +446,12 @@ namespace FlightSimulator.Model
             Console.WriteLine(file);
 
             this.Timestamp = 0;
+            
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
-            this.dp = new DataParser(this.trainFile, this.flightParamters);
+            this.dp.integrateCorFeatures();
+            //this.dp = new DataParser(this.trainFile, this.flightParamters);
 
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];

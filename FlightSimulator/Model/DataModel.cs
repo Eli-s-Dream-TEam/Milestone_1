@@ -517,8 +517,10 @@ namespace FlightSimulator.Model
                     {
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
                         {
-                            //generateGraphs();
-                            
+                            //generating the upper graphs:
+                            this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
+                            this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
+
                             //getting the data until the current time stamp.
                             var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
                             var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
@@ -533,7 +535,6 @@ namespace FlightSimulator.Model
                         return;
                     }
                 
-                    
                     this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
                     this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
 

@@ -450,6 +450,7 @@ namespace FlightSimulator.Model
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
+            //updating correlated feautres in the test flight data.
             this.dp.integrateCorFeatures();
             //this.dp = new DataParser(this.trainFile, this.flightParamters);
 

@@ -46,6 +46,14 @@ namespace FlightSimulator.ViewModel
                     SeriesCollection[2].Values.Add(this.model.Roll);
                     NotifyPropertyChanged("VM_" + e.PropertyName);
                 }
+
+                // Flight reset
+                if (model.Timestamp == 0)
+                {
+                    SeriesCollection[0].Values.Clear();
+                    SeriesCollection[1].Values.Clear();
+                    SeriesCollection[2].Values.Clear();
+                }
             };
         }
 

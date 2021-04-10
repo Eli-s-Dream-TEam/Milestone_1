@@ -18,7 +18,6 @@ namespace FlightSimulator.Model
         private List<string> attributeList;
         private Boolean stop = true;
         private Boolean pause = false;
-        private bool isTrain = true;
         private double playbackMultiplier = 1.0;
         private int playbackSpeed = 100;
         private int timestamp = -1;
@@ -77,22 +76,23 @@ namespace FlightSimulator.Model
         this.attributeList = XMLParser.DeserializeFromXML();
       }
 
-   
+
         // Properties
-        public string TrainFile {
-           get { return this.trainFile; }
-           set
+        public string TrainFile
+        {
+            get { return this.trainFile; }
+            set
             {
-                isTrain = true;
                 this.trainFile = value;
                 this.stop = true;
-                  
+
                 if (Timestamp == -1)
                 {
                     this.connect();
                     this.dp.learnFlight(this.trainFile, this.attributeList);
                 }
                 NotifyPropertyChanged("TrainFile");
+
             }
         }
 
@@ -101,12 +101,12 @@ namespace FlightSimulator.Model
             get { return this.testFile; }
             set
             {
+
                 if (this.testFile != value)
                 {
-                    isTrain = false;
+
                     this.testFile = value;
                     this.stop = true;
-
                     this.dp.extractDataFromTestFlight(this.testFile);
                     NotifyPropertyChanged("TestFile");
                 }
@@ -117,10 +117,10 @@ namespace FlightSimulator.Model
         {
             set
             {
-                if (Stop != value)
+                if (Stop != value && this.trainFile != null)
                 {
                     string file = trainFile;
-                    if(testFile != null)
+                    if (testFile != null)
                     {
                         file = testFile;
                     }
@@ -128,7 +128,7 @@ namespace FlightSimulator.Model
                     NotifyPropertyChanged("Stop");
                     start(file);
                 }
-              
+
             }
 
             get
@@ -139,8 +139,8 @@ namespace FlightSimulator.Model
 
         public float Alieron
         {
-           get { return this.alieron; }
-           set
+            get { return this.alieron; }
+            set
             {
                 if (this.alieron != value)
                 {
@@ -230,7 +230,7 @@ namespace FlightSimulator.Model
         }
         public float Roll
         {
-            get { return this.roll ; }
+            get { return this.roll; }
             set
             {
                 if (this.roll != value)
@@ -333,9 +333,9 @@ namespace FlightSimulator.Model
         public SeriesCollection FeatUpdatingGraphSeries
         {
             get { return this.featUpdatingGraphSeries; }
-            set 
-            { 
-                if(this.featUpdatingGraphSeries!=value)
+            set
+            {
+                if (this.featUpdatingGraphSeries != value)
                 {
                     this.featUpdatingGraphSeries = value;
                     NotifyPropertyChanged("FeatUpdatingGraphSeries");
@@ -375,9 +375,9 @@ namespace FlightSimulator.Model
             get { return this.flightParamters; }
             set
             {
-                if (this.flightParamters!= value)
+                if (this.flightParamters != value)
                 {
-                    this.flightParamters= value;
+                    this.flightParamters = value;
                     NotifyPropertyChanged("FlightParamaters");
                 }
             }
@@ -452,7 +452,6 @@ namespace FlightSimulator.Model
             this.FlightParamaters = this.attributeList;
             //updating correlated feautres in the test flight data.
             this.dp.integrateCorFeatures();
-            //this.dp = new DataParser(this.trainFile, this.flightParamters);
 
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
@@ -479,6 +478,7 @@ namespace FlightSimulator.Model
                 }
             }).Start();
         }
+
 
         //create an empty line graph for the given paramter.
         private SeriesCollection generateOneParamaterLineGraph(string paramater)
@@ -584,13 +584,12 @@ namespace FlightSimulator.Model
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
             } 
-            
         }
 
         private void paramChangedGraphsUpdate(string feat, string corFeat)
         {
             //in case that the researched paramater have changed.
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>           
             {
                 //generating the upper graphs:
                 this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
@@ -641,12 +640,12 @@ namespace FlightSimulator.Model
             string feat = this.researchedParamater;
             string corFeat = dp.getFeatMostCorrFeature(feat);
 
-
             while (RegLineGraphSeries[1].Values.Count > 0)
             {
                 RegLineGraphSeries[1].Values.RemoveAt(0);
             }
             NotifyPropertyChanged("RegLineGraphSeries");
+
 
             this.RegLineGraphSeries[1].Values.InsertRange(0, dp.getLast30SecRegLinePoints(feat, corFeat, this.timestamp));
         }
@@ -655,7 +654,7 @@ namespace FlightSimulator.Model
         // Notify handler
         public void NotifyPropertyChanged(string propName)
         {
-            if(this.PropertyChanged != null)
+            if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
@@ -664,3 +663,4 @@ namespace FlightSimulator.Model
     }
 
 }
+

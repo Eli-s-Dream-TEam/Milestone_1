@@ -18,7 +18,6 @@ namespace FlightSimulator.Model
         private List<string> attributeList;
         private Boolean stop = true;
         private Boolean pause = false;
-        private bool isTrain = true;
         private double playbackMultiplier = 1.0;
         private int playbackSpeed = 100;
         private int timestamp = -1;
@@ -79,30 +78,30 @@ namespace FlightSimulator.Model
             }
         }
 
-      private DataModel()
-      {
-        this.in_socket = new SocketModel(ip, in_port);
-        this.out_socket = new SocketModel(ip, out_port);
-        this.attributeList = XMLParser.DeserializeFromXML();
-        
-      }
+        private DataModel()
+        {
+            this.in_socket = new SocketModel(ip, in_port);
+            this.out_socket = new SocketModel(ip, out_port);
+            this.attributeList = XMLParser.DeserializeFromXML();
 
-   
+        }
+
+
         // Properties
-        public string TrainFile {
-           get { return this.trainFile; }
-           set
+        public string TrainFile
+        {
+            get { return this.trainFile; }
+            set
             {
-                isTrain = true;
                 this.trainFile = value;
-                    this.stop = true;
-                  
+                this.stop = true;
+
                 if (Timestamp == -1)
                 {
                     this.connect();
                 }
                 NotifyPropertyChanged("TrainFile");
-                
+
             }
         }
 
@@ -111,14 +110,10 @@ namespace FlightSimulator.Model
             get { return this.testFile; }
             set
             {
-                if (this.testFile != value)
-                {
-                    isTrain = false;
-                    this.testFile = value;
-                    this.stop = true;
-                 
-                    NotifyPropertyChanged("TestFile");
-                }
+                this.testFile = value;
+                this.stop = true;
+                NotifyPropertyChanged("TestFile");
+
             }
         }
 
@@ -126,10 +121,10 @@ namespace FlightSimulator.Model
         {
             set
             {
-                if (Stop != value)
+                if (Stop != value && this.trainFile != null)
                 {
                     string file = trainFile;
-                    if(testFile != null)
+                    if (testFile != null)
                     {
                         file = testFile;
                     }
@@ -137,7 +132,7 @@ namespace FlightSimulator.Model
                     NotifyPropertyChanged("Stop");
                     start(file);
                 }
-              
+
             }
 
             get
@@ -149,8 +144,8 @@ namespace FlightSimulator.Model
 
         public float Alieron
         {
-           get { return this.alieron; }
-           set
+            get { return this.alieron; }
+            set
             {
                 if (this.alieron != value)
                 {
@@ -240,7 +235,7 @@ namespace FlightSimulator.Model
         }
         public float Roll
         {
-            get { return this.roll ; }
+            get { return this.roll; }
             set
             {
                 if (this.roll != value)
@@ -343,9 +338,9 @@ namespace FlightSimulator.Model
         public SeriesCollection FeatUpdatingGraphSeries
         {
             get { return this.featUpdatingGraphSeries; }
-            set 
-            { 
-                if(this.featUpdatingGraphSeries!=value)
+            set
+            {
+                if (this.featUpdatingGraphSeries != value)
                 {
                     this.featUpdatingGraphSeries = value;
                     NotifyPropertyChanged("FeatUpdatingGraphSeries");
@@ -387,9 +382,9 @@ namespace FlightSimulator.Model
             get { return this.flightParamters; }
             set
             {
-                if (this.flightParamters!= value)
+                if (this.flightParamters != value)
                 {
-                    this.flightParamters= value;
+                    this.flightParamters = value;
                     NotifyPropertyChanged("FlightParamaters");
 
                 }
@@ -464,7 +459,7 @@ namespace FlightSimulator.Model
 
 
             //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            this.dp = new DataParser(this.trainFile);
+            this.dp = new DataParser(file);
             //keep the FlightPar. property, chnage the extracting data part.
             //extracting flight paramaters from csv file.
             this.FlightParamaters = dp.getFeatures();
@@ -492,12 +487,12 @@ namespace FlightSimulator.Model
                 }
             }).Start();
         }
-        
-      
 
-       
 
-        
+
+
+
+
         private void generateGraphs()
         {
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
@@ -550,11 +545,11 @@ namespace FlightSimulator.Model
 
         }
 
-        
+
         private void updateGraphs()
         {
             //check for pause, if paused than no updated needed.
-            if(!this.pause)
+            if (!this.pause)
             {
                 //check for time skip in the playback controller.
                 if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
@@ -577,7 +572,7 @@ namespace FlightSimulator.Model
                 }
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
-            } 
+            }
             //check for reset button situation.
             else if (timestamp == 0 && pause && !isGraphsResetted)
             {
@@ -587,8 +582,6 @@ namespace FlightSimulator.Model
 
             }
 
-            
-
 
         }
 
@@ -596,7 +589,7 @@ namespace FlightSimulator.Model
         // Notify handler
         public void NotifyPropertyChanged(string propName)
         {
-            if(this.PropertyChanged != null)
+            if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
@@ -605,3 +598,4 @@ namespace FlightSimulator.Model
     }
 
 }
+

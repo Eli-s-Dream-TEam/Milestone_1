@@ -450,9 +450,14 @@ namespace FlightSimulator.Model
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
-            //updating correlated feautres in the test flight data.
-            this.dp.integrateCorFeatures();
 
+            //check if test flight was loaded.
+            if(this.dp.getIsTestFlightLoaded())
+            {
+                //updating correlated feautres in the test flight data.
+                this.dp.integrateCorFeatures();
+            }
+            
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();

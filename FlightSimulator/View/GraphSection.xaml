@@ -31,9 +31,31 @@
 
 
 
-        <lvc:CartesianChart x:Name="mostCorrGraph" Grid.Column="1" Grid.ColumnSpan="2" Series ="{Binding VM_MostCorrGraphSeries}" Style="{StaticResource EfficientGraph}"/>
-        <lvc:CartesianChart x:Name="featUpdatingGraph" Grid.Column="3" Grid.ColumnSpan="2" Series ="{Binding VM_FeatUpdatingGraphSeries}" Style="{StaticResource EfficientGraph}"/>
-        <lvc:CartesianChart x:Name="regLineGraph" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Series ="{Binding VM_RegLineGraphSeries}" Style="{StaticResource EfficientGraph}"/>
+        <lvc:CartesianChart x:Name="mostCorrGraph" Grid.Column="1" Grid.ColumnSpan="2" Series ="{Binding VM_MostCorrGraphSeries}" Style="{StaticResource EfficientGraph}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Timestamp" Foreground="Black" ></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Value" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="featUpdatingGraph" Grid.Column="3" Grid.ColumnSpan="2" Series ="{Binding VM_FeatUpdatingGraphSeries}" Style="{StaticResource EfficientGraph}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Timestamp" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Value" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart x:Name="regLineGraph" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Series ="{Binding VM_RegLineGraphSeries}" Style="{StaticResource EfficientGraph}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Reaserched Paramter Value" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Correlated Feature Value" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
 
 
 

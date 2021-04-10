@@ -20,7 +20,7 @@ namespace FlightSimulator.Model
         private Boolean pause = false;
         private double playbackMultiplier = 1.0;
         private int playbackSpeed = 100;
-        private int numOfTimeStampsIn30Sec = 50;
+        //private int numOfTimeStampsIn30Sec = 50;
         private int timestamp = 0;
         private int prevTimeStamp = 0;
         private int maximumLength = 1000;
@@ -46,12 +46,12 @@ namespace FlightSimulator.Model
         private SeriesCollection featUpdatingGraphSeries;
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
-
+        private bool isGraphsResetted = false;
 
         private List<string> flightParamters;
 
         public string researchedParamater;
-        public bool isDiffFlightParam = false;
+
         
         private DataParser dp;
         
@@ -437,6 +437,7 @@ namespace FlightSimulator.Model
                     updateGraphs();
                     if (timestamp < this.MaximumLength && !pause)
                     {
+                        isGraphsResetted = false;
                         this.parseLine(lines[this.Timestamp]);
                         out_socket.send(lines[this.Timestamp] + "\n");
                         this.Timestamp++;
@@ -500,94 +501,107 @@ namespace FlightSimulator.Model
 
         private void updateGraphs(bool isParamaterHaveChanged = false)
         {
-            if(this.timestamp == this.maximumLength)
+            //end of time line, do nothing.
+            if(this.timestamp == this.maximumLength) { return; }
+
+            //check for reset button situation.
+            if (timestamp == 0 && pause && !isGraphsResetted)
             {
-                return;
+                generateGraphs();
+                isGraphsResetted = true;
             }
 
             string feat = this.researchedParamater;
             string corFeat = dp.getFeatMostCorrFeature(feat);
+
+            if(isParamaterHaveChanged)
+            {
+                paramChangedGraphsUpdate(feat,corFeat);
+                return;
+            }
+   
             //check for pause, if paused than no updated needed.
-            if(!this.pause)
+            if (!this.pause)
             {
                 //check for time skip in the playback controller.
                 if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
                 {
-                    if (isParamaterHaveChanged)
-                    {
-                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            //generating the upper graphs:
-                            this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
-                            this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
-
-                            //getting the data until the current time stamp.
-                            var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
-                            var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
-
-                        
-                            this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
-                            this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
-                            this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
-                            regLineGraphUpdate();
-                        });
-                        Console.WriteLine("points after adding: " + this.RegLineGraphSeries[1].Values.Count);
-                        return;
-                    }
-                
-                    this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
-                    this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+                    addNextValueToFeatAndCorGraphs(feat, corFeat);
 
                     //in case the graph is not yet presented.
                     if (this.RegLineGraphSeries[0].Values.Count == 0)
                     {
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                        this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp)
+                            this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp)
                         );
                     }
 
                     //removing points not in 30 seconds range.
-                    if (timestamp > 200 && this.RegLineGraphSeries[1].Values.Count != 0)
-                    {
-                        this.RegLineGraphSeries[1].Values.RemoveAt(0);
-                        Console.WriteLine("number of points after removal: " + this.RegLineGraphSeries[1].Values.Count);
-                    }
+                    removeOutOfRangePoints();
 
-                    ////adding the next(feat, corFeat) point value the the scatter point graph display.
-                    this.RegLineGraphSeries[1].Values.Add(
-                        new ScatterPoint(dp.getDataInTime(feat, this.timestamp)
-                                        , dp.getDataInTime(corFeat, this.timestamp))
-                    );
-                    
-                    Console.WriteLine("points after adding: " + this.RegLineGraphSeries[1].Values.Count);
+                    //adding the next(feat, corFeat) point value the the scatter point graph display.
+                    addPointToRegLineGraph(feat, corFeat);
                 }
                 else
                 {
-                    //getting the data until the current time stamp.
-                    var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
-                    var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
-                        this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
+                        featAndCorGraphssTimeSkipUpdate(feat,corFeat);
                         regLineGraphUpdate();
                     });
                 }
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
             } 
-            //check for reset button situation.
-            else if (timestamp == 0 && pause)
-            {
-                //checking stuff
-                DateTime t = DateTime.Now;
-                Console.WriteLine("regline count: +" + this.RegLineGraphSeries[1].Values.Count + "  ---  " + "time stamp: " + this.timestamp + " --- " + "prev : " + this.prevTimeStamp +" ---- "+ t.Second.ToString());
+            
+        }
 
-                //resetting the graphs.
-                //resetGraphs();
-                generateGraphs();
-            } 
+        private void paramChangedGraphsUpdate(string feat, string corFeat)
+        {
+            //in case that the researched paramater have changed.
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                //generating the upper graphs:
+                this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
+                this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
+
+                //updating the graphs.
+                featAndCorGraphssTimeSkipUpdate(feat, corFeat);
+                this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
+                regLineGraphUpdate();
+            });
+        }
+
+        private void addNextValueToFeatAndCorGraphs(string feat, string corFeat)
+        {
+            this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
+            this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+        }
+
+        private void addPointToRegLineGraph(string feat, string corFeat)
+        {
+            this.RegLineGraphSeries[1].Values.Add(
+                        new ScatterPoint(dp.getDataInTime(feat, this.timestamp)
+                                        , dp.getDataInTime(corFeat, this.timestamp))
+                    );
+        }
+
+        private void featAndCorGraphssTimeSkipUpdate(string feat, string corFeat)
+        {
+            //getting the data until the current time stamp.
+            var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
+            var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
+            this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
+            this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
+        }
+
+        //removing points that are not in the last 30 seconds.
+        private void removeOutOfRangePoints()
+        {
+            if (timestamp > 200 && this.RegLineGraphSeries[1].Values.Count != 0)
+            {
+                this.RegLineGraphSeries[1].Values.RemoveAt(0);
+            }
         }
 
         //had a problem with deleting and updating the reline graph. this is the solution.

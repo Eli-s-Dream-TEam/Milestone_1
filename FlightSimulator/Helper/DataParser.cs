@@ -149,38 +149,38 @@ namespace FlightSimulator.Helper
             return numOfAppearnce;
         }
 
-        public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat, int startingTimeStamp)
+        public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat, int currentTimeStamp)
         {
-            if(startingTimeStamp == 0)
+
+            var values = new ChartValues<ScatterPoint>() { };
+            float[] resFeat = getFeatureData(reaserchedFeat);
+            float[] corFeat = getFeatureData(correlataedFeat);
+            int timeStampIn30Seconds = calc30SecondsNumberOfTimeStamp();
+
+            if (currentTimeStamp == 0)
             {
                 return new ChartValues<ScatterPoint>() { };
             }
-            int timeStampIn30Seconds = calc30SecondsNumberOfTimeStamp();
-            int endingTimeStamp;
-            if(startingTimeStamp + timeStampIn30Seconds > this.csvRows.Length)
+            else if(currentTimeStamp > timeStampIn30Seconds)
             {
-                endingTimeStamp = this.csvRows.Length;
-            } else
+                for (int i = (currentTimeStamp - timeStampIn30Seconds)-1; i < currentTimeStamp -1; i++)
+                {
+                    values.Add(new ScatterPoint(resFeat[i], corFeat[i]));
+                }
+            } 
+            else
             {
-                endingTimeStamp = startingTimeStamp + timeStampIn30Seconds;
-            }
-
-            float[] resFeat = getFeatureData(reaserchedFeat);
-            float[] corFeat = getFeatureData(correlataedFeat);
-
-
-            var values = new ChartValues<ScatterPoint>();
-
-            for (int i = startingTimeStamp; i < endingTimeStamp; i++)
-            {
-                values.Add(new ScatterPoint(resFeat[i], corFeat[i]));
-            }
+                for (int i = 0; i < currentTimeStamp; i++)
+                {
+                    values.Add(new ScatterPoint(resFeat[i], corFeat[i]));
+                }
+            }        
             return values;
         }
 
         private int calc30SecondsNumberOfTimeStamp()
         {
-            return 50;
+            return 200;
         }
 
         private void calcCorrFeatures()

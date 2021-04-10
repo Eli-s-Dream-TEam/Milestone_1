@@ -47,6 +47,7 @@ namespace FlightSimulator.Model
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
 
+
         private List<string> flightParamters;
 
         public string researchedParamater;
@@ -329,7 +330,6 @@ namespace FlightSimulator.Model
                 {
                     this.mostCorrGraphSeries = value;
                     NotifyPropertyChanged("MostCorrGraphSeries");
-
                 }
             }
         }
@@ -343,7 +343,6 @@ namespace FlightSimulator.Model
                 {
                     this.regLineGraphSeries = value;
                     NotifyPropertyChanged("RegLineGraphSeries");
-
                 }
             }
         }
@@ -357,7 +356,6 @@ namespace FlightSimulator.Model
                 {
                     this.flightParamters= value;
                     NotifyPropertyChanged("FlightParamaters");
-
                 }
             }
         }
@@ -368,23 +366,12 @@ namespace FlightSimulator.Model
             set
             {
                 this.researchedParamater = value;
-                //generating the new researched paramater graphs.
-                generateGraphs();
                 updateGraphs(true);
                 NotifyPropertyChanged("ResearchedParamater");
             }
         }
 
-        private void resetGraphs()
-        {
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>
-            {
-                this.FeatUpdatingGraphSeries[0].Values = new ChartValues<float>() { };
-                this.MostCorrGraphSeries[0].Values = new ChartValues<float>() { };
-                this.RegLineGraphSeries[0].Values = new ChartValues<ObservablePoint>() { };
-                this.RegLineGraphSeries[1].Values = new ChartValues<ScatterPoint>() { };
-            });
-        }
+        
 
         //Methods
 
@@ -501,7 +488,7 @@ namespace FlightSimulator.Model
             
                     //last 30 values.
                     new ScatterSeries {
-                        Values = new ChartValues<ScatterPoint>(),
+                        Values = new ChartValues<ScatterPoint>() { },
                         PointGeometry = DefaultGeometries.Circle,
                         Title="Last Thirty Seconds Values" }
 
@@ -526,24 +513,52 @@ namespace FlightSimulator.Model
                 //check for time skip in the playback controller.
                 if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
                 {
+                    if (isParamaterHaveChanged)
+                    {
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            //generateGraphs();
+                            
+                            //getting the data until the current time stamp.
+                            var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
+                            var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
+
+                        
+                            this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
+                            this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
+                            this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
+                            regLineGraphUpdate();
+                        });
+                        Console.WriteLine("points after adding: " + this.RegLineGraphSeries[1].Values.Count);
+                        return;
+                    }
+                
+                    
+                    this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
+                    this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+
                     //in case the graph is not yet presented.
-                    if(this.RegLineGraphSeries[0].Values.Count == 0)
+                    if (this.RegLineGraphSeries[0].Values.Count == 0)
                     {
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
                         this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp)
                         );
                     }
-                    
-                    this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
-                    this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
-                    
-                    //adding the next (feat,corFeat) point value the the scatter point graph display.
+
+                    //removing points not in 30 seconds range.
+                    if (timestamp > 200 && this.RegLineGraphSeries[1].Values.Count != 0)
+                    {
+                        this.RegLineGraphSeries[1].Values.RemoveAt(0);
+                        Console.WriteLine("number of points after removal: " + this.RegLineGraphSeries[1].Values.Count);
+                    }
+
+                    ////adding the next(feat, corFeat) point value the the scatter point graph display.
                     this.RegLineGraphSeries[1].Values.Add(
                         new ScatterPoint(dp.getDataInTime(feat, this.timestamp)
                                         , dp.getDataInTime(corFeat, this.timestamp))
-                        );
-
-                    //having problem with deleting the last point.
+                    );
+                    
+                    Console.WriteLine("points after adding: " + this.RegLineGraphSeries[1].Values.Count);
                 }
                 else
                 {
@@ -555,7 +570,7 @@ namespace FlightSimulator.Model
                     {
                         this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
                         this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
-                        this.RegLineGraphSeries[1].Values = dp.getLast30SecRegLinePoints(feat, corFeat, this.timestamp);
+                        regLineGraphUpdate();
                     });
                 }
                 //updating the prevtime variable to hold the last timestamp.
@@ -564,47 +579,30 @@ namespace FlightSimulator.Model
             //check for reset button situation.
             else if (timestamp == 0 && pause)
             {
-                //resetting the graphs.
-                generateGraphs();
-            } else if(isParamaterHaveChanged)
-            {
-                //getting the data until the current time stamp.
-                var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
-                var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
+                //checking stuff
+                DateTime t = DateTime.Now;
+                Console.WriteLine("regline count: +" + this.RegLineGraphSeries[1].Values.Count + "  ---  " + "time stamp: " + this.timestamp + " --- " + "prev : " + this.prevTimeStamp +" ---- "+ t.Second.ToString());
 
-                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
-                    this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
-                    this.RegLineGraphSeries[1].Values = dp.getLast30SecRegLinePoints(feat, corFeat, this.timestamp);
-                    this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
-                });
-            }
+                //resetting the graphs.
+                //resetGraphs();
+                generateGraphs();
+            } 
         }
 
+        //had a problem with deleting and updating the reline graph. this is the solution.
         private void regLineGraphUpdate()
         {
             string feat = this.researchedParamater;
             string corFeat = dp.getFeatMostCorrFeature(feat);
 
 
-            //init the regline if not yet shown on the graph.
-            if (RegLineGraphSeries[0].Values.Count == 0)
+            while (RegLineGraphSeries[1].Values.Count > 0)
             {
-                RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
+                RegLineGraphSeries[1].Values.RemoveAt(0);
             }
-            //adding the next (feat,corFeat) point value the the scatter point graph display.
-            this.RegLineGraphSeries[1].Values.Add(
-                new ScatterPoint(dp.getDataInTime(feat,this.timestamp)
-                                , dp.getDataInTime(corFeat,this.timestamp))
-                );
-            
+            NotifyPropertyChanged("RegLineGraphSeries");
 
-            //removing the first point which is no longer in the last 30 seconds.
-            if (this.timestamp > this.numOfTimeStampsIn30Sec)
-            {
-                this.RegLineGraphSeries[1].Values.RemoveAt(0);
-            }
+            this.RegLineGraphSeries[1].Values.InsertRange(0, dp.getLast30SecRegLinePoints(feat, corFeat, this.timestamp));
         }
 
 

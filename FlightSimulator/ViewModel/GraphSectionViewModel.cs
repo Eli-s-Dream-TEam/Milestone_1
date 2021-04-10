@@ -42,9 +42,15 @@ namespace FlightSimulator.ViewModel
             get { return model.MostCorrGraphSeries; }
             set { model.MostCorrGraphSeries = value; }
         }
+
         public SeriesCollection VM_RegLineGraphSeries {
             get { return model.RegLineGraphSeries; }
             set { model.RegLineGraphSeries = value; }
+        }
+
+        public void b()
+        {
+            
         }
 
         public List<string> VM_FlightParamaters
@@ -59,12 +65,10 @@ namespace FlightSimulator.ViewModel
             set { model.Timestamp = value; }
         }
 
-
-        //methods
-        internal void changeResearchedParam(string newResearchedParam)
+        public string VM_ResearchedParamater
         {
-            this.model.ResearchedParamater = newResearchedParam;
+            get { return model.ResearchedParamater; }
+            set { model.ResearchedParamater = value; }
         }
-
     }
 }

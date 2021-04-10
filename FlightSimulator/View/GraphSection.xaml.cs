@@ -29,13 +29,10 @@ namespace FlightSimulator.View
             DataModel dm = DataModel.Instance;
             this.vm = new GraphSectionViewModel(dm);
             DataContext = vm;
+
+            
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string newResearchedParam = e.AddedItems[0].ToString();
-            this.vm.changeResearchedParam(newResearchedParam);
-        }
 
      
     }

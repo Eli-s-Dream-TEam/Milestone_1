@@ -9,12 +9,15 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Top" DisableAnimations="True" Hoverable="False">
+
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Top" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" >
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Timestamp" Labels="{Binding VM_Timestamp}"></lvc:Axis>
+                <!--<lvc:Axis Title="Timestamp" Labels="{Binding VM_Timestamp}"></lvc:Axis>-->
+                <lvc:Axis Title="Timestamp"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Parameter" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                <!--<lvc:Axis Title="Parameter" LabelFormatter="{Binding Formatter}"></lvc:Axis>-->
+                <lvc:Axis Title="Parameter"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>

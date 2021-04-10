@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using FlightSimulator.Model;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 
 namespace FlightSimulator.ViewModel
@@ -21,21 +22,21 @@ namespace FlightSimulator.ViewModel
                 new LineSeries
                 {
                     Title = "Yaw",
-                    Values = new ChartValues<float> {},
+                    Values = new ChartValues<ObservablePoint> {},
                     PointGeometry = null,
                     Fill = System.Windows.Media.Brushes.Transparent
                 },
                 new LineSeries
                 {
                     Title = "Pitch",
-                    Values = new ChartValues<float> {},
+                    Values = new ChartValues<ObservablePoint> {},
                     PointGeometry = null,
                     Fill = System.Windows.Media.Brushes.Transparent
                 },
                 new LineSeries
                 {
                     Title = "Roll",
-                    Values = new ChartValues<float> {},
+                    Values = new ChartValues<ObservablePoint> {},
                     PointGeometry = null,
                     Fill = System.Windows.Media.Brushes.Transparent
                 }
@@ -48,9 +49,9 @@ namespace FlightSimulator.ViewModel
             {
                 if (e.PropertyName == "Yaw" && this.model.Timestamp % TICK_DELAY == 0)
                 {
-                    SeriesCollection[0].Values.Add(this.model.Yaw);
-                    SeriesCollection[1].Values.Add(this.model.Pitch);
-                    SeriesCollection[2].Values.Add(this.model.Roll);
+                    SeriesCollection[0].Values.Add(new ObservablePoint(this.model.Timestamp, this.model.Yaw));
+                    SeriesCollection[1].Values.Add(new ObservablePoint(this.model.Timestamp, this.model.Pitch));
+                    SeriesCollection[2].Values.Add(new ObservablePoint(this.model.Timestamp, this.model.Roll));
                     NotifyPropertyChanged("VM_" + e.PropertyName);
                 }
 

@@ -40,6 +40,7 @@ namespace FlightSimulator.Helper
         private string[] testFileCsvRows;
         private List<FlightParamater> trainData;
         private List<FlightParamater> testData;
+        private bool isTestFlightLoaded = false;
 
 
         public DataParser()
@@ -63,9 +64,11 @@ namespace FlightSimulator.Helper
             this.testFileCsvRows = System.IO.File.ReadAllLines(testFile);
             this.testData = new List<FlightParamater>();
             extractData(testFileCsvRows,testFilePath,ref testData);
+            isTestFlightLoaded = true;
         }
 
-        //updating the test flight data to have the correletaed paramaters of each paramater.
+        public bool getIsTestFlightLoaded() { return this.isTestFlightLoaded; }
+
         public void integrateCorFeatures()
         {
             for (int i = 0; i < this.testData.Count; i++)

@@ -457,7 +457,7 @@ namespace FlightSimulator.Model
                 //updating correlated feautres in the test flight data.
                 this.dp.integrateCorFeatures();
             }
-            
+
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();

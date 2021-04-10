@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
+
         <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Top" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" >
             <lvc:CartesianChart.AxisX>
                 <!--<lvc:Axis Title="Timestamp" Labels="{Binding VM_Timestamp}"></lvc:Axis>-->

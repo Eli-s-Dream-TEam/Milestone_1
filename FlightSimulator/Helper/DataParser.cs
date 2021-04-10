@@ -69,7 +69,6 @@ namespace FlightSimulator.Helper
 
         public bool getIsTestFlightLoaded() { return this.isTestFlightLoaded; }
 
-        //updating the test flight data to have the correletaed paramaters of each paramater.
         public void integrateCorFeatures()
         {
             for (int i = 0; i < this.testData.Count; i++)

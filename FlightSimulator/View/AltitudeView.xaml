@@ -12,7 +12,8 @@
                           LabelsStep="1000" TicksStep="250" Wedge="300"
                           TicksForeground="White" Foreground="White" 
                           FontWeight="Bold" FontSize="14"
-                          SectionsInnerRadius=".5">
+                          SectionsInnerRadius=".5"
+                          DisableaAnimations="True">
             <lvc:AngularGauge.Sections>
                 <lvc:AngularSection FromValue="0" ToValue="4800" Fill="#4F4F4F"/>
                 <lvc:AngularSection FromValue="4800" ToValue="5000" Fill="#FF0800"/>

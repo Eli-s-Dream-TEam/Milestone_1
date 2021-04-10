@@ -46,21 +46,12 @@ namespace FlightSimulator.Model
         private SeriesCollection featUpdatingGraphSeries;
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
+        private bool isGraphsResetted = false;
 
         private List<string> flightParamters;
-
         public string researchedParamater;
-        public bool isDiffFlightParam = false;
-        static bool isGraphsResetted = false;
-
-
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //for testing purposes.
-        private DataParser dp;
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
+        private DataParser dp = new DataParser();
+        
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
          * Object across our views.
@@ -78,13 +69,12 @@ namespace FlightSimulator.Model
             }
         }
 
-        private DataModel()
-        {
-            this.in_socket = new SocketModel(ip, in_port);
-            this.out_socket = new SocketModel(ip, out_port);
-            this.attributeList = XMLParser.DeserializeFromXML();
-
-        }
+      private DataModel()
+      {
+        this.in_socket = new SocketModel(ip, in_port);
+        this.out_socket = new SocketModel(ip, out_port);
+        this.attributeList = XMLParser.DeserializeFromXML();
+      }
 
 
         // Properties
@@ -99,6 +89,7 @@ namespace FlightSimulator.Model
                 if (Timestamp == -1)
                 {
                     this.connect();
+                    this.dp.learnFlight(this.trainFile, this.attributeList);
                 }
                 NotifyPropertyChanged("TrainFile");
 
@@ -110,10 +101,15 @@ namespace FlightSimulator.Model
             get { return this.testFile; }
             set
             {
-                this.testFile = value;
-                this.stop = true;
-                NotifyPropertyChanged("TestFile");
 
+                if (this.testFile != value)
+                {
+
+                    this.testFile = value;
+                    this.stop = true;
+                    this.dp.extractDataFromTestFlight(this.testFile);
+                    NotifyPropertyChanged("TestFile");
+                }
             }
         }
 
@@ -140,7 +136,6 @@ namespace FlightSimulator.Model
                 return this.stop;
             }
         }
-
 
         public float Alieron
         {
@@ -358,7 +353,6 @@ namespace FlightSimulator.Model
                 {
                     this.mostCorrGraphSeries = value;
                     NotifyPropertyChanged("MostCorrGraphSeries");
-
                 }
             }
         }
@@ -372,7 +366,6 @@ namespace FlightSimulator.Model
                 {
                     this.regLineGraphSeries = value;
                     NotifyPropertyChanged("RegLineGraphSeries");
-
                 }
             }
         }
@@ -386,7 +379,6 @@ namespace FlightSimulator.Model
                 {
                     this.flightParamters = value;
                     NotifyPropertyChanged("FlightParamaters");
-
                 }
             }
         }
@@ -397,12 +389,12 @@ namespace FlightSimulator.Model
             set
             {
                 this.researchedParamater = value;
-                //generating the new researched paramater graphs.
-                generateGraphs();
-                updateGraphs();
+                updateGraphs(true);
                 NotifyPropertyChanged("ResearchedParamater");
             }
         }
+
+        
 
         //Methods
 
@@ -454,19 +446,17 @@ namespace FlightSimulator.Model
             Console.WriteLine(file);
 
             this.Timestamp = 0;
+            
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
+            this.FlightParamaters = this.attributeList;
+            //updating correlated feautres in the test flight data.
+            this.dp.integrateCorFeatures();
 
-
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            this.dp = new DataParser(file);
-            //keep the FlightPar. property, chnage the extracting data part.
-            //extracting flight paramaters from csv file.
-            this.FlightParamaters = dp.getFeatures();
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();
-            //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            
 
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
@@ -477,66 +467,60 @@ namespace FlightSimulator.Model
                     updateGraphs();
                     if (timestamp < this.MaximumLength && !pause)
                     {
+                        isGraphsResetted = false;
                         this.parseLine(lines[this.Timestamp]);
                         out_socket.send(lines[this.Timestamp] + "\n");
                         this.Timestamp++;
                     }
 
-
+                    
                     Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                 }
             }).Start();
         }
 
 
-
-
-
+        //create an empty line graph for the given paramter.
+        private SeriesCollection generateOneParamaterLineGraph(string paramater)
+        {
+            return new SeriesCollection
+                {
+                    new LineSeries {
+                        Values = new ChartValues<float> { },
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent,
+                        Title = paramater }
+                };
+        }
 
         private void generateGraphs()
         {
+            string feat = this.researchedParamater;
+            string corFeat = dp.getFeatMostCorrFeature(feat);
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 //initiating a blank updating graph for the reaserched flight paramater.
-                this.FeatUpdatingGraphSeries = new SeriesCollection
-                {
-                    new LineSeries {
-                        Values = new ChartValues<float> { },
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent,
-                        Title = this.researchedParamater }
-                };
+                this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
 
                 //initiating a blank updating graph for the most correletad feature flight paramter.
-                this.MostCorrGraphSeries = new SeriesCollection
-                {
-                    new LineSeries {
-                        Values = new ChartValues<float> { },
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent,
-                        Title=dp.getFeatMostCorrFeature(this.researchedParamater)}
-                };
+                this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
 
                 //extracting all data about regression line and displaying the graph as a whole.
                 //first LineSeries is the regression line.
                 //the second LineSeries is the all the points of the last 30 seconds.
-
-                var regLineValues = new ChartValues<ScatterPoint>();
-                regLineValues.AddRange(dp.getLast30SecRegLinePoints(this.researchedParamater, dp.getFeatMostCorrFeature(this.researchedParamater)));
 
                 this.RegLineGraphSeries = new SeriesCollection
                 {
                     //regression line.
                     new LineSeries {
                         Title = "Regression Line",
-                        //some values for testing. change this.
-                        Values = new ChartValues<float> { 5,4,3},
+                        Values = new ChartValues<ObservablePoint>(){ },
                         PointGeometry = null,
                         Fill = System.Windows.Media.Brushes.Transparent},
             
                     //last 30 values.
                     new ScatterSeries {
-                        Values = regLineValues,
+                        Values = new ChartValues<ScatterPoint>() { },
                         PointGeometry = DefaultGeometries.Circle,
                         Title="Last Thirty Seconds Values" }
 
@@ -546,43 +530,124 @@ namespace FlightSimulator.Model
         }
 
 
-        private void updateGraphs()
+        private void updateGraphs(bool isParamaterHaveChanged = false)
         {
+            //end of time line, do nothing.
+            if(this.timestamp == this.maximumLength) { return; }
+
+            //check for reset button situation.
+            if (timestamp == 0 && pause && !isGraphsResetted)
+            {
+                generateGraphs();
+                isGraphsResetted = true;
+            }
+
+            string feat = this.researchedParamater;
+            string corFeat = dp.getFeatMostCorrFeature(feat);
+
+            if(isParamaterHaveChanged)
+            {
+                paramChangedGraphsUpdate(feat,corFeat);
+                return;
+            }
+   
             //check for pause, if paused than no updated needed.
             if (!this.pause)
             {
                 //check for time skip in the playback controller.
                 if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
                 {
-                    string corFeat = dp.getFeatMostCorrFeature(this.researchedParamater);
-                    this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(this.researchedParamater, this.timestamp));
-                    this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+                    addNextValueToFeatAndCorGraphs(feat, corFeat);
+
+                    //in case the graph is not yet presented.
+                    if (this.RegLineGraphSeries[0].Values.Count == 0)
+                    {
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                            this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp)
+                        );
+                    }
+
+                    //removing points not in 30 seconds range.
+                    removeOutOfRangePoints();
+
+                    //adding the next(feat, corFeat) point value the the scatter point graph display.
+                    addPointToRegLineGraph(feat, corFeat);
                 }
                 else
                 {
-                    //getting the data until the current time stamp.
-                    var resParam = dp.getFeatureDataInRange(this.researchedParamater, this.timestamp);
-                    var corParam = dp.getFeatureDataInRange(dp.getFeatMostCorrFeature(this.researchedParamater), this.timestamp);
-
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
-                        this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
+                        featAndCorGraphssTimeSkipUpdate(feat,corFeat);
+                        regLineGraphUpdate();
                     });
                 }
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
-            }
-            //check for reset button situation.
-            else if (timestamp == 0 && pause && !isGraphsResetted)
+            } 
+        }
+
+        private void paramChangedGraphsUpdate(string feat, string corFeat)
+        {
+            //in case that the researched paramater have changed.
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>           
             {
-                //resetting the graphs.
-                generateGraphs();
-                isGraphsResetted = true;
+                //generating the upper graphs:
+                this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
+                this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
 
+                //updating the graphs.
+                featAndCorGraphssTimeSkipUpdate(feat, corFeat);
+                this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
+                regLineGraphUpdate();
+            });
+        }
+
+        private void addNextValueToFeatAndCorGraphs(string feat, string corFeat)
+        {
+            this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
+            this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
+        }
+
+        private void addPointToRegLineGraph(string feat, string corFeat)
+        {
+            this.RegLineGraphSeries[1].Values.Add(
+                        new ScatterPoint(dp.getDataInTime(feat, this.timestamp)
+                                        , dp.getDataInTime(corFeat, this.timestamp))
+                    );
+        }
+
+        private void featAndCorGraphssTimeSkipUpdate(string feat, string corFeat)
+        {
+            //getting the data until the current time stamp.
+            var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
+            var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
+            this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
+            this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
+        }
+
+        //removing points that are not in the last 30 seconds.
+        private void removeOutOfRangePoints()
+        {
+            if (timestamp > 200 && this.RegLineGraphSeries[1].Values.Count != 0)
+            {
+                this.RegLineGraphSeries[1].Values.RemoveAt(0);
             }
+        }
+
+        //had a problem with deleting and updating the reline graph. this is the solution.
+        private void regLineGraphUpdate()
+        {
+            string feat = this.researchedParamater;
+            string corFeat = dp.getFeatMostCorrFeature(feat);
+
+            while (RegLineGraphSeries[1].Values.Count > 0)
+            {
+                RegLineGraphSeries[1].Values.RemoveAt(0);
+            }
+            NotifyPropertyChanged("RegLineGraphSeries");
 
 
+            this.RegLineGraphSeries[1].Values.InsertRange(0, dp.getLast30SecRegLinePoints(feat, corFeat, this.timestamp));
         }
 
 

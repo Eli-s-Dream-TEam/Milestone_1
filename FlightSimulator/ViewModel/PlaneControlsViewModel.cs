@@ -21,20 +21,27 @@ namespace FlightSimulator.ViewModel
                 new LineSeries
                 {
                     Title = "Yaw",
-                    Values = new ChartValues<float> {}
+                    Values = new ChartValues<float> {},
+                    PointGeometry = null,
+                    Fill = System.Windows.Media.Brushes.Transparent
                 },
                 new LineSeries
                 {
                     Title = "Pitch",
-                    Values = new ChartValues<float> {}
+                    Values = new ChartValues<float> {},
+                    PointGeometry = null,
+                    Fill = System.Windows.Media.Brushes.Transparent
                 },
                 new LineSeries
                 {
                     Title = "Roll",
-                    Values = new ChartValues<float> {}
+                    Values = new ChartValues<float> {},
+                    PointGeometry = null,
+                    Fill = System.Windows.Media.Brushes.Transparent
                 }
             };
 
+            
             Formatter = value => value.ToString("N");
 
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)

@@ -64,99 +64,106 @@ namespace FlightSimulator.Model
          **/
         public void handleDLLFileUpload(string dll, string ttrain, string ttest)
         {
-            string train = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\public\reg_flight.csv";
-            string test = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\public\anomaly_flight.csv";
-
-            List<Tuple<int, string>> anomalies = new List<Tuple<int, string>>();
-            // Load dll
-            IntPtr mydll = LoadLibrary(dll);
-
-
-            // Bail if dll is not loaded
-            if (mydll == IntPtr.Zero)
+            new Thread(delegate ()
             {
-                Console.WriteLine("DLL Loading Failed!");
-                return;
-            }
+                string train = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\public\reg_flight.csv";
+                string test = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\public\anomaly_flight.csv";
 
-
-            // Load learn() function
-            IntPtr procaddr = GetProcAddress(mydll, "learn");
-
-            // Bail if function not found
-            if (procaddr == IntPtr.Zero)
-            {
-                Console.WriteLine("Can't find function");
-                return;
-            }
-
-            // Delegate function
-            Learn learn = (Learn)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(Learn));
-            IntPtr ve = learn(train, test);
-
-            procaddr = GetProcAddress(mydll, "vecSize");
-
-            if (procaddr == IntPtr.Zero)
-            {
-                Console.WriteLine("Can't find function");
-                return;
-            }
-
-            // Delegate vector size
-            VecSize vecSize = (VecSize)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(VecSize));
-            int size = vecSize(ve);
-            
-            // Get proc of remaining functions to use inside the loop
-            IntPtr procCreateStringWrapper = GetProcAddress(mydll, "CreatestringWrapper");
-            IntPtr procGetCharByIndex = GetProcAddress(mydll, "getCharByIndex");
-            IntPtr procGetTimeByIndex = GetProcAddress(mydll, "getTimeByIndex");
-            IntPtr procLen = GetProcAddress(mydll, "len");
-
-            // Validate them
-            if (procCreateStringWrapper == IntPtr.Zero  || procGetCharByIndex == IntPtr.Zero || procGetTimeByIndex == IntPtr.Zero || procLen == IntPtr.Zero)
-            {
-                Console.WriteLine("One of the functions can not be loaded probably");
-                return;
-            }
-
-            // Get delegates
-            CreateStringWrapper createStringWrapper = (CreateStringWrapper)Marshal.GetDelegateForFunctionPointer(procCreateStringWrapper, typeof(CreateStringWrapper));
-            GetCharByIndex getCharByIndex = (GetCharByIndex)Marshal.GetDelegateForFunctionPointer(procGetCharByIndex, typeof(GetCharByIndex));
-            GetTimeByIndex getTimeByIndex = (GetTimeByIndex)Marshal.GetDelegateForFunctionPointer(procGetTimeByIndex, typeof(GetTimeByIndex));
-            Len len = (Len)Marshal.GetDelegateForFunctionPointer(procLen, typeof(Len));
-
-            // Validate them
-
-            if (createStringWrapper == null || getCharByIndex == null || getTimeByIndex == null || len == null)
-            {
-                Console.WriteLine("One of the delegates was not loaded properly");
-                return;
-            }
-
-
-
-            for (int i = 0; i < size; ++i)
-            {
-                string s = "";
-                IntPtr str = createStringWrapper(ve, i);
-                int strLength = len(str);
-
-                for (double j = 0; j < strLength; ++j)
+                if (this.Anomalies != null)
                 {
-                    char c = getCharByIndex(str, j);
-                    s += c.ToString();
+                    this.anomalies.Clear();
                 }
 
-                int timestamp = getTimeByIndex(ve, i);
+                List<Tuple<int, string>> anomalies = new List<Tuple<int, string>>();
+                // Load dll
+                IntPtr mydll = LoadLibrary(dll);
 
-                anomalies.Add(new Tuple<int, string>(timestamp, s));
-            }
 
-            this.anomalies = anomalies;
-            NotifyPropertyChanged("Anomalies");
+                // Bail if dll is not loaded
+                if (mydll == IntPtr.Zero)
+                {
+                    Console.WriteLine("DLL Loading Failed!");
+                    return;
+                }
 
-            // Set library free;
-            FreeLibrary(mydll);
+
+                // Load learn() function
+                IntPtr procaddr = GetProcAddress(mydll, "learn");
+
+                // Bail if function not found
+                if (procaddr == IntPtr.Zero)
+                {
+                    Console.WriteLine("Can't find function");
+                    return;
+                }
+
+                // Delegate function
+                Learn learn = (Learn)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(Learn));
+                IntPtr ve = learn(train, test);
+
+                procaddr = GetProcAddress(mydll, "vecSize");
+
+                if (procaddr == IntPtr.Zero)
+                {
+                    Console.WriteLine("Can't find function");
+                    return;
+                }
+
+                // Delegate vector size
+                VecSize vecSize = (VecSize)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(VecSize));
+                int size = vecSize(ve);
+
+                // Get proc of remaining functions to use inside the loop
+                IntPtr procCreateStringWrapper = GetProcAddress(mydll, "CreatestringWrapper");
+                IntPtr procGetCharByIndex = GetProcAddress(mydll, "getCharByIndex");
+                IntPtr procGetTimeByIndex = GetProcAddress(mydll, "getTimeByIndex");
+                IntPtr procLen = GetProcAddress(mydll, "len");
+
+                // Validate them
+                if (procCreateStringWrapper == IntPtr.Zero || procGetCharByIndex == IntPtr.Zero || procGetTimeByIndex == IntPtr.Zero || procLen == IntPtr.Zero)
+                {
+                    Console.WriteLine("One of the functions can not be loaded probably");
+                    return;
+                }
+
+                // Get delegates
+                CreateStringWrapper createStringWrapper = (CreateStringWrapper)Marshal.GetDelegateForFunctionPointer(procCreateStringWrapper, typeof(CreateStringWrapper));
+                GetCharByIndex getCharByIndex = (GetCharByIndex)Marshal.GetDelegateForFunctionPointer(procGetCharByIndex, typeof(GetCharByIndex));
+                GetTimeByIndex getTimeByIndex = (GetTimeByIndex)Marshal.GetDelegateForFunctionPointer(procGetTimeByIndex, typeof(GetTimeByIndex));
+                Len len = (Len)Marshal.GetDelegateForFunctionPointer(procLen, typeof(Len));
+
+                // Validate them
+
+                if (createStringWrapper == null || getCharByIndex == null || getTimeByIndex == null || len == null)
+                {
+                    Console.WriteLine("One of the delegates was not loaded properly");
+                    return;
+                }
+
+
+
+                for (int i = 0; i < size; ++i)
+                {
+                    string s = "";
+                    IntPtr str = createStringWrapper(ve, i);
+                    int strLength = len(str);
+
+                    for (double j = 0; j < strLength; ++j)
+                    {
+                        char c = getCharByIndex(str, j);
+                        s += c.ToString();
+                    }
+
+                    int timestamp = getTimeByIndex(ve, i);
+
+                    anomalies.Add(new Tuple<int, string>(timestamp, s));
+                }
+
+                this.anomalies = anomalies;
+                // Set library free;
+                FreeLibrary(mydll);
+                NotifyPropertyChanged("Anomalies");
+            }).Start();
         }
 
         public List<Tuple<int, string>> Anomalies

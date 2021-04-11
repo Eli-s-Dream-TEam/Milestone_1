@@ -21,14 +21,10 @@ namespace FlightSimulator.ViewModel
         {
             this.model = model;
             this.dll_model = new DLLModel();
-            model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
-            {
-                NotifyPropertyChanged("VM_" + e.PropertyName);
-            };
 
             dll_model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName == "Anomalies" && this.dll_model.Anomalies != null)
+                if (e.PropertyName == "Anomalies")
                 {
                     this.descriptions = this.dll_model.Anomalies.Select((x) => x.Item2).ToList();
                     NotifyPropertyChanged("VM_Descriptions");
@@ -48,6 +44,8 @@ namespace FlightSimulator.ViewModel
                 return;
             }
 
+            this.model.Pause = true;
+
 
             // Abbreviate test & train
             string test = this.model.TestFile;
@@ -59,6 +57,11 @@ namespace FlightSimulator.ViewModel
                 return;
             }
 
+            // Reset descriptions
+            if (this.descriptions != null)
+            {
+                this.descriptions.Clear();
+            }
 
             // Convert test & train with headers (using xml file)
 
@@ -91,9 +94,12 @@ namespace FlightSimulator.ViewModel
                 string filename = dlg.FileName;
                 this.dll_model.handleDLLFileUpload(filename, testPath, trainPath);
             }
+
+            this.model.Pause = false;
+
         }
 
-        
+
         public void Select(int index)
         {
 

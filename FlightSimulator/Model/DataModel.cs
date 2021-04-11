@@ -46,12 +46,25 @@ namespace FlightSimulator.Model
         private SeriesCollection featUpdatingGraphSeries;
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
+        private SeriesCollection planeControlsGraphSeries;
         private bool isGraphsResetted = false;
 
         private List<string> flightParamters;
         public string researchedParamater;
         private DataParser dp = new DataParser();
-        
+
+        private static int alieronIndex;
+        private static int elevatorIndex;
+        private static int rudderIndex;
+        private static int throttleIndex;
+        private static int altitudeIndex;
+        private static int speedIndex;
+        private static int directionIndex;
+        private static int rollIndex;
+        private static int pitchIndex;
+        private static int yawIndex;
+        private static int indicator = 0;
+
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
          * Object across our views.
@@ -370,6 +383,19 @@ namespace FlightSimulator.Model
             }
         }
 
+        public SeriesCollection PlaneControlsGraphSeries
+        {
+            get { return this.planeControlsGraphSeries; }
+            set
+            {
+                if (this.planeControlsGraphSeries != value)
+                {
+                    this.planeControlsGraphSeries = value;
+                    NotifyPropertyChanged("PlaneControlsGraphSeries");
+                }
+            }
+        }
+
         public List<string> FlightParamaters
         {
             get { return this.flightParamters; }
@@ -394,8 +420,6 @@ namespace FlightSimulator.Model
             }
         }
 
-        
-
         //Methods
 
         // parse the line from the csv, update needed properties
@@ -407,16 +431,16 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
-            this.Alieron = float.Parse(parsedLine[getPropertyIndex("aileron")]);
-            this.Elevator = float.Parse(parsedLine[getPropertyIndex("elevator")]);
-            this.Rudder = float.Parse(parsedLine[getPropertyIndex("rudder")]);
-            this.Throttle = float.Parse(parsedLine[getPropertyIndex("throttle")]);
-            this.Altitude = float.Parse(parsedLine[getPropertyIndex("altimeter_indicated-altitude-ft")]);
-            this.Speed = float.Parse(parsedLine[getPropertyIndex("airspeed-indicator_indicated-speed-kt")]);
-            this.Direction = float.Parse(parsedLine[getPropertyIndex("heading-deg")]);
-            this.Roll = float.Parse(parsedLine[getPropertyIndex("attitude-indicator_indicated-roll-deg")]);
-            this.Pitch = float.Parse(parsedLine[getPropertyIndex("attitude-indicator_indicated-pitch-deg")]);
-            this.Yaw = float.Parse(parsedLine[getPropertyIndex("side-slip-deg")]);
+            this.Alieron = float.Parse(parsedLine[alieronIndex]);
+            this.Elevator = float.Parse(parsedLine[elevatorIndex]);
+            this.Rudder = float.Parse(parsedLine[rudderIndex]);
+            this.Throttle = float.Parse(parsedLine[throttleIndex]);
+            this.Altitude = float.Parse(parsedLine[altitudeIndex]);
+            this.Speed = float.Parse(parsedLine[speedIndex]);
+            this.Direction = float.Parse(parsedLine[directionIndex]);
+            this.Roll = float.Parse(parsedLine[rollIndex]);
+            this.Pitch = float.Parse(parsedLine[pitchIndex]);
+            this.Yaw = float.Parse(parsedLine[yawIndex]);
         }
 
         public int getPropertyIndex(string property)
@@ -458,6 +482,8 @@ namespace FlightSimulator.Model
                 this.dp.integrateCorFeatures();
             }
 
+            calcMainWindowParamtersIndices();
+
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();
@@ -482,6 +508,20 @@ namespace FlightSimulator.Model
                     Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                 }
             }).Start();
+        }
+
+        private void calcMainWindowParamtersIndices()
+        {
+            alieronIndex = getPropertyIndex("aileron");
+            elevatorIndex = getPropertyIndex("elevator");
+            rudderIndex = getPropertyIndex("rudder");
+            throttleIndex = getPropertyIndex("throttle");
+            altitudeIndex = getPropertyIndex("altimeter_indicated-altitude-ft");
+            speedIndex = getPropertyIndex("airspeed-indicator_indicated-speed-kt");
+            directionIndex = getPropertyIndex("heading-deg");
+            rollIndex = getPropertyIndex("attitude-indicator_indicated-roll-deg");
+            pitchIndex = getPropertyIndex("attitude-indicator_indicated-pitch-deg");
+            yawIndex = getPropertyIndex("side-slip-deg");
         }
 
 
@@ -510,10 +550,6 @@ namespace FlightSimulator.Model
                 //initiating a blank updating graph for the most correletad feature flight paramter.
                 this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
 
-                //extracting all data about regression line and displaying the graph as a whole.
-                //first LineSeries is the regression line.
-                //the second LineSeries is the all the points of the last 30 seconds.
-
                 this.RegLineGraphSeries = new SeriesCollection
                 {
                     //regression line.
@@ -530,6 +566,32 @@ namespace FlightSimulator.Model
                         Title="Last Thirty Seconds Values" }
 
                 };
+
+                this.PlaneControlsGraphSeries = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Yaw",
+                        Values = new ChartValues<ObservablePoint> {},
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent
+                    },
+                    new LineSeries
+                    {
+                        Title = "Pitch",
+                        Values = new ChartValues<ObservablePoint> {},
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent
+                    },
+                    new LineSeries
+                    {
+                        Title = "Roll",
+                        Values = new ChartValues<ObservablePoint> {},
+                        PointGeometry = null,
+                        Fill = System.Windows.Media.Brushes.Transparent
+                    }
+                };
+
             });
 
         }
@@ -563,6 +625,7 @@ namespace FlightSimulator.Model
                 if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
                 {
                     addNextValueToFeatAndCorGraphs(feat, corFeat);
+                    addNextValueToPlaneControlsGraph();
 
                     //in case the graph is not yet presented.
                     if (this.RegLineGraphSeries[0].Values.Count == 0)
@@ -583,12 +646,44 @@ namespace FlightSimulator.Model
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         featAndCorGraphssTimeSkipUpdate(feat,corFeat);
+                        planeControlsTimeSkipUpdate();
                         regLineGraphUpdate();
                     });
                 }
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
             } 
+        }
+
+        private void planeControlsTimeSkipUpdate()
+        {
+            //make this more efficient
+            string yaw = "attitude-indicator_indicated-roll-deg";
+            string pitch = "attitude-indicator_indicated-pitch-deg";
+            string roll = "side-slip-deg";
+
+            //getting the data until the current time stamp.
+            var yawData = dp.getFeatureDataInRange(yaw, this.timestamp);
+            var pitchData = dp.getFeatureDataInRange(pitch, this.timestamp);
+            var rollData = dp.getFeatureDataInRange(roll, this.timestamp);
+
+            this.PlaneControlsGraphSeries[0].Values = yawData.ToList().AsChartValues();
+            this.PlaneControlsGraphSeries[1].Values = pitchData.ToList().AsChartValues();
+            this.PlaneControlsGraphSeries[2].Values = rollData.ToList().AsChartValues();
+
+        }
+
+        private void addNextValueToPlaneControlsGraph()
+        {
+            //make this more efficient
+            string yaw = "attitude-indicator_indicated-roll-deg";
+            string pitch = "attitude-indicator_indicated-pitch-deg";
+            string roll = "side-slip-deg";
+           
+            //yaw,pitch,roll
+            this.PlaneControlsGraphSeries[0].Values.Add(dp.getDataInTime(yaw, this.timestamp));
+            this.PlaneControlsGraphSeries[1].Values.Add(dp.getDataInTime(pitch, this.timestamp));
+            this.PlaneControlsGraphSeries[2].Values.Add(dp.getDataInTime(roll, this.timestamp));
         }
 
         private void paramChangedGraphsUpdate(string feat, string corFeat)

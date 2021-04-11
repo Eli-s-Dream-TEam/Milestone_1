@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using FlightSimulator.Model;
+using System.IO;
+using System.Windows;
 
 namespace FlightSimulator.ViewModel
 {
@@ -55,9 +57,25 @@ namespace FlightSimulator.ViewModel
 
             if (result == true)
             {
-              
-                // Open document 
+                // Get file name
                 string filename = dlg.FileName;
+
+                // Read first line
+                string firstLine = File.ReadLines(filename).First();
+
+                // Split line by csv delimiter
+                string[] splitLine = firstLine.Split(',');
+
+                float f; // ignore
+
+                // Check if first line is strings - if it is, wrong flight format.
+                if (!float.TryParse(splitLine[0], out f))
+                {
+                    MessageBox.Show("We add the headers automatically for you, please upload only the raw data", "Error");
+                    return;
+                }
+                
+                // Open document 
                 if (file == "train")
                 {
                     this.dm.TrainFile = filename;

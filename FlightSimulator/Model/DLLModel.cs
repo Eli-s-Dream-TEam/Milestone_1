@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Threading;
@@ -24,6 +22,7 @@ namespace FlightSimulator.Model
             // Loading the dll
             Console.WriteLine("Before loading file");
 
+
             new Thread(delegate ()
             {
                 try
@@ -45,8 +44,6 @@ namespace FlightSimulator.Model
                 Console.WriteLine("After loading file");
             }).Start();
             
-
-
             //
 
             // Load anomalies into this.anomalies (pairs of <int,string>)

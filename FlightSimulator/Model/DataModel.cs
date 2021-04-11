@@ -13,7 +13,7 @@ using LiveCharts.Helpers;
 
 namespace FlightSimulator.Model
 {
-    class DataModel : INotifyPropertyChanged
+    class DataModel
     {
         private List<string> attributeList;
         private Boolean stop = true;
@@ -51,7 +51,7 @@ namespace FlightSimulator.Model
         private List<string> flightParamters;
         public string researchedParamater;
         private DataParser dp = new DataParser();
-        
+
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
          * Object across our views.
@@ -69,12 +69,12 @@ namespace FlightSimulator.Model
             }
         }
 
-      private DataModel()
-      {
-        this.in_socket = new SocketModel(ip, in_port);
-        this.out_socket = new SocketModel(ip, out_port);
-        this.attributeList = XMLParser.DeserializeFromXML();
-      }
+        private DataModel()
+        {
+            this.in_socket = new SocketModel(ip, in_port);
+            this.out_socket = new SocketModel(ip, out_port);
+            this.attributeList = XMLParser.DeserializeFromXML();
+        }
 
 
         // Properties
@@ -394,7 +394,7 @@ namespace FlightSimulator.Model
             }
         }
 
-        
+
 
         //Methods
 
@@ -446,13 +446,13 @@ namespace FlightSimulator.Model
             Console.WriteLine(file);
 
             this.Timestamp = 0;
-            
+
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
 
             //check if test flight was loaded.
-            if(this.dp.getIsTestFlightLoaded())
+            if (this.dp.getIsTestFlightLoaded())
             {
                 //updating correlated feautres in the test flight data.
                 this.dp.integrateCorFeatures();
@@ -461,7 +461,7 @@ namespace FlightSimulator.Model
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();
-            
+
 
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
@@ -478,7 +478,7 @@ namespace FlightSimulator.Model
                         this.Timestamp++;
                     }
 
-                    
+
                     Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                 }
             }).Start();
@@ -538,7 +538,7 @@ namespace FlightSimulator.Model
         private void updateGraphs(bool isParamaterHaveChanged = false)
         {
             //end of time line, do nothing.
-            if(this.timestamp == this.maximumLength) { return; }
+            if (this.timestamp == this.maximumLength) { return; }
 
             //check for reset button situation.
             if (timestamp == 0 && pause && !isGraphsResetted)
@@ -550,12 +550,12 @@ namespace FlightSimulator.Model
             string feat = this.researchedParamater;
             string corFeat = dp.getFeatMostCorrFeature(feat);
 
-            if(isParamaterHaveChanged)
+            if (isParamaterHaveChanged)
             {
-                paramChangedGraphsUpdate(feat,corFeat);
+                paramChangedGraphsUpdate(feat, corFeat);
                 return;
             }
-   
+
             //check for pause, if paused than no updated needed.
             if (!this.pause)
             {
@@ -582,19 +582,19 @@ namespace FlightSimulator.Model
                 {
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        featAndCorGraphssTimeSkipUpdate(feat,corFeat);
+                        featAndCorGraphssTimeSkipUpdate(feat, corFeat);
                         regLineGraphUpdate();
                     });
                 }
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
-            } 
+            }
         }
 
         private void paramChangedGraphsUpdate(string feat, string corFeat)
         {
             //in case that the researched paramater have changed.
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>           
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 //generating the upper graphs:
                 this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
@@ -665,6 +665,13 @@ namespace FlightSimulator.Model
             }
         }
 
+        public int Property
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 
 }

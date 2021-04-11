@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FlightSimulator.Model
 {
-    class SocketModel 
+    class SocketModel
     {
         private string ip;
         private int port;
@@ -29,7 +29,8 @@ namespace FlightSimulator.Model
             {
                 socket.Connect(ip);
                 this.socket = socket;
-            } catch (Exception err)
+            }
+            catch (Exception err)
             {
                 Console.WriteLine("Connection Error");
                 this.socket = null;
@@ -52,7 +53,7 @@ namespace FlightSimulator.Model
 
         public string recieve()
         {
-           if (this.socket == null)
+            if (this.socket == null)
             {
                 return "";
             }
@@ -63,8 +64,8 @@ namespace FlightSimulator.Model
                 socket.Receive(byteData);
                 string data = BitConverter.ToString(byteData);
                 return data;
-            } 
-            
+            }
+
             catch (Exception err)
             {
                 throw err;

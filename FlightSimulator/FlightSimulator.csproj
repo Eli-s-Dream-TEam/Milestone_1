@@ -125,6 +125,7 @@
     <Compile Include="Controls\TwoSeriesGraph.xaml.cs">
       <DependentUpon>TwoSeriesGraph.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Delegate1.cs" />
     <Compile Include="Helper\Calculation.cs" />
     <Compile Include="Helper\DataParser.cs" />
     <Compile Include="Helper\ICSVDataParser.cs" />
@@ -260,6 +261,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="UML.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

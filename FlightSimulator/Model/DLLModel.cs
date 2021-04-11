@@ -6,11 +6,11 @@ using System.Threading;
 
 namespace FlightSimulator.Model
 {
-    class DLLModel : INotifyPropertyChanged
+    class DLLModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private List<Tuple<int, string>> anomalies;
-       public DLLModel() { }
+        public DLLModel() { }
 
         public void handleDLLFileUpload(string dll, string train, string test)
         {
@@ -43,7 +43,7 @@ namespace FlightSimulator.Model
                 }
                 Console.WriteLine("After loading file");
             }).Start();
-            
+
             //
 
             // Load anomalies into this.anomalies (pairs of <int,string>)

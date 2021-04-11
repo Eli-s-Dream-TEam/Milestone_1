@@ -121,7 +121,4 @@
   <data name="playback_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\public\playback_small.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="XMLFile" xml:space="preserve">
-    <value />
-  </data>
 </root>

@@ -4,7 +4,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FlightSimulator.View"
-      Background="White"
       mc:Ignorable="d" 
     
       d:DesignHeight="300" d:DesignWidth="350">
@@ -77,8 +76,8 @@
 
 
 
-        <TextBlock x:Name="Aileron" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Aileron" VerticalAlignment="Top" Width="43" Canvas.Left="146" Canvas.Top="43" FontWeight="Bold"/>
-        <TextBlock x:Name="Elevator" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.555,0.502" Canvas.Left="230" Canvas.Top="125" FontWeight="Bold">
+        <TextBlock x:Name="Aileron" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Aileron" VerticalAlignment="Top" Width="43" Canvas.Left="146" Canvas.Top="43" FontWeight="Bold" Foreground="#03DAC6"/>
+        <TextBlock x:Name="Elevator" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Elevator" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.555,0.502" Canvas.Left="230" Canvas.Top="125" FontWeight="Bold" Foreground="#03DAC6">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -91,8 +90,8 @@
 
 
         </TextBlock>
-        <TextBlock x:Name="Rudder" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="48" RenderTransformOrigin="0.65,0.942" FontWeight="Bold" Canvas.Left="141" Canvas.Top="240"/>
-        <TextBlock x:Name="Throttle" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5" FontWeight="Bold" Canvas.Left="23" Canvas.Top="127">
+        <TextBlock x:Name="Rudder" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Rudder" VerticalAlignment="Top" Width="48" RenderTransformOrigin="0.65,0.942" FontWeight="Bold" Canvas.Left="141" Canvas.Top="240" Foreground="#03DAC6"/>
+        <TextBlock x:Name="Throttle" HorizontalAlignment="Left" Height="17" TextWrapping="Wrap" Text="Throttle" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.5,0.5" FontWeight="Bold" Canvas.Left="23" Canvas.Top="127" Foreground="#03DAC6">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -102,10 +101,10 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        
-        <TextBlock x:Name="RudderValue" HorizontalAlignment="Left" Height="29" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Rudder}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="246" Canvas.Top="206"/>
-        <TextBlock x:Name="ThrottleValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Throttle}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="45" Canvas.Top="35"/>
-        <TextBlock x:Name="ElevatorValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Elevator}" TextAlignment="Center" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5" Canvas.Left="255" Canvas.Top="118">
+
+        <TextBlock x:Name="RudderValue" HorizontalAlignment="Left" Height="29" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Rudder}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="246" Canvas.Top="206" Foreground="White"/>
+        <TextBlock x:Name="ThrottleValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Throttle}" TextAlignment="Center" VerticalAlignment="Top" Width="61" RenderTransformOrigin="1.684,-0.644" Canvas.Left="45" Canvas.Top="35" Foreground="White"/>
+        <TextBlock x:Name="ElevatorValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Elevator}" TextAlignment="Center" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.5,0.5" Canvas.Left="255" Canvas.Top="118" Foreground="White">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -115,9 +114,9 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="AileronValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Alieron}" TextAlignment="Center"  VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="141" Canvas.Top="13"/>
+        <TextBlock x:Name="AileronValue" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" FontWeight="Bold" Text="{Binding VM_Alieron}" TextAlignment="Center"  VerticalAlignment="Top" Width="64" RenderTransformOrigin="0.913,2.033" Canvas.Left="141" Canvas.Top="13" Foreground="White"/>
 
-        <Slider Value="{Binding VM_Rudder}" Minimum="-1" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Canvas.Left="96" Canvas.Top="211"/>
+        <Slider Value="{Binding VM_Rudder}" Minimum="-1" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" Canvas.Left="96" Canvas.Top="211" />
         <Slider Value="{Binding VM_Throttle}" Minimum="0" Maximum="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="5" Canvas.Top="126">
             <Slider.RenderTransform>
                 <TransformGroup>

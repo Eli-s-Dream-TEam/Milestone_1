@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:FlightSimulator.View"
              mc:Ignorable="d" Height="200" Width="200">
     <Grid>
-        <TextBlock Text="N" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Panel.ZIndex="1"/>
-        <TextBlock Text="S" FontSize="24" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Panel.ZIndex="1"/>
-        <TextBlock Text="W" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Panel.ZIndex="1"/>
-        <TextBlock Text="E" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Panel.ZIndex="1"/>
-        <Ellipse Stroke="WhiteSmoke" StrokeThickness="4" Fill="AliceBlue"/>
+        <TextBlock Text="N" FontSize="24" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center" Panel.ZIndex="1" Foreground="#03DAC6"/>
+        <TextBlock Text="S" FontSize="24" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Panel.ZIndex="1"  Foreground="#03DAC6"/>
+        <TextBlock Text="W" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Panel.ZIndex="1" Foreground="#03DAC6"/>
+        <TextBlock Text="E" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Panel.ZIndex="1" Foreground="#03DAC6"/>
+        <Ellipse StrokeThickness="2" Fill="#121212"/>
         <Line X1="100" X2="100" Y1="30" Y2="175" StrokeThickness="10" RenderTransformOrigin=".5, .5" StrokeStartLineCap="Triangle">
             <Line.Stroke>
                 <LinearGradientBrush EndPoint="0.5, 1" StartPoint="0.5,0">

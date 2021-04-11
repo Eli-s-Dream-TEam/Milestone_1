@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using FlightSimulator.ViewModel;
 using FlightSimulator.Model;
+using System;
 
 namespace FlightSimulator.View
 {
@@ -21,14 +22,10 @@ namespace FlightSimulator.View
             this.avm.HandleDLLUpload();
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBoxItem lbi = e.Source as ListBoxItem;
-
-            if (lbi != null)
-            {
-                // Do the time skip here from `lbi`
-            }
+            ListView lv = (ListView) e.Source;
+            avm.Select(lv.SelectedIndex);
         }
     }
 }

@@ -12,11 +12,9 @@
 
         <lvc:CartesianChart Series ="{Binding VM_PlaneControlsGraphSeries}" LegendLocation="Top" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Foreground="#03DAC6" >
             <lvc:CartesianChart.AxisX>
-                <!--<lvc:Axis Title="Timestamp" Labels="{Binding VM_Timestamp}"></lvc:Axis>-->
                 <lvc:Axis Title="Timestamp"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <!--<lvc:Axis Title="Parameter" LabelFormatter="{Binding Formatter}"></lvc:Axis>-->
                 <lvc:Axis Title="Parameter"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>

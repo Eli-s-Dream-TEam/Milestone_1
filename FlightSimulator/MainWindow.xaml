@@ -77,8 +77,6 @@
                 </view:TimeController>
             </StackPanel>
 
-
-
             <view:StatusView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" />
             <view:AnomaliesView Grid.Row="0" Grid.Column="2" Margin="0,0,10,10"/>
             <view:GraphSection Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" />

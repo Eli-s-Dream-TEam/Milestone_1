@@ -52,19 +52,7 @@ namespace FlightSimulator.Model
         private List<string> flightParamters;
         public string researchedParamater;
         private DataParser dp = new DataParser();
-
-        private static int alieronIndex;
-        private static int elevatorIndex;
-        private static int rudderIndex;
-        private static int throttleIndex;
-        private static int altitudeIndex;
-        private static int speedIndex;
-        private static int directionIndex;
-        private static int rollIndex;
-        private static int pitchIndex;
-        private static int yawIndex;
-        private static int indicator = 0;
-
+        
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
          * Object across our views.
@@ -420,6 +408,19 @@ namespace FlightSimulator.Model
             }
         }
 
+        
+
+        private static int alieronIndex;
+        private static int elevatorIndex;
+        private static int rudderIndex;
+        private static int throttleIndex;
+        private static int altitudeIndex;
+        private static int speedIndex;
+        private static int directionIndex;
+        private static int rollIndex;
+        private static int pitchIndex;
+        private static int yawIndex;
+
         //Methods
 
         // parse the line from the csv, update needed properties
@@ -482,6 +483,7 @@ namespace FlightSimulator.Model
                 this.dp.integrateCorFeatures();
             }
 
+            //calculating the main window paramaters indices.
             calcMainWindowParamtersIndices();
 
             //the deafult paramter is the first one.
@@ -558,11 +560,13 @@ namespace FlightSimulator.Model
                         Values = new ChartValues<ObservablePoint>(){ },
                         PointGeometry = null,
                         Fill = System.Windows.Media.Brushes.Transparent},
-            
+                    
+                    
                     //last 30 values.
                     new ScatterSeries {
                         Values = new ChartValues<ScatterPoint>() { },
                         PointGeometry = DefaultGeometries.Circle,
+                        MaxPointShapeDiameter = 30,
                         Title="Last Thirty Seconds Values" }
 
                 };

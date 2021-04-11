@@ -13,6 +13,7 @@ namespace FlightSimulator.ViewModel
     {
         private DataModel model;
         private DLLModel dll_model;
+        private List<string> descriptions;
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -27,7 +28,11 @@ namespace FlightSimulator.ViewModel
 
             dll_model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
-                NotifyPropertyChanged("VM_" + e.PropertyName);
+                if (e.PropertyName == "Anomalies" && this.dll_model.Anomalies != null)
+                {
+                    this.descriptions = this.dll_model.Anomalies.Select((x) => x.Item2).ToList();
+                    NotifyPropertyChanged("VM_Descriptions");
+                }
             };
 
         }
@@ -88,11 +93,36 @@ namespace FlightSimulator.ViewModel
             }
         }
 
-        public List<Tuple<int, string>> VM_Anomalies
+        
+        public void Select(int index)
         {
-            // Returns list of only anomaly names 
-            get { return this.dll_model.Anomalies; }
+
+            // Assert Anomalies list
+            if (this.dll_model.Anomalies == null)
+            {
+                return;
+            }
+
+            // Assert index in bound
+            if (index >= this.dll_model.Anomalies.Count)
+            {
+                return;
+            }
+
+            // Get Item1 (aka timestamp)
+            int requestedTimestamp = this.dll_model.Anomalies[index].Item1;
+
+            // Assert timestamp in bounds
+            if (requestedTimestamp <= 0 || requestedTimestamp > this.model.Timestamp)
+            {
+                return;
+            }
+
+            // Set timestamp
+            this.model.Timestamp = requestedTimestamp;
         }
+
+        public List<string> VM_Descriptions { get { return this.descriptions;  } }
 
 
         // Notify handler

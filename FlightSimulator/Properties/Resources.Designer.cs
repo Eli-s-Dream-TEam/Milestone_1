@@ -92,14 +92,5 @@ namespace FlightSimulator.Properties {
                 return ResourceManager.GetString("playback_small", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string XMLFile {
-            get {
-                return ResourceManager.GetString("XMLFile", resourceCulture);
-            }
-        }
     }
 }

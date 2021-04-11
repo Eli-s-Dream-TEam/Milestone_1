@@ -7,15 +7,15 @@
              xmlns:local="clr-namespace:FlightSimulator.View"
              mc:Ignorable="d" Height="150" Width="150">
     <Grid>
-        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,50">Altitude</Label>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,50" Foreground="#03DAC6">Altitude</Label>
         <lvc:AngularGauge Grid.Row="1" Value="{Binding VM_Altitude}" FromValue="0" ToValue="5000" 
                           LabelsStep="1000" TicksStep="250" Wedge="300"
-                          TicksForeground="White" Foreground="White" 
+                          TicksForeground="White" Foreground="#BB86FC" 
                           FontWeight="Bold" FontSize="14"
                           SectionsInnerRadius=".5"
                           DisableaAnimations="True">
             <lvc:AngularGauge.Sections>
-                <lvc:AngularSection FromValue="0" ToValue="4800" Fill="#4F4F4F"/>
+                <lvc:AngularSection FromValue="0" ToValue="4800" Fill="#121212"/>
                 <lvc:AngularSection FromValue="4800" ToValue="5000" Fill="#FF0800"/>
             </lvc:AngularGauge.Sections>
         </lvc:AngularGauge>

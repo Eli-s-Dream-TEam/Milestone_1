@@ -10,7 +10,7 @@
 
     <Grid>
 
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Top" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" >
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Top" DisableAnimations="True" Hoverable="False" DataTooltip="{x:Null}" Foreground="#03DAC6" >
             <lvc:CartesianChart.AxisX>
                 <!--<lvc:Axis Title="Timestamp" Labels="{Binding VM_Timestamp}"></lvc:Axis>-->
                 <lvc:Axis Title="Timestamp"></lvc:Axis>

@@ -1,0 +1,3 @@
+﻿  recrsuin.cpp
+C:\Users\avivx\source\repos\recursion_exercise\recursion_exercise\recrsuin.cpp(8,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  recursion_exercise.vcxproj -> C:\Users\avivx\source\repos\recursion_exercise\Debug\recursion_exercise.exe

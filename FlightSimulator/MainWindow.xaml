@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightSimulator"
         xmlns:view="clr-namespace:FlightSimulator.View"
-        xmlns:controls ="clr-namespace:FlightSimulator.Controls"
         mc:Ignorable="d"
         Height="850" Width="1450" MinWidth="1400" MaxWidth="1400" MinHeight="800" MaxHeight="800" ResizeMode="CanResize">
     <Border Background="#272727" CornerRadius="20">

@@ -10,7 +10,6 @@ namespace FlightSimulator.ViewModel
     class PlaneControlsViewModel : INotifyPropertyChanged
     {
         private DataModel model;
-        private int TICK_DELAY = 20;
         public event PropertyChangedEventHandler PropertyChanged;
         
 
@@ -27,6 +26,8 @@ namespace FlightSimulator.ViewModel
             {
                 NotifyPropertyChanged("VM_" + e.PropertyName);
             };
+
+            
         }
 
         public SeriesCollection VM_PlaneControlsGraphSeries
@@ -43,5 +44,12 @@ namespace FlightSimulator.ViewModel
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
+
+        public string[] VM_PlaneControls { 
+            get { return this.model.PlaneControls; } 
+            set { this.model.PlaneControls = value; } 
+        }
+
+        
     }
 }

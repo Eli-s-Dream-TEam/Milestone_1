@@ -48,6 +48,7 @@ namespace FlightSimulator.Model
         private SeriesCollection regLineGraphSeries;
         private SeriesCollection planeControlsGraphSeries;
         private bool isGraphsResetted = false;
+        private string[] planeControls = { "Yaw", "Pitch", "Roll" };
 
         private List<string> flightParamters;
         public string researchedParamater;
@@ -465,6 +466,17 @@ namespace FlightSimulator.Model
             }
         }
 
+        public string[] PlaneControls{ 
+            get { return this.planeControls; } 
+            set{
+                if (this.planeControls!= value)
+                {
+                    this.planeControls= value;
+                    NotifyPropertyChanged("PlaneControls");
+                }
+            } 
+        }
+
         public void start(string file)
         {
 
@@ -573,26 +585,9 @@ namespace FlightSimulator.Model
 
                 this.PlaneControlsGraphSeries = new SeriesCollection
                 {
-                    new LineSeries
+                    new ColumnSeries
                     {
-                        Title = "Yaw",
-                        Values = new ChartValues<ObservablePoint> {},
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent
-                    },
-                    new LineSeries
-                    {
-                        Title = "Pitch",
-                        Values = new ChartValues<ObservablePoint> {},
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent
-                    },
-                    new LineSeries
-                    {
-                        Title = "Roll",
-                        Values = new ChartValues<ObservablePoint> {},
-                        PointGeometry = null,
-                        Fill = System.Windows.Media.Brushes.Transparent
+                        Values = new ChartValues<float> {0,0,0}
                     }
                 };
 
@@ -650,7 +645,7 @@ namespace FlightSimulator.Model
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
                         featAndCorGraphssTimeSkipUpdate(feat,corFeat);
-                        planeControlsTimeSkipUpdate();
+                        addNextValueToPlaneControlsGraph();
                         regLineGraphUpdate();
                     });
                 }
@@ -659,23 +654,6 @@ namespace FlightSimulator.Model
             } 
         }
 
-        private void planeControlsTimeSkipUpdate()
-        {
-            //make this more efficient
-            string yaw = "attitude-indicator_indicated-roll-deg";
-            string pitch = "attitude-indicator_indicated-pitch-deg";
-            string roll = "side-slip-deg";
-
-            //getting the data until the current time stamp.
-            var yawData = dp.getFeatureDataInRange(yaw, this.timestamp);
-            var pitchData = dp.getFeatureDataInRange(pitch, this.timestamp);
-            var rollData = dp.getFeatureDataInRange(roll, this.timestamp);
-
-            this.PlaneControlsGraphSeries[0].Values = yawData.ToList().AsChartValues();
-            this.PlaneControlsGraphSeries[1].Values = pitchData.ToList().AsChartValues();
-            this.PlaneControlsGraphSeries[2].Values = rollData.ToList().AsChartValues();
-
-        }
 
         private void addNextValueToPlaneControlsGraph()
         {
@@ -683,11 +661,11 @@ namespace FlightSimulator.Model
             string yaw = "attitude-indicator_indicated-roll-deg";
             string pitch = "attitude-indicator_indicated-pitch-deg";
             string roll = "side-slip-deg";
-           
+
             //yaw,pitch,roll
-            this.PlaneControlsGraphSeries[0].Values.Add(dp.getDataInTime(yaw, this.timestamp));
-            this.PlaneControlsGraphSeries[1].Values.Add(dp.getDataInTime(pitch, this.timestamp));
-            this.PlaneControlsGraphSeries[2].Values.Add(dp.getDataInTime(roll, this.timestamp));
+            this.PlaneControlsGraphSeries[0].Values[0] = dp.getDataInTime(yaw, this.timestamp);
+            this.PlaneControlsGraphSeries[0].Values[1] = dp.getDataInTime(pitch, this.timestamp);
+            this.PlaneControlsGraphSeries[0].Values[2] = dp.getDataInTime(roll, this.timestamp);
         }
 
         private void paramChangedGraphsUpdate(string feat, string corFeat)

@@ -1,0 +1,19 @@
+﻿  linkedList.c
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(9,20): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(13,17): warning C4018: '<': signed/unsigned mismatch
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(29,31): warning C4047: 'function': 'FILE **' differs in levels of indirection from 'char *'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(29,31): warning C4024: 'fopen_s': different types for formal and actual parameter 1
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(29,36): error C2198: 'fopen_s': too few arguments for call
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(29,37): warning C4047: '=': 'FILE *' differs in levels of indirection from 'errno_t'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(30,32): warning C4047: 'function': 'FILE **' differs in levels of indirection from 'char *'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(30,32): warning C4024: 'fopen_s': different types for formal and actual parameter 1
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(30,37): error C2198: 'fopen_s': too few arguments for call
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(30,38): warning C4047: '=': 'FILE *' differs in levels of indirection from 'errno_t'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(47,37): warning C4047: 'function': 'FILE **' differs in levels of indirection from 'char *'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(47,37): warning C4024: 'fopen_s': different types for formal and actual parameter 1
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(47,42): error C2198: 'fopen_s': too few arguments for call
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(48,38): warning C4047: 'function': 'FILE **' differs in levels of indirection from 'char *'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(48,38): warning C4024: 'fopen_s': different types for formal and actual parameter 1
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(48,43): error C2198: 'fopen_s': too few arguments for call
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(47,1): warning C4047: 'initializing': 'FILE *' differs in levels of indirection from 'errno_t'
+C:\Users\avivx\source\repos\linked list\linked list\linkedList.c(48,1): warning C4047: 'initializing': 'FILE *' differs in levels of indirection from 'errno_t'

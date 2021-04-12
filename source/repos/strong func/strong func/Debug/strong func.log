@@ -1,0 +1,5 @@
+﻿  strongfunc.c
+C:\Users\avivx\source\repos\strong func\strong func\strongfunc.c(7,9): warning C4477: 'scanf' : format string '%i' requires an argument of type 'int *', but variadic argument 1 has type 'double *'
+C:\Users\avivx\source\repos\strong func\strong func\strongfunc.c(13,26): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\avivx\source\repos\strong func\Debug\strong func.exe : fatal error LNK1120: 1 unresolved externals

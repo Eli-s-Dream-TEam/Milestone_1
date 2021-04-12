@@ -39,7 +39,7 @@ namespace FlightSimulator
             }
             else
             {
-                if (this.vm.VM_FILE == null)
+                if (this.vm.VM_TrainFILE == null)
                 {
                     MessageBox.Show("please upload train file");
                     return;

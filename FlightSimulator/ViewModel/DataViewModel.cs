@@ -25,7 +25,7 @@ namespace FlightSimulator.ViewModel
         }
 
         // Properties
-        public string VM_FILE
+        public string VM_TrainFILE
         {
             get
             {
@@ -34,10 +34,23 @@ namespace FlightSimulator.ViewModel
             set
             {
                 this.dm.TrainFile = value;
+                NotifyPropertyChanged("VM_TrainFILE");
             }
         }
 
-       
+        public string VM_TestFILE
+        {
+            get
+            {
+                return this.dm.TestFile;
+            }
+            set
+            {
+                this.dm.TestFile = value;
+                NotifyPropertyChanged("VM_TestFILE");
+            }
+        }
+
 
         // Notify handler
         public void NotifyPropertyChanged(string propName)

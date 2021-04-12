@@ -28,7 +28,7 @@ namespace FlightSimulator.View
         private void dataGrid1_PreviewMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DataGrid dg = sender as DataGrid;
-            if (dg == null)
+            if (dg == null || dg.SelectedCells == null)
             {
                 return;
             }

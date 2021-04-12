@@ -90,8 +90,10 @@ namespace FlightSimulator.ViewModel
 
             // Get current directory and intiialize files
             string path = Directory.GetCurrentDirectory();
-            string testPath = path + @"\temptest.csv";
-            string trainPath = path + @"\temptrain.csv";
+            string[] testPaths = { path, @"temptest.csv"};
+            string[] trainPaths = { path, @"temptrain.csv" };
+            string testPath = Path.Combine(testPaths);
+            string trainPath = Path.Combine(trainPaths);
             File.WriteAllLines(testPath, testLines);
             File.WriteAllLines(trainPath, trainLines);
 

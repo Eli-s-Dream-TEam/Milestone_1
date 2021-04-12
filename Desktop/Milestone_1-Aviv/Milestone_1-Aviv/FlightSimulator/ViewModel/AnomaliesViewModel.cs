@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
+using System.Linq;
 using System.Windows;
-using FlightSimulator.Helper;
 using FlightSimulator.Model;
+using FlightSimulator.Helper;
+using System.IO;
 
 namespace FlightSimulator.ViewModel
 {
-    public class DataObject
-    {
-        public int Start { get; set;  }
-        public int End { get; set; }
-        public string Description { get; set; }
-
-    }
     class AnomaliesViewModel : INotifyPropertyChanged
     {
         private DataModel model;
-        private ObservableCollection<DataObject> datalist;
         private DLLModel dll_model;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,28 +20,16 @@ namespace FlightSimulator.ViewModel
         {
             this.model = model;
             this.dll_model = new DLLModel();
-
-            this.datalist = new ObservableCollection<DataObject>();
+            model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
+            {
+                NotifyPropertyChanged("VM_" + e.PropertyName);
+            };
 
             dll_model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName == "Anomalies")
-                {
-                    datalist.Clear();
-
-                    foreach (var entry in this.dll_model.Anomalies)
-                    {
-                        datalist.Add(new DataObject() { Start = entry.Item1.Item1, End = entry.Item1.Item2, Description = entry.Item2 });
-                    }
-
-                    NotifyPropertyChanged("VM_DataList");
-                }
+                NotifyPropertyChanged("VM_" + e.PropertyName);
             };
 
-        }
-
-        public ObservableCollection<DataObject> VM_DataList {
-            get { return this.datalist; }
         }
 
         public void HandleDLLUpload()
@@ -64,8 +44,6 @@ namespace FlightSimulator.ViewModel
             }
 
 
-
-
             // Abbreviate test & train
             string test = this.model.TestFile;
             string train = this.model.TrainFile;
@@ -75,6 +53,7 @@ namespace FlightSimulator.ViewModel
                 MessageBox.Show("Train/Test File doesn't exist!", "Error");
                 return;
             }
+
 
             // Convert test & train with headers (using xml file)
 
@@ -107,26 +86,13 @@ namespace FlightSimulator.ViewModel
                 string filename = dlg.FileName;
                 this.dll_model.handleDLLFileUpload(filename, testPath, trainPath);
             }
-
         }
 
-
-        public int Timestamp
+        public List<Tuple<int, string>> VM_Anomalies
         {
-            set
-            {
-                // Assert timestamp in bounds
-                if (value <= 0 ||value > this.model.MaximumLength - 1)
-                {
-                    return;
-                }
-
-                // Set timestamp
-                this.model.Timestamp = value;
-            }
-            
+            // Returns list of only anomaly names 
+            get { return this.dll_model.Anomalies; }
         }
-
 
 
         // Notify handler

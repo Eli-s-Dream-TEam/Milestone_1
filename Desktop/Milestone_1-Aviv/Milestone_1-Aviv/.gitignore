@@ -1,0 +1,9 @@
+/FlightSimulator/bin
+/FlightSimulator/obj
+/packages
+/.vs
+<<<<<<< HEAD
+.vs/
+=======
+.vs/
+>>>>>>> 5bffc17ba069a56d86a2837a5a7c48e694e04c1a

@@ -4,13 +4,34 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightSimulator.View"
-             mc:Ignorable="d" Height="285.246" Width="182.787">
+             mc:Ignorable="d" Height="Auto" Width="Auto">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <ListBox Background="#121212" Foreground="White" ItemsSource="{Binding VM_Anomalies}" SelectionMode="Single" SelectionChanged="ListBox_SelectionChanged"/>
+        <DataGrid 
+            AutoGenerateColumns="False"
+            Background="#121212"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            RowBackground="#121212"
+            IsReadOnly="True"
+            ItemsSource="{Binding VM_DataList}"
+            PreviewMouseDoubleClick="dataGrid1_PreviewMouseDoubleClick"
+            >
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#121212" />
+                    <Setter Property="Foreground" Value="#BB86FC" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Foreground="#03DAC6" Header="Start" Binding="{Binding Path=Start}" Width="1*" />
+                <DataGridTextColumn Foreground="#03DAC6" Header="End" Binding="{Binding Path=End}" Width="1*"/>
+                <DataGridTextColumn Foreground="#03DAC6" Header="Desc." Binding="{Binding Path=Description}" Width="4*"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Grid.Row="1" Background="#03DAC6" Content="Choose DLL" FontWeight="Bold" FontSize="16" Click="Button_Click" />
     </Grid>
 </UserControl>

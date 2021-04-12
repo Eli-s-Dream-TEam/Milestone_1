@@ -74,7 +74,7 @@ namespace FlightSimulator.ViewModel
                     MessageBox.Show("We add the headers automatically for you, please upload only the raw data", "Error");
                     return;
                 }
-                
+              
                 // Open document 
                 if (file == "train")
                 {
@@ -89,6 +89,7 @@ namespace FlightSimulator.ViewModel
 
         public void start()
         {
+
             if (dm.TrainFile != null || dm.TestFile != null)
             {
                 this.dm.Stop = false;

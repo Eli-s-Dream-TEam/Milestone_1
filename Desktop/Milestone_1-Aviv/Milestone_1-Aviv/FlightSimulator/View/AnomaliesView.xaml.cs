@@ -1,9 +1,6 @@
 ﻿using System.Windows.Controls;
 using FlightSimulator.ViewModel;
 using FlightSimulator.Model;
-using System.Data;
-using System;
-using System.Collections;
 
 namespace FlightSimulator.View
 {
@@ -24,25 +21,13 @@ namespace FlightSimulator.View
             this.avm.HandleDLLUpload();
         }
 
-
-        private void dataGrid1_PreviewMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataGrid dg = sender as DataGrid;
-            if (dg == null)
+            ListBoxItem lbi = e.Source as ListBoxItem;
+
+            if (lbi != null)
             {
-                return;
-            }
-
-            DataGridCellInfo dgci = dg.SelectedCells[0];
-
-            var cellContent = dgci.Column.GetCellContent(dgci.Item);
-
-            if (cellContent != null)
-            {
-                DataObject item = (DataObject) cellContent.DataContext;
-                int timestamp = item.Start;
-
-                avm.Timestamp = timestamp;
+                // Do the time skip here from `lbi`
             }
         }
     }

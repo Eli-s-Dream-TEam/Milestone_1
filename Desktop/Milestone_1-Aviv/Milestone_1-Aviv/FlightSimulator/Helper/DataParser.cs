@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -42,7 +41,6 @@ namespace FlightSimulator.Helper
         private List<FlightParamater> trainData;
         private List<FlightParamater> testData;
         private bool isTestFlightLoaded = false;
-        private Dictionary<string, int> paramatersIndicesDict;
 
 
         public DataParser()
@@ -52,27 +50,21 @@ namespace FlightSimulator.Helper
 
         public void learnFlight(string trainFile, List<string> flightParamaters)
         {
-
             this.trainFilePath = trainFile;
             this.trainFileCsvRows = System.IO.File.ReadAllLines(trainFile);
             this.flightParamatersNames = flightParamaters;
             this.trainData = new List<FlightParamater>();
-            this.paramatersIndicesDict = new Dictionary<string, int>();
             extractData(trainFileCsvRows,trainFilePath,ref trainData);
-
             calcCorrFeatures();
         }
-
-       
 
         public void extractDataFromTestFlight(string testFile)
         {
             this.testFilePath = testFile;
             this.testFileCsvRows = System.IO.File.ReadAllLines(testFile);
             this.testData = new List<FlightParamater>();
-            extractData(testFileCsvRows, testFilePath, ref testData);
+            extractData(testFileCsvRows,testFilePath,ref testData);
             isTestFlightLoaded = true;
-
         }
 
         public bool getIsTestFlightLoaded() { return this.isTestFlightLoaded; }
@@ -93,13 +85,13 @@ namespace FlightSimulator.Helper
 
         public string getFeatMostCorrFeature(string feat)
         {
-            int index = this.paramatersIndicesDict[feat];
+            int index = this.flightParamatersNames.FindIndex(a => a.Equals(feat));
             return this.trainData[index].getCorrFeature();
         }
 
         public float[] getFeatureData(string feat)
         {
-            int index = this.paramatersIndicesDict[feat];
+            int index = this.flightParamatersNames.FindIndex(a => a.Equals(feat));
             return this.trainData[index].getData();
         }
 
@@ -119,26 +111,57 @@ namespace FlightSimulator.Helper
         {
             TextFieldParser parser;
             int numOfTimeStamps = csvRows.Length;
+            int appearnces;
+            int paramIndex;
 
             //creating the Flight Paramater data list.
-            for (int index = 0; index < this.flightParamatersNames.Count; index++)
+            foreach (string name in this.flightParamatersNames)
             {
                 parser = new TextFieldParser(filePath);
                 parser.SetDelimiters(",");
 
                 string[] row;
                 float[] paramData = new float[numOfTimeStamps];
+
                 
-                for (int j = 0; j < numOfTimeStamps; j++)
+                //dealing with multiple name paramaters.
+                appearnces = getNumberOfAppearnces(name, list);
+
+                paramIndex = this.flightParamatersNames.FindIndex(a => a.Equals(name));
+                //updating the index to get the correct one. (multiple paramter case).
+                if (appearnces > 0) { paramIndex += appearnces; } 
+
+                for (int i = 0; i < numOfTimeStamps; i++)
                 {
                     row = parser.ReadFields();
-                    paramData[j] = float.Parse(row[index]);
+                    paramData[i] = float.Parse(row[paramIndex]);
                 }
 
-                list.Add(new FlightParamater(this.flightParamatersNames[index], paramData));
-                //updating dictionary.
-                this.paramatersIndicesDict.Add(this.flightParamatersNames[index], index);
+                
+                FlightParamater fp;
+                if (appearnces == 0)
+                {
+                    fp = new FlightParamater(name, paramData);
+                } else
+                {
+                    fp = new FlightParamater(name + (appearnces + 1).ToString(),paramData);
+                }
+                
+                list.Add(fp); 
             }
+        }
+
+        private int getNumberOfAppearnces(string name, List<FlightParamater> data)
+        {
+            int numOfAppearnce = 0;
+            foreach (var flightParam in data)
+            {
+                if(name == flightParam.getName())
+                {
+                    numOfAppearnce++;
+                }
+            }
+            return numOfAppearnce;
         }
 
         public ChartValues<ScatterPoint> getLast30SecRegLinePoints(string reaserchedFeat, string correlataedFeat, int currentTimeStamp)

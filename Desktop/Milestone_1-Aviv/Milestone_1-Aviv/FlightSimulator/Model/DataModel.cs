@@ -10,11 +10,10 @@ using FlightSimulator.Helper;
 using LiveCharts.Wpf;
 using LiveCharts.Defaults;
 using LiveCharts.Helpers;
-using System.Windows.Media;
 
 namespace FlightSimulator.Model
 {
-    class DataModel : INotifyPropertyChanged
+    class DataModel
     {
         private List<string> attributeList;
         private Boolean stop = true;
@@ -47,24 +46,11 @@ namespace FlightSimulator.Model
         private SeriesCollection featUpdatingGraphSeries;
         private SeriesCollection mostCorrGraphSeries;
         private SeriesCollection regLineGraphSeries;
-        private SeriesCollection planeControlsGraphSeries;
         private bool isGraphsResetted = false;
-        private string[] planeControls = { "Yaw", "Pitch", "Roll" };
 
         private List<string> flightParamters;
         public string researchedParamater;
-        private DataParser dataParser = new DataParser();
-
-        private static int alieronIndex;
-        private static int elevatorIndex;
-        private static int rudderIndex;
-        private static int throttleIndex;
-        private static int altitudeIndex;
-        private static int speedIndex;
-        private static int directionIndex;
-        private static int rollIndex;
-        private static int pitchIndex;
-        private static int yawIndex;
+        private DataParser dp = new DataParser();
 
         /**
          * Implementing Singleton design pattern so we can reference the same DataModel 
@@ -83,12 +69,12 @@ namespace FlightSimulator.Model
             }
         }
 
-      private DataModel()
-      {
-        this.in_socket = new SocketModel(ip, in_port);
-        this.out_socket = new SocketModel(ip, out_port);
-        this.attributeList = XMLParser.DeserializeFromXML();
-      }
+        private DataModel()
+        {
+            this.in_socket = new SocketModel(ip, in_port);
+            this.out_socket = new SocketModel(ip, out_port);
+            this.attributeList = XMLParser.DeserializeFromXML();
+        }
 
 
         // Properties
@@ -103,7 +89,7 @@ namespace FlightSimulator.Model
                 if (Timestamp == -1)
                 {
                     this.connect();
-                    this.dataParser.learnFlight(this.trainFile, this.attributeList);
+                    this.dp.learnFlight(this.trainFile, this.attributeList);
                 }
                 NotifyPropertyChanged("TrainFile");
 
@@ -121,7 +107,7 @@ namespace FlightSimulator.Model
 
                     this.testFile = value;
                     this.stop = true;
-                    this.dataParser.extractDataFromTestFlight(this.testFile);
+                    this.dp.extractDataFromTestFlight(this.testFile);
                     NotifyPropertyChanged("TestFile");
                 }
             }
@@ -384,19 +370,6 @@ namespace FlightSimulator.Model
             }
         }
 
-        public SeriesCollection PlaneControlsGraphSeries
-        {
-            get { return this.planeControlsGraphSeries; }
-            set
-            {
-                if (this.planeControlsGraphSeries != value)
-                {
-                    this.planeControlsGraphSeries = value;
-                    NotifyPropertyChanged("PlaneControlsGraphSeries");
-                }
-            }
-        }
-
         public List<string> FlightParamaters
         {
             get { return this.flightParamters; }
@@ -422,6 +395,7 @@ namespace FlightSimulator.Model
         }
 
 
+
         //Methods
 
         // parse the line from the csv, update needed properties
@@ -433,16 +407,16 @@ namespace FlightSimulator.Model
             }
 
             string[] parsedLine = line.Split(',');
-            this.Alieron = float.Parse(parsedLine[alieronIndex]);
-            this.Elevator = float.Parse(parsedLine[elevatorIndex]);
-            this.Rudder = float.Parse(parsedLine[rudderIndex]);
-            this.Throttle = float.Parse(parsedLine[throttleIndex]);
-            this.Altitude = float.Parse(parsedLine[altitudeIndex]);
-            this.Speed = float.Parse(parsedLine[speedIndex]);
-            this.Direction = float.Parse(parsedLine[directionIndex]);
-            this.Roll = float.Parse(parsedLine[rollIndex]);
-            this.Pitch = float.Parse(parsedLine[pitchIndex]);
-            this.Yaw = float.Parse(parsedLine[yawIndex]);
+            this.Alieron = float.Parse(parsedLine[getPropertyIndex("aileron")]);
+            this.Elevator = float.Parse(parsedLine[getPropertyIndex("elevator")]);
+            this.Rudder = float.Parse(parsedLine[getPropertyIndex("rudder")]);
+            this.Throttle = float.Parse(parsedLine[getPropertyIndex("throttle")]);
+            this.Altitude = float.Parse(parsedLine[getPropertyIndex("altimeter_indicated-altitude-ft")]);
+            this.Speed = float.Parse(parsedLine[getPropertyIndex("airspeed-indicator_indicated-speed-kt")]);
+            this.Direction = float.Parse(parsedLine[getPropertyIndex("heading-deg")]);
+            this.Roll = float.Parse(parsedLine[getPropertyIndex("attitude-indicator_indicated-roll-deg")]);
+            this.Pitch = float.Parse(parsedLine[getPropertyIndex("attitude-indicator_indicated-pitch-deg")]);
+            this.Yaw = float.Parse(parsedLine[getPropertyIndex("side-slip-deg")]);
         }
 
         public int getPropertyIndex(string property)
@@ -466,46 +440,32 @@ namespace FlightSimulator.Model
             }
         }
 
-        public string[] PlaneControls{ 
-            get { return this.planeControls; } 
-            set{
-                if (this.planeControls!= value)
-                {
-                    this.planeControls= value;
-                    NotifyPropertyChanged("PlaneControls");
-                }
-            } 
-        }
-
         public void start(string file)
         {
 
             Console.WriteLine(file);
 
             this.Timestamp = 0;
-            
+
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
 
             //check if test flight was loaded.
-            if(this.dataParser.getIsTestFlightLoaded())
+            if (this.dp.getIsTestFlightLoaded())
             {
                 //updating correlated feautres in the test flight data.
-                this.dataParser.integrateCorFeatures();
+                this.dp.integrateCorFeatures();
             }
-
-            //calculating the main window paramaters indices.
-            calcMainWindowParamtersIndices();
 
             //the deafult paramter is the first one.
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();
-            
+
 
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
-            Thread main = new Thread(delegate ()
+            new Thread(delegate ()
             {
                 while (!stop)
                 {
@@ -521,24 +481,7 @@ namespace FlightSimulator.Model
 
                     Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                 }
-            });
-
-            main.Name = "main";
-            main.Start();
-        }
-
-        private void calcMainWindowParamtersIndices()
-        {
-            alieronIndex = getPropertyIndex("aileron");
-            elevatorIndex = getPropertyIndex("elevator");
-            rudderIndex = getPropertyIndex("rudder");
-            throttleIndex = getPropertyIndex("throttle");
-            altitudeIndex = getPropertyIndex("altimeter_indicated-altitude-ft");
-            speedIndex = getPropertyIndex("airspeed-indicator_indicated-speed-kt");
-            directionIndex = getPropertyIndex("heading-deg");
-            rollIndex = getPropertyIndex("attitude-indicator_indicated-roll-deg");
-            pitchIndex = getPropertyIndex("attitude-indicator_indicated-pitch-deg");
-            yawIndex = getPropertyIndex("side-slip-deg");
+            }).Start();
         }
 
 
@@ -551,7 +494,6 @@ namespace FlightSimulator.Model
                         Values = new ChartValues<float> { },
                         PointGeometry = null,
                         Fill = System.Windows.Media.Brushes.Transparent,
-                        Stroke = Brushes.GreenYellow,
                         Title = paramater }
                 };
         }
@@ -559,7 +501,7 @@ namespace FlightSimulator.Model
         private void generateGraphs()
         {
             string feat = this.researchedParamater;
-            string corFeat = dataParser.getFeatMostCorrFeature(feat);
+            string corFeat = dp.getFeatMostCorrFeature(feat);
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 //initiating a blank updating graph for the reaserched flight paramater.
@@ -568,6 +510,10 @@ namespace FlightSimulator.Model
                 //initiating a blank updating graph for the most correletad feature flight paramter.
                 this.MostCorrGraphSeries = generateOneParamaterLineGraph(corFeat);
 
+                //extracting all data about regression line and displaying the graph as a whole.
+                //first LineSeries is the regression line.
+                //the second LineSeries is the all the points of the last 30 seconds.
+
                 this.RegLineGraphSeries = new SeriesCollection
                 {
                     //regression line.
@@ -575,26 +521,15 @@ namespace FlightSimulator.Model
                         Title = "Regression Line",
                         Values = new ChartValues<ObservablePoint>(){ },
                         PointGeometry = null,
-                        Fill = Brushes.Transparent},
-                    
-                    
+                        Fill = System.Windows.Media.Brushes.Transparent},
+            
                     //last 30 values.
                     new ScatterSeries {
                         Values = new ChartValues<ScatterPoint>() { },
                         PointGeometry = DefaultGeometries.Circle,
-                        MaxPointShapeDiameter = 30,
                         Title="Last Thirty Seconds Values" }
 
                 };
-
-                this.PlaneControlsGraphSeries = new SeriesCollection
-                {
-                    new ColumnSeries
-                    {
-                        Values = new ChartValues<float> {0,0,0}
-                    }
-                };
-
             });
 
         }
@@ -603,7 +538,7 @@ namespace FlightSimulator.Model
         private void updateGraphs(bool isParamaterHaveChanged = false)
         {
             //end of time line, do nothing.
-            if(this.timestamp == this.maximumLength) { return; }
+            if (this.timestamp == this.maximumLength) { return; }
 
             //check for reset button situation.
             if (timestamp == 0 && pause && !isGraphsResetted)
@@ -613,14 +548,14 @@ namespace FlightSimulator.Model
             }
 
             string feat = this.researchedParamater;
-            string corFeat = dataParser.getFeatMostCorrFeature(feat);
+            string corFeat = dp.getFeatMostCorrFeature(feat);
 
-            if(isParamaterHaveChanged)
+            if (isParamaterHaveChanged)
             {
-                paramChangedGraphsUpdate(feat,corFeat);
+                paramChangedGraphsUpdate(feat, corFeat);
                 return;
             }
-   
+
             //check for pause, if paused than no updated needed.
             if (!this.pause)
             {
@@ -628,13 +563,12 @@ namespace FlightSimulator.Model
                 if (this.timestamp - this.prevTimeStamp == 1 && this.timestamp != 0)
                 {
                     addNextValueToFeatAndCorGraphs(feat, corFeat);
-                    addNextValueToPlaneControlsGraph();
 
                     //in case the graph is not yet presented.
                     if (this.RegLineGraphSeries[0].Values.Count == 0)
                     {
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                            this.RegLineGraphSeries[0].Values = dataParser.getRegLineValues(feat, corFeat, this.timestamp)
+                            this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp)
                         );
                     }
 
@@ -648,34 +582,19 @@ namespace FlightSimulator.Model
                 {
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        featAndCorGraphssTimeSkipUpdate(feat,corFeat);
-                        addNextValueToPlaneControlsGraph();
+                        featAndCorGraphssTimeSkipUpdate(feat, corFeat);
                         regLineGraphUpdate();
                     });
                 }
                 //updating the prevtime variable to hold the last timestamp.
                 this.prevTimeStamp = this.timestamp;
-            } 
-        }
-
-
-        private void addNextValueToPlaneControlsGraph()
-        {
-            //make this more efficient
-            string yaw = "attitude-indicator_indicated-roll-deg";
-            string pitch = "attitude-indicator_indicated-pitch-deg";
-            string roll = "side-slip-deg";
-
-            //yaw,pitch,roll
-            this.PlaneControlsGraphSeries[0].Values[0] = dataParser.getDataInTime(yaw, this.timestamp);
-            this.PlaneControlsGraphSeries[0].Values[1] = dataParser.getDataInTime(pitch, this.timestamp);
-            this.PlaneControlsGraphSeries[0].Values[2] = dataParser.getDataInTime(roll, this.timestamp);
+            }
         }
 
         private void paramChangedGraphsUpdate(string feat, string corFeat)
         {
             //in case that the researched paramater have changed.
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>           
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 //generating the upper graphs:
                 this.FeatUpdatingGraphSeries = generateOneParamaterLineGraph(feat);
@@ -683,30 +602,30 @@ namespace FlightSimulator.Model
 
                 //updating the graphs.
                 featAndCorGraphssTimeSkipUpdate(feat, corFeat);
-                this.RegLineGraphSeries[0].Values = dataParser.getRegLineValues(feat, corFeat, this.timestamp);
+                this.RegLineGraphSeries[0].Values = dp.getRegLineValues(feat, corFeat, this.timestamp);
                 regLineGraphUpdate();
             });
         }
 
         private void addNextValueToFeatAndCorGraphs(string feat, string corFeat)
         {
-            this.FeatUpdatingGraphSeries[0].Values.Add(dataParser.getDataInTime(feat, this.timestamp));
-            this.MostCorrGraphSeries[0].Values.Add(dataParser.getDataInTime(corFeat, this.timestamp));
+            this.FeatUpdatingGraphSeries[0].Values.Add(dp.getDataInTime(feat, this.timestamp));
+            this.MostCorrGraphSeries[0].Values.Add(dp.getDataInTime(corFeat, this.timestamp));
         }
 
         private void addPointToRegLineGraph(string feat, string corFeat)
         {
             this.RegLineGraphSeries[1].Values.Add(
-                        new ScatterPoint(dataParser.getDataInTime(feat, this.timestamp)
-                                        , dataParser.getDataInTime(corFeat, this.timestamp))
+                        new ScatterPoint(dp.getDataInTime(feat, this.timestamp)
+                                        , dp.getDataInTime(corFeat, this.timestamp))
                     );
         }
 
         private void featAndCorGraphssTimeSkipUpdate(string feat, string corFeat)
         {
             //getting the data until the current time stamp.
-            var resParam = dataParser.getFeatureDataInRange(feat, this.timestamp);
-            var corParam = dataParser.getFeatureDataInRange(corFeat, this.timestamp);
+            var resParam = dp.getFeatureDataInRange(feat, this.timestamp);
+            var corParam = dp.getFeatureDataInRange(corFeat, this.timestamp);
             this.FeatUpdatingGraphSeries[0].Values = resParam.ToList().AsChartValues();
             this.MostCorrGraphSeries[0].Values = corParam.ToList().AsChartValues();
         }
@@ -724,7 +643,7 @@ namespace FlightSimulator.Model
         private void regLineGraphUpdate()
         {
             string feat = this.researchedParamater;
-            string corFeat = dataParser.getFeatMostCorrFeature(feat);
+            string corFeat = dp.getFeatMostCorrFeature(feat);
 
             while (RegLineGraphSeries[1].Values.Count > 0)
             {
@@ -733,7 +652,7 @@ namespace FlightSimulator.Model
             NotifyPropertyChanged("RegLineGraphSeries");
 
 
-            this.RegLineGraphSeries[1].Values.InsertRange(0, dataParser.getLast30SecRegLinePoints(feat, corFeat, this.timestamp));
+            this.RegLineGraphSeries[1].Values.InsertRange(0, dp.getLast30SecRegLinePoints(feat, corFeat, this.timestamp));
         }
 
 
@@ -746,6 +665,13 @@ namespace FlightSimulator.Model
             }
         }
 
+        public int Property
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 
 }

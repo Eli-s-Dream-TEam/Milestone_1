@@ -137,7 +137,10 @@ namespace FlightSimulator.Helper
 
                 list.Add(new FlightParamater(this.flightParamatersNames[index], paramData));
                 //updating dictionary.
-                this.paramatersIndicesDict.Add(this.flightParamatersNames[index], index);
+                if(!this.paramatersIndicesDict.ContainsKey(this.flightParamatersNames[index]))
+                {
+                    this.paramatersIndicesDict.Add(this.flightParamatersNames[index], index);
+                }
             }
         }
 

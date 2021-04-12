@@ -56,6 +56,8 @@ namespace FlightSimulator.Model
          **/
         public void handleDLLFileUpload(string dll, string train, string test)
         {
+            /*string train = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\reg_flight.csv";
+            string test = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\anomaly_flight (1).csv";*/
             if (this.Anomalies != null)
             {
                 this.anomalies.Clear();

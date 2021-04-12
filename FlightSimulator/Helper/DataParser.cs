@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -50,11 +51,12 @@ namespace FlightSimulator.Helper
 
         public void learnFlight(string trainFile, List<string> flightParamaters)
         {
+
             this.trainFilePath = trainFile;
             this.trainFileCsvRows = System.IO.File.ReadAllLines(trainFile);
             this.flightParamatersNames = flightParamaters;
             this.trainData = new List<FlightParamater>();
-            extractData(trainFileCsvRows,trainFilePath,ref trainData);
+            extractData(trainFileCsvRows, trainFilePath, ref trainData);
             calcCorrFeatures();
         }
 
@@ -63,7 +65,7 @@ namespace FlightSimulator.Helper
             this.testFilePath = testFile;
             this.testFileCsvRows = System.IO.File.ReadAllLines(testFile);
             this.testData = new List<FlightParamater>();
-            extractData(testFileCsvRows,testFilePath,ref testData);
+            extractData(testFileCsvRows, testFilePath, ref testData);
             isTestFlightLoaded = true;
         }
 

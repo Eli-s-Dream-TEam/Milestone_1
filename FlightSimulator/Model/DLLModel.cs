@@ -10,7 +10,7 @@ namespace FlightSimulator.Model
     class DLLModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private List<Tuple<int, string>> anomalies;
+        private List<Tuple<Tuple<int, int>, string>> anomalies;
        public DLLModel() { }
 
         /**
@@ -22,25 +22,17 @@ namespace FlightSimulator.Model
         public delegate IntPtr Learn(string train, string test);
 
 
-        // vecSize()
+        // getStringByIndex()
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int VecSize(IntPtr ve);
+        public delegate IntPtr GetStringByIndex(IntPtr ve, double index);
 
-        // getTimeByIndex()
+        // getTimestampByIndex()
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int GetTimeByIndex(IntPtr ve, double index);
+        public delegate int GetTimestampByIndex(IntPtr ve, double index);
 
-        // CreatestringWrapper()
+        // vectorSize()
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate IntPtr CreateStringWrapper(IntPtr ve, double index);
-
-        // len()
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate int Len(IntPtr str);
-
-        // getCharByIndex();        
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate char GetCharByIndex(IntPtr str, double x);
+        public delegate int VectorSize(IntPtr ve);
 
 
         /**
@@ -62,111 +54,138 @@ namespace FlightSimulator.Model
          * Gets dll file, test file and train file
          * Dynamically loads dll, sends test and train
          **/
-        public void handleDLLFileUpload(string dll, string ttrain, string ttest)
+        public void handleDLLFileUpload(string dll, string train, string test)
         {
-            new Thread(delegate ()
+            if (this.Anomalies != null)
             {
-                string train = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\public\reg_flight.csv";
-                string test = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\public\anomaly_flight.csv";
+                this.anomalies.Clear();
+            }
 
-                if (this.Anomalies != null)
+            else
+            {
+                this.anomalies = new List<Tuple<Tuple<int, int>, string>>();
+            }
+
+            // Load dll
+            IntPtr mydll = LoadLibrary(dll);
+
+
+            // Bail if dll is not loaded
+            if (mydll == IntPtr.Zero)
+            {
+                Console.WriteLine("DLL Loading Failed!");
+                return;
+            }
+
+
+            // Load learn() function
+            IntPtr procaddr = GetProcAddress(mydll, "learn");
+
+            // Bail if function not found
+            if (procaddr == IntPtr.Zero)
+            {
+                Console.WriteLine("Can't find function");
+                return;
+            }
+
+            // Delegate function
+            Learn learn = (Learn)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(Learn));
+            IntPtr ve = learn(train, test);
+
+            procaddr = GetProcAddress(mydll, "vectorSize");
+
+            if (procaddr == IntPtr.Zero)
+            {
+                Console.WriteLine("Can't find function");
+                return;
+            }
+
+            // Delegate vector size
+            VectorSize vectorSize = (VectorSize)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(VectorSize));
+            int size = vectorSize(ve);
+
+
+            // stringByIndex & Timestamp by index Procs
+
+            IntPtr procStringByIndex = GetProcAddress(mydll, "getStringByIndex");
+            IntPtr procTimestampByIndex = GetProcAddress(mydll, "getTimestampByIndex");
+
+            if (procStringByIndex == IntPtr.Zero || procTimestampByIndex == IntPtr.Zero)
+            {
+                Console.WriteLine("Can't find function - string/timestamp by index");
+                return;
+            }
+
+            // Delegates for string & timestamps
+
+
+            GetStringByIndex getStringByIndex = (GetStringByIndex)Marshal.GetDelegateForFunctionPointer(procStringByIndex, typeof(GetStringByIndex));
+            GetTimestampByIndex getTimestampByIndex = (GetTimestampByIndex)Marshal.GetDelegateForFunctionPointer(procTimestampByIndex, typeof(GetTimestampByIndex));
+
+
+            if (getStringByIndex == null || getTimestampByIndex == null)
+            {
+                Console.WriteLine("One of the delegates was not loaded properly");
+                return;
+            }
+
+            int firstTimestamp = 0;
+            int previousTimestamp = 0;
+            int lastTimestamp = 0;
+
+
+            double i = 0;
+
+
+            IntPtr ptr_str = getStringByIndex(ve, i);
+            string str = Marshal.PtrToStringAnsi(ptr_str);
+            for (; i < size; ++i)
+            {
+                int timestamp = getTimestampByIndex(ve, i);
+
+                if (i == 0)
                 {
-                    this.anomalies.Clear();
+                    previousTimestamp = timestamp;
+                    firstTimestamp = timestamp;
                 }
 
-                List<Tuple<int, string>> anomalies = new List<Tuple<int, string>>();
-                // Load dll
-                IntPtr mydll = LoadLibrary(dll);
-
-
-                // Bail if dll is not loaded
-                if (mydll == IntPtr.Zero)
+                else if ((timestamp - previousTimestamp) == 1)
                 {
-                    Console.WriteLine("DLL Loading Failed!");
-                    return;
+                    previousTimestamp = timestamp;
                 }
 
-
-                // Load learn() function
-                IntPtr procaddr = GetProcAddress(mydll, "learn");
-
-                // Bail if function not found
-                if (procaddr == IntPtr.Zero)
+                else if ((timestamp - previousTimestamp) != 1)
                 {
-                    Console.WriteLine("Can't find function");
-                    return;
+                    lastTimestamp = previousTimestamp;
+
+                    Tuple<int, int> inner_bounds = new Tuple<int, int>(firstTimestamp, lastTimestamp);
+                    Tuple<Tuple<int, int>, string> inner_entry = new Tuple<Tuple<int, int>, string>(inner_bounds, str);
+
+                    anomalies.Add(inner_entry);
+
+                    ptr_str = getStringByIndex(ve, i + 1);
+                    str = Marshal.PtrToStringAnsi(ptr_str);
+                    firstTimestamp = timestamp;
+                    previousTimestamp = timestamp;
                 }
 
-                // Delegate function
-                Learn learn = (Learn)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(Learn));
-                IntPtr ve = learn(train, test);
-
-                procaddr = GetProcAddress(mydll, "vecSize");
-
-                if (procaddr == IntPtr.Zero)
-                {
-                    Console.WriteLine("Can't find function");
-                    return;
-                }
-
-                // Delegate vector size
-                VecSize vecSize = (VecSize)Marshal.GetDelegateForFunctionPointer(procaddr, typeof(VecSize));
-                int size = vecSize(ve);
-
-                // Get proc of remaining functions to use inside the loop
-                IntPtr procCreateStringWrapper = GetProcAddress(mydll, "CreatestringWrapper");
-                IntPtr procGetCharByIndex = GetProcAddress(mydll, "getCharByIndex");
-                IntPtr procGetTimeByIndex = GetProcAddress(mydll, "getTimeByIndex");
-                IntPtr procLen = GetProcAddress(mydll, "len");
-
-                // Validate them
-                if (procCreateStringWrapper == IntPtr.Zero || procGetCharByIndex == IntPtr.Zero || procGetTimeByIndex == IntPtr.Zero || procLen == IntPtr.Zero)
-                {
-                    Console.WriteLine("One of the functions can not be loaded probably");
-                    return;
-                }
-
-                // Get delegates
-                CreateStringWrapper createStringWrapper = (CreateStringWrapper)Marshal.GetDelegateForFunctionPointer(procCreateStringWrapper, typeof(CreateStringWrapper));
-                GetCharByIndex getCharByIndex = (GetCharByIndex)Marshal.GetDelegateForFunctionPointer(procGetCharByIndex, typeof(GetCharByIndex));
-                GetTimeByIndex getTimeByIndex = (GetTimeByIndex)Marshal.GetDelegateForFunctionPointer(procGetTimeByIndex, typeof(GetTimeByIndex));
-                Len len = (Len)Marshal.GetDelegateForFunctionPointer(procLen, typeof(Len));
-
-                // Validate them
-
-                if (createStringWrapper == null || getCharByIndex == null || getTimeByIndex == null || len == null)
-                {
-                    Console.WriteLine("One of the delegates was not loaded properly");
-                    return;
-                }
+            }
 
 
+            lastTimestamp = previousTimestamp;
+            Tuple<int, int> bounds = new Tuple<int, int>(firstTimestamp, lastTimestamp);
+            Tuple<Tuple<int, int>, string> entry = new Tuple<Tuple<int, int>, string>(bounds, str);
+            anomalies.Add(entry);
 
-                for (int i = 0; i < size; ++i)
-                {
-                    string s = "";
-                    IntPtr str = createStringWrapper(ve, i);
-                    int strLength = len(str);
+            // Set library free;
+            FreeLibrary(mydll);
 
-                    for (double j = 0; j < strLength; ++j)
-                    {
-                        char c = getCharByIndex(str, j);
-                        s += c.ToString();
-                    }
+           
 
-                    int timestamp = getTimeByIndex(ve, i);
-
-                    anomalies.Add(new Tuple<int, string>(timestamp, s));
-                }
-
-                this.anomalies = anomalies;
-                // Set library free;
-                FreeLibrary(mydll);
-                NotifyPropertyChanged("Anomalies");
-            }).Start();
+             NotifyPropertyChanged("Anomalies");
         }
 
-        public List<Tuple<int, string>> Anomalies
+        public List<Tuple<Tuple<int,int>, string>> Anomalies
         {
             get { return this.anomalies; }
         }

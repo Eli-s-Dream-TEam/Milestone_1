@@ -465,7 +465,7 @@ namespace FlightSimulator.Model
 
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
-            new Thread(delegate ()
+            Thread main = new Thread(delegate ()
             {
                 while (!stop)
                 {
@@ -478,10 +478,13 @@ namespace FlightSimulator.Model
                         this.Timestamp++;
                     }
 
-                    
+
                     Thread.Sleep((int)(PlaybackSpeed / PlaybackMultiplier));
                 }
-            }).Start();
+            });
+
+            main.Name = "main";
+            main.Start();
         }
 
 

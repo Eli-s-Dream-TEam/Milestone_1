@@ -260,6 +260,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="public\anomaly_flight.csv" />
+    <None Include="public\reg_flight.csv" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -271,12 +273,6 @@
     <Resource Include="public\lower-speed-icon.png" />
     <Resource Include="public\pause-icon.png" />
     <Resource Include="public\play-icon.png" />
-    <Content Include="plugins\minCircle.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="plugins\reg.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="public\playback_small.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

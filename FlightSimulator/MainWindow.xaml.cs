@@ -34,12 +34,18 @@ namespace FlightSimulator
         public void UploadButtonHandler(object sender, RoutedEventArgs e)
         {   
             if(sender.Equals(UploadTrainButton))
-            {
+            {   
                 this.vm.getFile("train");
             }
             else
             {
+                if (this.vm.VM_FILE == null)
+                {
+                    MessageBox.Show("please upload train file");
+                    return;
+                }
                 this.vm.getFile("test");
+
             }
             
         }

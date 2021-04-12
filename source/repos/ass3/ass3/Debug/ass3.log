@@ -1,3 +1,0 @@
-﻿  ass3.c
-C:\Users\avivx\Desktop\ass3.c(163,1): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  ass3.vcxproj -> C:\Users\avivx\source\repos\ass3\Debug\ass3.exe

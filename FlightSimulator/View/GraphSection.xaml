@@ -29,7 +29,7 @@
         </DockPanel>
 
 
-
+        
 
         <lvc:CartesianChart x:Name="mostCorrGraph" Grid.Column="1" Grid.ColumnSpan="2" Series ="{Binding VM_MostCorrGraphSeries}" Style="{StaticResource EfficientGraph}" Foreground="#03DAC6">
             <lvc:CartesianChart.AxisX>

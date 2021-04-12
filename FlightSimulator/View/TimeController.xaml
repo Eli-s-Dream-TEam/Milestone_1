@@ -7,6 +7,6 @@
       >
 
     <Grid Margin="0,47,0,50">
-        <Slider Value="{Binding VM_Timestamp}" Minimum="0" Maximum="{Binding VM_MaximumLength}" Margin="6,-20,4,0" Height="20" VerticalAlignment="Top" TickPlacement="BottomRight"/>
+        <Slider Value="{Binding VM_Timestamp}" Minimum="0" Maximum="{Binding VM_MaximumLength}" Margin="100,-20,100,0" Height="20" VerticalAlignment="Top" TickPlacement="BottomRight" />
     </Grid>
 </UserControl>

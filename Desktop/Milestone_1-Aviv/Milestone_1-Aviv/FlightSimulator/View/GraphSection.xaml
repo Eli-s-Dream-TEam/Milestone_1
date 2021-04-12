@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="FlightSimulator.View.GraphSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:local="clr-namespace:FlightSimulator.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+        <DockPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="4">
+            <TextBox DockPanel.Dock="Top" Text="Selected Paramater:" Background="Transparent" Foreground="#03DAC6" HorizontalContentAlignment="Center"/>
+            <ListBox Grid.RowSpan="4"  Background="#121212" BorderBrush="#03DAC6" ItemsSource="{Binding VM_FlightParamaters}" DockPanel.Dock="Top" SelectedItem="{Binding VM_ResearchedParamater}" Foreground="White"/>
+        </DockPanel>
+
+
+
+
+        <lvc:CartesianChart x:Name="mostCorrGraph" Grid.Column="1" Grid.ColumnSpan="2" Series ="{Binding VM_MostCorrGraphSeries}" Style="{StaticResource EfficientGraph}" Foreground="#03DAC6">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Timestamp" Foreground="White" ></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Value" Foreground="White"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="featUpdatingGraph" Grid.Column="3" Grid.ColumnSpan="2" Series ="{Binding VM_FeatUpdatingGraphSeries}" Style="{StaticResource EfficientGraph}" Foreground="#03DAC6">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Timestamp" Foreground="White"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Value" Foreground="White"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart x:Name="regLineGraph" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Series ="{Binding VM_RegLineGraphSeries}" Style="{StaticResource EfficientGraph}" Foreground="#03DAC6">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Reaserched Paramter Value" Foreground="White"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Correlated Feature Value" Foreground="White"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+
+
+
+    </Grid>
+    
+    
+</UserControl>

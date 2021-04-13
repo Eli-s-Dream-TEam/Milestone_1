@@ -44,7 +44,7 @@
 |   |   ├── DLLModel.cs		      # Model of the anomalies detection algorithms.
 |   |   ├── SocketModel.cs	      # Model for the communication with FlightGear.
 |   ├── Properties     		      # Generated setting for the project.
-|   ├── View         		      # View part of the mvvm - different displays in the project.tests 
+|   ├── View         		      # View part of the mvvm - different displays in the project.
 |   |   ├── ...			      # The different components of the view part(timebar, graphs, gauges etc..) of the mvvm.
 |   ├── ViewModel         	      # ViewModel for each of each of the different views in the project. 
 |   |   ├── ...			      # Corresponding view model for each of the different views.

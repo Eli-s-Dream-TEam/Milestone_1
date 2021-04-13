@@ -11,21 +11,22 @@
 - Simulation display - displaying animation through FlightGear.
 - Analyzing display - displaying updating information about different kinds of flight parameters according to the user's choice.
 ## Application Features:
-	1. Controllable timeline.
-	2. Adjustable animation Speed.
-	3. Altitude gauge.
-	4. Speed gauge.
-	5. Flight's direction.
-	6. Plane Control Wheel (Yoke).
-	7. Principal axes (Yaw,Pitch, Roll)
-	8. Selection of a specific flight parameter for research.
-	9. Updating Data About The Selected Flight Parameter:
-		- It's value.
-		- The most correlated flight parameter value.
-		- Regression line of the two parameters. (the other being the correlated parameter)
-		- last thirty seconds values of the two parameters.
-	10. Anomaly detection algorithm chosen by the user.
-	11. Anomalies information (when, where, which parameters)
+1. Controllable timeline.
+2. Adjustable animation Speed.
+3. Altitude gauge.
+4. Speed gauge.
+5. Flight's direction.
+6. Plane Control Wheel (Yoke).
+7. Principal axes (Yaw,Pitch, Roll)
+8. Selection of a specific flight parameter for research.
+9. Updating Data About The Selected Flight Parameter:
+	- It's value.
+	- The most correlated flight parameter value.
+	- Regression line of the two parameters. (the other being the correlated parameter)
+	- last thirty seconds values of the two parameters.
+10. Anomaly detection algorithm chosen by the user.
+11. Anomalies information (when, where, which parameters)
+
 
 ![enter image description here](https://northeurope1-mediap.svc.ms/transform/thumbnail?provider=spo&inputFormat=jpg&cs=fFNQTw&docid=https://livebiuac-my.sharepoint.com:443/_api/v2.0/drives/b!vy-rPJF01kiLaNkWI4rTnqA-AxYsmFRCql_QXMSgueuCnP9vWXdIQ6sO0_yzvyal/items/01Y7Q5WH4U5DILPF3TCZDYMMVQ76BSRW4P?version=Published&access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbGl2ZWJpdWFjLW15LnNoYXJlcG9pbnQuY29tQGY0YmFkN2VhLWQyMDMtNDMzMy05ZjM4LTRmNDk5YzZjNmY2ZSIsImlzcyI6IjAwMDAwMDAzLTAwMDAtMGZmMS1jZTAwLTAwMDAwMDAwMDAwMCIsIm5iZiI6IjE2MTgzMTUyMDAiLCJleHAiOiIxNjE4MzM2ODAwIiwiZW5kcG9pbnR1cmwiOiJ5RWhaeXNQTXRON0FUWnhQZC9ubXV2YUlRSGhnY1dKL1JwSUZUaXpQMmc0PSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMTE5IiwiaXNsb29wYmFjayI6IlRydWUiLCJ2ZXIiOiJoYXNoZWRwcm9vZnRva2VuIiwic2l0ZWlkIjoiTTJOaFlqSm1ZbVl0TnpRNU1TMDBPR1EyTFRoaU5qZ3RaRGt4TmpJek9HRmtNemxsIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsIm5hbWVpZCI6IjAjLmZ8bWVtYmVyc2hpcHx5YXJvbi5ob3Jza3lAbGl2ZS5iaXUuYWMuaWwiLCJuaWkiOiJtaWNyb3NvZnQuc2hhcmVwb2ludCIsImlzdXNlciI6InRydWUiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMDY5N2RjYWYwQGxpdmUuY29tIiwidHQiOiIwIiwidXNlUGVyc2lzdGVudENvb2tpZSI6IjMifQ.dXZ2OWJWN2hHNTN4QUpjVlZxQXgveVE1Uk54ZHVualJ3NGhwWEZteVZvOD0&encodeFailures=1&width=2561&height=1238&srcWidth=&srcHeight=)
 
@@ -65,5 +66,5 @@
 
 ![enter image description here](https://northeurope1-mediap.svc.ms/transform/thumbnail?provider=spo&inputFormat=jpg&cs=fFNQTw&docid=https://livebiuac-my.sharepoint.com:443/_api/v2.0/drives/b!vy-rPJF01kiLaNkWI4rTnqA-AxYsmFRCql_QXMSgueuCnP9vWXdIQ6sO0_yzvyal/items/01Y7Q5WHYDGIOPPHXEHVFZCDF4OHBPIA3X?version=Published&access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbGl2ZWJpdWFjLW15LnNoYXJlcG9pbnQuY29tQGY0YmFkN2VhLWQyMDMtNDMzMy05ZjM4LTRmNDk5YzZjNmY2ZSIsImlzcyI6IjAwMDAwMDAzLTAwMDAtMGZmMS1jZTAwLTAwMDAwMDAwMDAwMCIsIm5iZiI6IjE2MTgzMTUyMDAiLCJleHAiOiIxNjE4MzM2ODAwIiwiZW5kcG9pbnR1cmwiOiJ5RWhaeXNQTXRON0FUWnhQZC9ubXV2YUlRSGhnY1dKL1JwSUZUaXpQMmc0PSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMTE5IiwiaXNsb29wYmFjayI6IlRydWUiLCJ2ZXIiOiJoYXNoZWRwcm9vZnRva2VuIiwic2l0ZWlkIjoiTTJOaFlqSm1ZbVl0TnpRNU1TMDBPR1EyTFRoaU5qZ3RaRGt4TmpJek9HRmtNemxsIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsIm5hbWVpZCI6IjAjLmZ8bWVtYmVyc2hpcHx5YXJvbi5ob3Jza3lAbGl2ZS5iaXUuYWMuaWwiLCJuaWkiOiJtaWNyb3NvZnQuc2hhcmVwb2ludCIsImlzdXNlciI6InRydWUiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMDY5N2RjYWYwQGxpdmUuY29tIiwidHQiOiIwIiwidXNlUGVyc2lzdGVudENvb2tpZSI6IjMifQ.dXZ2OWJWN2hHNTN4QUpjVlZxQXgveVE1Uk54ZHVualJ3NGhwWEZteVZvOD0&encodeFailures=1&width=2561&height=1238&srcWidth=&srcHeight=)
 ## Additional Links
-- Project's UML  diagram.
+- [Project's UML  diagram.](https://github.com/Eli-s-Dream-TEam/Milestone_1/blob/main/FlightSimulatorUML.pdf)
 - Short instructional video about the project.

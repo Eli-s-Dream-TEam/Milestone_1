@@ -38,21 +38,21 @@
 ```
 .Milestone_1
 ├── FlightSimulator               
-|   ├── Helper          		  # Calculation and parsing classes.
+|   ├── Helper          	      # Calculation and parsing classes.
 |   ├── Model         		      # Model part of the mvvm architecture.
-|   |   ├── DataModel.cs		  # The centeral model of the UI
-|   |   ├── DLLModel.cs			  # Model of the anomalies detection algorithms.
-|   |   ├── SocketModel.cs		  # Model for the communication with FlightGear.
+|   |   ├── DataModel.cs	      # The centeral model of the UI
+|   |   ├── DLLModel.cs		      # Model of the anomalies detection algorithms.
+|   |   ├── SocketModel.cs	      # Model for the communication with FlightGear.
 |   ├── Properties     		      # Generated setting for the project.
 |   ├── View         		      # View part of the mvvm - different displays in the project.tests 
-|   |   ├── ...					  # The different components of the view part(timebar, graphs, gauges etc..) of the mvvm.
-|   ├── ViewModel         		  # ViewModel for each of each of the different views in the project. 
-|   |   ├── ...					  # Corresponding view model for each of the different views.
+|   |   ├── ...			      # The different components of the view part(timebar, graphs, gauges etc..) of the mvvm.
+|   ├── ViewModel         	      # ViewModel for each of each of the different views in the project. 
+|   |   ├── ...			      # Corresponding view model for each of the different views.
 |   ├── public         		      # icons and pictures used.
-|   ├── packages.config			  # config file for needed packeges.
-|   ├── App.xml			  		  # Settings for some of the view components.
-├── packages					  # Packages used in the project. 
-├── plugins						  # Folder for the anomaly detection algorithms (dll files).
+|   ├── packages.config		      # config file for needed packeges.
+|   ├── App.xml			      # Settings for some of the view components.
+├── packages		              # Packages used in the project. 
+├── plugins			      # Folder for the anomaly detection algorithms (dll files).
 
 ```
 

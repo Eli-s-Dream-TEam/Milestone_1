@@ -243,9 +243,6 @@
     <None Include="public\reg_flight.csv" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="public\depositphotos_30622335-stock-illustration-big-green-start-button.jpg" />
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,7 @@
                 </lvc:AxesCollection>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Value"></lvc:Axis>
+                <lvc:Axis x:Name="planecontrols" Title="Value"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>

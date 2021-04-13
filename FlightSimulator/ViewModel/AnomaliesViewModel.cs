@@ -88,6 +88,7 @@ namespace FlightSimulator.ViewModel
             testLines.AddRange(System.IO.File.ReadAllLines(test));
             trainLines.AddRange(System.IO.File.ReadAllLines(train));
 
+
             // Get current directory and intiialize files
             string path = Directory.GetCurrentDirectory();
             string[] testPaths = { path, @"temptest.csv"};
@@ -107,7 +108,7 @@ namespace FlightSimulator.ViewModel
             if (result == true)
             {
                 string filename = dlg.FileName;
-                this.dll_model.handleDLLFileUpload(filename, testPath, trainPath);
+                this.dll_model.handleDLLFileUpload(filename, trainPath, testPath);
             }
 
         }

@@ -586,7 +586,8 @@ namespace FlightSimulator.Model
                 {
                     new ColumnSeries
                     {
-                        Values = new ChartValues<float> {0,0,0}
+                        Title = "Plane Controls",
+                        Values = new ChartValues<float> {0,0,0},
                     }
                 };
 

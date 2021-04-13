@@ -56,8 +56,6 @@ namespace FlightSimulator.Model
          **/
         public void handleDLLFileUpload(string dll, string train, string test)
         {
-            /*string train = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\reg_flight.csv";
-            string test = @"C:\Users\grano\Desktop\Milestone_1\FlightSimulator\anomaly_flight (1).csv";*/
             if (this.Anomalies != null)
             {
                 this.anomalies.Clear();
@@ -172,12 +170,6 @@ namespace FlightSimulator.Model
                 }
 
             }
-
-
-            lastTimestamp = previousTimestamp;
-            Tuple<int, int> bounds = new Tuple<int, int>(firstTimestamp, lastTimestamp);
-            Tuple<Tuple<int, int>, string> entry = new Tuple<Tuple<int, int>, string>(bounds, str);
-            anomalies.Add(entry);
 
             // Set library free;
             FreeLibrary(mydll);

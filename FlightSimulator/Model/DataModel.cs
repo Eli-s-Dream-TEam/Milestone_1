@@ -99,12 +99,13 @@ namespace FlightSimulator.Model
             {
                 this.trainFile = value;
                 this.stop = true;
-
+                
                 if (Timestamp == -1)
                 {
                     this.connect();
                     this.dataParser.learnFlight(this.trainFile, this.attributeList);
                 }
+                this.Timestamp = 0;
                 NotifyPropertyChanged("TrainFile");
 
             }
@@ -114,16 +115,13 @@ namespace FlightSimulator.Model
         {
             get { return this.testFile; }
             set
-            {
-
-                if (this.testFile != value)
-                {
-
-                    this.testFile = value;
-                    this.stop = true;
-                    this.dataParser.extractDataFromTestFlight(this.testFile);
-                    NotifyPropertyChanged("TestFile");
-                }
+            {              
+                this.testFile = value;
+                this.stop = true;
+                this.Timestamp = 0;
+                this.dataParser.extractDataFromTestFlight(this.testFile);
+                NotifyPropertyChanged("TestFile");
+               
             }
         }
 
@@ -131,7 +129,7 @@ namespace FlightSimulator.Model
         {
             set
             {
-                if (Stop != value && this.trainFile != null)
+                if (Stop != value)
                 {
                     string file = trainFile;
                     if (testFile != null)
@@ -457,7 +455,7 @@ namespace FlightSimulator.Model
             {
                 out_socket.disconnect();
                 out_socket.connect();
-                this.Timestamp = 0;
+               /* this.Timestamp = 0;*/
             }
 
             catch (Exception e)
@@ -478,11 +476,9 @@ namespace FlightSimulator.Model
         }
 
         public void start(string file)
-        {
+        {           
 
-            Console.WriteLine(file);
-
-            this.Timestamp = 0;
+            /*this.Timestamp = 0;*/
             
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
@@ -502,7 +498,6 @@ namespace FlightSimulator.Model
             this.researchedParamater = this.flightParamters[0];
             generateGraphs();
             
-
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
             Thread main = new Thread(delegate ()

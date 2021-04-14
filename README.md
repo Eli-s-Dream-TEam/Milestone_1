@@ -5,7 +5,6 @@
 ## Main objectives:
 1. Using .Net Framework to create a GUI application for flight simulation.
 2. Implementing the project using mvvm architecture.
-3. Implementing a TCP client to send data to a third-party simulation app - "FlightGear".
 ## Summary
 "FlightSimulator" is a tool for analyzing and researching a given flight report using two displays:
 - Simulation display - displaying animation through FlightGear.

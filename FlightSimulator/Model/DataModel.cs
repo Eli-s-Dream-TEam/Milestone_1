@@ -108,6 +108,7 @@ namespace FlightSimulator.Model
                     this.connect();
                     this.dataParser.learnFlight(this.trainFile, this.attributeList);
                 }
+
                 this.Timestamp = 0;
                 NotifyPropertyChanged("TrainFile");
 
@@ -457,7 +458,11 @@ namespace FlightSimulator.Model
             try
             {
                 out_socket.disconnect();
+<<<<<<< HEAD
                 out_socket.connect();
+=======
+                out_socket.connect();             
+>>>>>>> 23b93c0b7429ddb164651ef3886b59634f224836
             }
 
             catch (Exception e)
@@ -479,7 +484,12 @@ namespace FlightSimulator.Model
 
         public void start(string file)
         {           
+<<<<<<< HEAD
             
+=======
+
+                       
+>>>>>>> 23b93c0b7429ddb164651ef3886b59634f224836
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
@@ -500,6 +510,8 @@ namespace FlightSimulator.Model
             
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
+
+            
             Thread main = new Thread(delegate ()
             {
                 while (!stop)

@@ -56,7 +56,6 @@
 ## Requirements
 - Visual Studio 2019 installed.
 - FlightFear 2020.3.8 (For windows 7,8,10)
-- Windows
 ## Compiling and Running
 1. Clone/download this repo.
 2. open "FlightSimulator.sln" in Visual studio and build the project. (This will download the required packages - specified in "packages.config" file, see above in "Folder Structure").

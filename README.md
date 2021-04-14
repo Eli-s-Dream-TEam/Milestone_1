@@ -19,7 +19,7 @@
 6. Plane Control Wheel (Yoke).
 7. Principal axes (Yaw,Pitch, Roll)
 8. Selection of a specific flight parameter for research.
-9. Updating Data About The Selected Flight Parameter:
+9. Updating data about The selected flight parameter:
 	- It's value.
 	- The most correlated flight parameter value.
 	- Regression line of the two parameters. (the other being the correlated parameter)

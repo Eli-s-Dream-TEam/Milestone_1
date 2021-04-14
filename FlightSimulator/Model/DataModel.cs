@@ -50,6 +50,9 @@ namespace FlightSimulator.Model
         private SeriesCollection planeControlsGraphSeries;
         private bool isGraphsResetted = false;
         private string[] planeControls = { "Yaw", "Pitch", "Roll" };
+        private string yawCSVName = "attitude-indicator_indicated-roll-deg";
+        private string pitchCSVName = "attitude-indicator_indicated-pitch-deg";
+        private string rollCSVName = "side-slip-deg";
 
         private List<string> flightParamters;
         public string researchedParamater;
@@ -455,7 +458,6 @@ namespace FlightSimulator.Model
             {
                 out_socket.disconnect();
                 out_socket.connect();
-               /* this.Timestamp = 0;*/
             }
 
             catch (Exception e)
@@ -477,8 +479,6 @@ namespace FlightSimulator.Model
 
         public void start(string file)
         {           
-
-            /*this.Timestamp = 0;*/
             
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
@@ -586,7 +586,7 @@ namespace FlightSimulator.Model
                 {
                     new ColumnSeries
                     {
-                        Title = "Plane Controls",
+                        Title = "Aircraft principal axes",
                         Values = new ChartValues<float> {0,0,0},
                     }
                 };
@@ -657,15 +657,11 @@ namespace FlightSimulator.Model
 
         private void addNextValueToPlaneControlsGraph()
         {
-            //make this more efficient
-            string yaw = "attitude-indicator_indicated-roll-deg";
-            string pitch = "attitude-indicator_indicated-pitch-deg";
-            string roll = "side-slip-deg";
 
             //yaw,pitch,roll
-            this.PlaneControlsGraphSeries[0].Values[0] = dataParser.getDataInTime(yaw, this.timestamp);
-            this.PlaneControlsGraphSeries[0].Values[1] = dataParser.getDataInTime(pitch, this.timestamp);
-            this.PlaneControlsGraphSeries[0].Values[2] = dataParser.getDataInTime(roll, this.timestamp);
+            this.PlaneControlsGraphSeries[0].Values[0] = dataParser.getDataInTime(this.yawCSVName, this.timestamp);
+            this.PlaneControlsGraphSeries[0].Values[1] = dataParser.getDataInTime(this.pitchCSVName, this.timestamp);
+            this.PlaneControlsGraphSeries[0].Values[2] = dataParser.getDataInTime(this.rollCSVName, this.timestamp);
         }
 
         private void paramChangedGraphsUpdate(string feat, string corFeat)

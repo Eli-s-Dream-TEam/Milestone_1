@@ -43,6 +43,7 @@ namespace FlightSimulator.Helper
         private List<FlightParamater> testData;
         private bool isTestFlightLoaded = false;
         private Dictionary<string, int> paramatersIndicesDict;
+        private int numberOfStampsIn30Sec = 200;
 
 
         public DataParser()
@@ -175,7 +176,7 @@ namespace FlightSimulator.Helper
 
         private int calc30SecondsNumberOfTimeStamp()
         {
-            return 200;
+            return this.numberOfStampsIn30Sec;
         }
 
         private void calcCorrFeatures()

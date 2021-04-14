@@ -98,7 +98,7 @@
                 <view:AltitudeView />
                 <view:SpeedView Grid.Row="1"/>
             </Grid>
-            <Button Content="X" Grid.Column="4" HorizontalAlignment="Left" Margin="193,10,0,0" VerticalAlignment="Top" Click="CloseButton_Click"/>
+            <Button Content="X" Grid.Column="4" HorizontalAlignment="Left" Margin="183,10,0,0" VerticalAlignment="Top" Click="CloseButton_Click" Width="21"/>
         </Grid>
     </Border>
 </Window>

@@ -54,6 +54,7 @@
 ```
 
 ## Requirements
+- x64 Windows compatible machine.
 - Visual Studio 2019 installed.
 - FlightFear 2020.3.8 (For windows 7,8,10)
 ## Compiling and Running
@@ -62,10 +63,77 @@
 3. Download [FlightGear](https://sourceforge.net/projects/flightgear/files/release-2020.3/FlightGear-3020.3.8.exe/download)
 4. Configure FlightGear setting as shown below. (see the highlight section)
 5. Click on the "fly" Icon to run FlightGear with the correct setting you've set in the previous step.
-6. Run the FlightSimulator app (from visual studio or the .exe file in FlightSimulator/bin/Debug/FlightSimulator.exe)
+6. Run the FlightSimulator app (from visual studio or the .exe file in FlightSimulator/bin/Debug/FlightSimulator.exe), make sure it's x64.
 
 ![enter image description here](https://northeurope1-mediap.svc.ms/transform/thumbnail?provider=spo&inputFormat=jpg&cs=fFNQTw&docid=https://livebiuac-my.sharepoint.com:443/_api/v2.0/drives/b!vy-rPJF01kiLaNkWI4rTnqA-AxYsmFRCql_QXMSgueuCnP9vWXdIQ6sO0_yzvyal/items/01Y7Q5WHYDGIOPPHXEHVFZCDF4OHBPIA3X?version=Published&access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTBmZjEtY2UwMC0wMDAwMDAwMDAwMDAvbGl2ZWJpdWFjLW15LnNoYXJlcG9pbnQuY29tQGY0YmFkN2VhLWQyMDMtNDMzMy05ZjM4LTRmNDk5YzZjNmY2ZSIsImlzcyI6IjAwMDAwMDAzLTAwMDAtMGZmMS1jZTAwLTAwMDAwMDAwMDAwMCIsIm5iZiI6IjE2MTg0MTI0MDAiLCJleHAiOiIxNjE4NDM0MDAwIiwiZW5kcG9pbnR1cmwiOiJ5RWhaeXNQTXRON0FUWnhQZC9ubXV2YUlRSGhnY1dKL1JwSUZUaXpQMmc0PSIsImVuZHBvaW50dXJsTGVuZ3RoIjoiMTE5IiwiaXNsb29wYmFjayI6IlRydWUiLCJ2ZXIiOiJoYXNoZWRwcm9vZnRva2VuIiwic2l0ZWlkIjoiTTJOaFlqSm1ZbVl0TnpRNU1TMDBPR1EyTFRoaU5qZ3RaRGt4TmpJek9HRmtNemxsIiwic2lnbmluX3N0YXRlIjoiW1wia21zaVwiXSIsIm5hbWVpZCI6IjAjLmZ8bWVtYmVyc2hpcHx5YXJvbi5ob3Jza3lAbGl2ZS5iaXUuYWMuaWwiLCJuaWkiOiJtaWNyb3NvZnQuc2hhcmVwb2ludCIsImlzdXNlciI6InRydWUiLCJjYWNoZWtleSI6IjBoLmZ8bWVtYmVyc2hpcHwxMDAzMjAwMDY5N2RjYWYwQGxpdmUuY29tIiwidHQiOiIwIiwidXNlUGVyc2lzdGVudENvb2tpZSI6IjMifQ.VzVuZloveDhxelBNckpubXJDRjJEaVVEaDAvOHNFUmdNbFNnNk9GMnlpaz0&encodeFailures=1&width=612&height=677&srcWidth=612&srcHeight=677)
+
 
 ## Additional Links
 - [Project's UML  diagram.](https://github.com/Eli-s-Dream-TEam/Milestone_1/blob/main/UMLDiagram.pdf)
 - [Short instructional video about the project.](https://www.youtube.com/watch?v=OkbNiaYKxJ4)
+
+
+## Importing a new anomaly detector (DLL)
+
+Provided below is the DLL's interface, wrap your anomaly detector in a DLL provider and export the following methods (`C` compatible)
+
+### Instructions
+
+1) Each method below, excluding the Wrapper object, should be exported using `extern "C" __declspec(dllexport)`.
+2) Compile to support x64.
+3) If you are using `.NET`, make sure to include `pch.h` at the ***TOP*** of each used file.
+4) If you are using `.NET`, make sure `pch.h` is clean of imports (excluding `framework.h`)
+
+### Wrapper
+```
+class Wrapper {
+	vector<AnomalyReport> ve;
+	
+public:
+	// Get the size of the anomaly report vector
+	int size();
+	// Get description of the anomaly at [index]
+	const char* getDescriptionByIndex(double index)
+	// Get timestamp of the anomaly at [index]
+	int getTimestampByIndex(double index);
+	
+}
+```
+
+### Methods
+
+```
+/**
+* @param train (path to train file)
+* @param test (path to test file)
+* @returns pointer to Wrapper, to be converted to IntPtr in C#
+*/
+void *learn(const char* train, const char* test)
+```
+
+```
+/**
+* @param *wrapper (pointer to wrapper object)
+* returns the anomaly-report vector's size.
+*/
+int vectorSize(Wrapper *wrapper);
+```
+
+```
+/**
+* @param *wrapper (pointer to wrapper object)
+* @param index (index of the requested string)
+* @returns string at the index, with the Wrapper's method.
+*/
+const char* getStringByIndex(Wrapper *wrapper, double index);
+```
+
+```
+/**
+* @param *wrapper (pointer to wrapper object)
+* @param index (index of the requested timestamp)
+* @returns timestamp at the index, with the Wrapper's method.
+*/
+const char* getTimestampByIndex(Wrapper *wrapper, double index);
+```
+

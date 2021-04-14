@@ -105,6 +105,7 @@ namespace FlightSimulator.Model
                     this.connect();
                     this.dataParser.learnFlight(this.trainFile, this.attributeList);
                 }
+
                 this.Timestamp = 0;
                 NotifyPropertyChanged("TrainFile");
 
@@ -454,8 +455,7 @@ namespace FlightSimulator.Model
             try
             {
                 out_socket.disconnect();
-                out_socket.connect();
-               /* this.Timestamp = 0;*/
+                out_socket.connect();             
             }
 
             catch (Exception e)
@@ -478,8 +478,7 @@ namespace FlightSimulator.Model
         public void start(string file)
         {           
 
-            /*this.Timestamp = 0;*/
-            
+                       
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
@@ -500,6 +499,8 @@ namespace FlightSimulator.Model
             
             this.MaximumLength = lines.Length;
             NotifyPropertyChanged("MaximumLength");
+
+            
             Thread main = new Thread(delegate ()
             {
                 while (!stop)
@@ -586,7 +587,7 @@ namespace FlightSimulator.Model
                 {
                     new ColumnSeries
                     {
-                        Title = "Plane Controls",
+                        Title = "Aircraft principal axes",
                         Values = new ChartValues<float> {0,0,0},
                     }
                 };

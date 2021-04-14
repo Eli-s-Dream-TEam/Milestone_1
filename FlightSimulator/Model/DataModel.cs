@@ -458,11 +458,7 @@ namespace FlightSimulator.Model
             try
             {
                 out_socket.disconnect();
-<<<<<<< HEAD
                 out_socket.connect();
-=======
-                out_socket.connect();             
->>>>>>> 23b93c0b7429ddb164651ef3886b59634f224836
             }
 
             catch (Exception e)
@@ -484,12 +480,6 @@ namespace FlightSimulator.Model
 
         public void start(string file)
         {           
-<<<<<<< HEAD
-            
-=======
-
-                       
->>>>>>> 23b93c0b7429ddb164651ef3886b59634f224836
             //reading the csv file.
             string[] lines = System.IO.File.ReadAllLines(file);
             this.FlightParamaters = this.attributeList;
